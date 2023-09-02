@@ -1,6 +1,6 @@
 {
-    "name": "telephyfrontend",
-    "short_name": "telephyfrontend",
+    "name": "telephy",
+    "short_name": "telephy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

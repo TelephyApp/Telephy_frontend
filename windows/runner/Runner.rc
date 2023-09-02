@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "telephyfrontend" "\0"
+            VALUE "FileDescription", "telephy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "telephyfrontend" "\0"
+            VALUE "InternalName", "telephy" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "telephyfrontend.exe" "\0"
-            VALUE "ProductName", "telephyfrontend" "\0"
+            VALUE "OriginalFilename", "telephy.exe" "\0"
+            VALUE "ProductName", "telephy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
