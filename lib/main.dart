@@ -3,6 +3,7 @@ import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -18,22 +19,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //set theme
       theme: ThemeData(
         //pre-define input decoration
         inputDecorationTheme: const InputDecorationTheme(
-          focusColor: Config.primaryColor,
+          focusColor: Config.mainColor1,
           border: Config.outlinedBorder,
           focusedBorder: Config.focusBorder,
           errorBorder: Config.errorBorder,
           enabledBorder: Config.outlinedBorder,
-          floatingLabelStyle: TextStyle(color: Config.primaryColor),
+          floatingLabelStyle: TextStyle(color: Config.mainColor1),
           prefixIconColor: Colors.black38,
         ),
         scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Config.primaryColor,
+          backgroundColor: Config.mainColor1,
           selectedItemColor: Colors.white,
           showSelectedLabels: true,
           showUnselectedLabels: false,
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
         'main': (context) => const MainLayout(),
         'chatlogs': (context) => const ChatLogsScreen(),
         'profile': (context) => const ProfileScreen(),
+        'register': (context) => const RegisterScreen(),
       },
     );
   }
