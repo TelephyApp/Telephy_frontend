@@ -10,6 +10,14 @@ class ChatLogsScreen extends StatefulWidget {
 class _ChatLogsScreenState extends State<ChatLogsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Chat"),
+        ],
+      ),
+    );
   }
 }

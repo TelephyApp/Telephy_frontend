@@ -19,22 +19,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //set theme
       theme: ThemeData(
         //pre-define input decoration
         inputDecorationTheme: const InputDecorationTheme(
-          focusColor: Config.primaryColor,
+          focusColor: Config.mainColor1,
           border: Config.outlinedBorder,
           focusedBorder: Config.focusBorder,
           errorBorder: Config.errorBorder,
           enabledBorder: Config.outlinedBorder,
-          floatingLabelStyle: TextStyle(color: Config.primaryColor),
+          floatingLabelStyle: TextStyle(color: Config.mainColor1),
           prefixIconColor: Colors.black38,
         ),
         scaffoldBackgroundColor: Colors.white,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Config.primaryColor,
+          backgroundColor: Config.mainColor1,
           selectedItemColor: Colors.white,
           showSelectedLabels: true,
           showUnselectedLabels: false,
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         'main': (context) => const MainLayout(),
         'chatlogs': (context) => const ChatLogsScreen(),
         'profile': (context) => const ProfileScreen(),
-        'register_main':(context) => const RegisterMainScreen(),
+        'register_main': (context) => const RegisterMainScreen(),
       },
     );
   }
