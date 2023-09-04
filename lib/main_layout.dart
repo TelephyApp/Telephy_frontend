@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:stylish_bottom_bar/model/bar_items.dart';
-import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/home_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
@@ -15,35 +13,41 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  //variable declaration
   int currentPage = 0;
-  final PageController _page = PageController();
+  final PageController _pageController = PageController(initialPage: 0);
+
+  void onPageChanged(int page) {
+    setState(() {
+      currentPage = page;
+    });
+  }
+
+  void onTap(int page) {
+    setState(() {
+      currentPage = page;
+      _pageController.animateToPage(
+        page,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        controller: _page,
-        onPageChanged: ((value) {
-          setState(() {
-            currentPage = value;
-          });
-        }),
+        controller: _pageController,
+        onPageChanged: onPageChanged,
         children: const <Widget>[
           HomeScreen(),
           ChatLogsScreen(),
-          ProfileScreen()
+          ProfileScreen(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            currentPage = 1;
-            _page.animateToPage(
-              1,
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-            );
-          });
+          onTap(1);
         },
         elevation: 8,
         backgroundColor: Config.baseColor,
@@ -54,59 +58,47 @@ class _MainLayoutState extends State<MainLayout> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+        height: 55,
+        decoration: BoxDecoration(
+          color: Config.baseColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
           boxShadow: [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+            BoxShadow(
+              color: Colors.black38,
+              spreadRadius: 0,
+              blurRadius: 10,
+              offset: Offset(0, 2),
+            ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Config.baseColor,
-            type: BottomNavigationBarType.fixed,
-            elevation: 20,
-            showSelectedLabels: false,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-            iconSize: 20,
-            currentIndex: currentPage,
-            onTap: (page) {
-              setState(() {
-                currentPage = page;
-                _page.animateToPage(
-                  page,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                );
-              });
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.house,
-                  color: Config.mainColor1,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+          child: BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            notchMargin: 6.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.home,
+                    color: Config.mainColor1,
+                  ),
+                  onPressed: () {
+                    onTap(0);
+                  },
                 ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.user,
+                IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.user,
+                    color: Config.mainColor1,
+                  ),
+                  onPressed: () {
+                    onTap(2);
+                  },
                 ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(
-                  FontAwesomeIcons.user,
-                  color: Config.mainColor1,
-                ),
-                label: '',
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
