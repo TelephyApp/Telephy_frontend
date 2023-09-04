@@ -3,6 +3,7 @@ import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/video_main.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -42,12 +43,13 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'main',
+      initialRoute: 'video',
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
         'chatlogs': (context) => const ChatLogsScreen(),
         'profile': (context) => const ProfileScreen(),
+        'video': (context) => const VideoScreen(),
       },
     );
   }
