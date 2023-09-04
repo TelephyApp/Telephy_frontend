@@ -95,8 +95,7 @@ class _MainLayoutState extends State<MainLayout> {
               ),
               BottomNavigationBarItem(
                 icon: FaIcon(
-                  FontAwesomeIcons.comment,
-                  color: Colors.transparent,
+                  FontAwesomeIcons.user,
                 ),
                 label: '',
               ),
