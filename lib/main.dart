@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
+import 'package:telephy/screens/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/screens/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
         'main': (context) => const MainLayout(),
         'chatlogs': (context) => const ChatLogsScreen(),
         'profile': (context) => const ProfileScreen(),
+        'calendar': (context) => const CalendarScreen(),
+        'timesystem': (context) => const TimeSystemScreen(),
         'register': (context) => const RegisterScreen(),
       },
     );
