@@ -59,7 +59,7 @@ class _MainLayoutState extends State<MainLayout> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         height: 55,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Config.baseColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
           boxShadow: [
@@ -72,7 +72,7 @@ class _MainLayoutState extends State<MainLayout> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           child: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 6.0,
