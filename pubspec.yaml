@@ -36,6 +36,8 @@ dependencies:
   stylish_bottom_bar: ^1.0.3
   agora_rtc_engine: ^5.3.0
   permission_handler: ^10.4.3
+  table_calendar: ^3.0.9
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -66,8 +68,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/erum.png
+    - assets/images/user.png
+    - assets/images/bg.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
