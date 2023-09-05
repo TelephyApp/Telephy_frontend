@@ -101,6 +101,9 @@ class _MainLayoutState extends State<MainLayout> {
                     onTap(1);
                   },
                 ),
+                SizedBox(
+                  width: 40,
+                ),
                 IconButton(
                   icon: const FaIcon(
                     FontAwesomeIcons.comment,
