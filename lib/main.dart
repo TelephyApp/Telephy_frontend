@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       //set theme
       theme: ThemeData(
         //pre-define input decoration
+        fontFamily: 'Mitr',
         inputDecorationTheme: const InputDecorationTheme(
           focusColor: Config.mainColor1,
           border: Config.outlinedBorder,
