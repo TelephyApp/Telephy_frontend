@@ -48,5 +48,11 @@ class Config {
         color: Colors.red,
       ));
 
-  static const primaryColor = Colors.greenAccent;
+  static const mainColor1 = Color(0xFFB2B4FE);
+  static const mainColor2 = Color(0xFFB2DDFD);
+  static const lighterToneColor = Color(0xFFDDDEFC);
+  static const accentColor1 = Color(0xFFE4DAD1);
+  static const accentColor2 = Color(0xFFD2ACFF);
+  static const baseColor = Color(0xFFFEFEFE);
+  static const darkerToneColor = Color(0xFF0F1B2D);
 }
