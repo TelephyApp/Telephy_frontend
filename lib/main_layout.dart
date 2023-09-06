@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telephy/screens/User/info_appointment.dart';
 import 'package:telephy/screens/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
-import 'package:telephy/screens/home_screen.dart';
+// import 'package:telephy/screens/home_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/screens/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
@@ -42,7 +43,8 @@ class _MainLayoutState extends State<MainLayout> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: const [
-          HomeScreen(),
+          // HomeScreen(),
+          InfoAppointment(),
           CalendarScreen(),
           TimeSystemScreen(),
           ChatLogsScreen(),
