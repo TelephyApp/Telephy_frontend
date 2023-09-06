@@ -6,6 +6,7 @@ import 'package:telephy/screens/booking_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/video_main.dart';
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/screens/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         'main': (context) => const MainLayout(),
         'chatlogs': (context) => const ChatLogsScreen(),
         'profile': (context) => const ProfileScreen(),
+        'video': (context) => const VideoScreen(),
         'calendar': (context) => const CalendarScreen(),
         'timesystem': (context) => const TimeSystemScreen(),
         'register': (context) => const RegisterScreen(),
