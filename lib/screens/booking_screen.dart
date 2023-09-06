@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,6 +13,12 @@ class BookingScreen extends StatefulWidget {
   State<BookingScreen> createState() => _BookingScreenState();
 }
 
+class TimeSlot {
+  const TimeSlot(this.timeString, this.isAvailable);
+  final String timeString;
+  final bool isAvailable;
+}
+
 class _BookingScreenState extends State<BookingScreen> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusDay = DateTime.now();
@@ -22,12 +30,12 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const List<String> timeSlots = [
-      "19.00 น.",
-      "19.30 น.",
-      "20.00 น.",
-      "20.30 น.",
-      "19.00 น."
+    const List<TimeSlot> timeSlots = [
+      TimeSlot("19.00", true),
+      TimeSlot("20.00", true),
+      TimeSlot("21.00", false),
+      TimeSlot("22.00", true),
+      TimeSlot("23.00", true),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +69,9 @@ class _BookingScreenState extends State<BookingScreen> {
                     psychologistName: "อัมรี ฮ้วง",
                     workplace: "ลาดบัง",
                     ratePerHour: "4000",
-                    imagePath: "assets/images/erum.png",
+                    // imagePath: "assets/images/erum.png",
+                    setBorderCardBottomLeft: true,
+                    setBorderCardBottomRight: true,
                   ),
                   const SizedBox(
                     height: 20,
@@ -84,27 +94,139 @@ class _BookingScreenState extends State<BookingScreen> {
                             ),
                             child: _tableCalendar()),
                         Container(
-                          height: 300,
+                          padding: EdgeInsets.all(10),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(20),
                             ),
                             color: Config.lighterToneColor,
                           ),
-                          child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, // Number of columns
-                              mainAxisSpacing: 8.0, // Spacing between rows
-                              crossAxisSpacing: 8.0, // Spacing between columns
-                            ),
-                            itemCount: timeSlots
-                                .length, // Replace with the number of items you want to display
-                            itemBuilder: (context, index) {
-                              return GridItem(index);
-                            },
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 10,
+                                    ),
+                                    child: Text(
+                                      "เลือกช่วงเวลาที่ต้องการเข้าพบ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                padding: EdgeInsets.all(10),
+                                child: GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount:
+                                              3, // Set the number of columns to 3
+                                          crossAxisSpacing:
+                                              8.0, // Add horizontal spacing between items
+                                          mainAxisSpacing:
+                                              8.0, // Add vertical spacing between items
+                                          childAspectRatio: (1 / .4)),
+                                  itemCount: timeSlots.length,
+                                  shrinkWrap: true,
+                                  physics:
+                                      NeverScrollableScrollPhysics(), // Disable scrolling for the GridView
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      splashColor: Colors.transparent,
+                                      onTap: () {
+                                        setState(() {
+                                          if (timeSlots[index].isAvailable) {
+                                            _currentIndex = index;
+                                            _timeSelected = true;
+                                          }
+                                        });
+                                      },
+                                      child: AspectRatio(
+                                        aspectRatio: 0.4,
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: _currentIndex == index
+                                                ? Config.mainColor1
+                                                : Config.lighterToneColor,
+                                            border: Border.all(
+                                              color:
+                                                  !timeSlots[index].isAvailable
+                                                      ? Colors.black26
+                                                      : Config.darkerToneColor,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${timeSlots[index].timeString}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color:
+                                                  !timeSlots[index].isAvailable
+                                                      ? Colors.black38
+                                                      : _currentIndex == index
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Container(
+                                height: 44.0,
+                                width: 230,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(
+                                          0.2), // Shadow color and opacity
+                                      spreadRadius: 2.0, // Spread radius
+                                      blurRadius: 4.0, // Blur radius
+                                      offset: Offset(0,
+                                          2), // Shadow offset (horizontal, vertical)
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(50),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomLeft,
+                                    end: Alignment.topRight,
+                                    colors: [
+                                      Config.accentColor2,
+                                      Config.mainColor2,
+                                    ],
+                                  ),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                  ),
+                                  child: Text(
+                                    'ยืนยันการนัดหมาย',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              )
+                            ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   )

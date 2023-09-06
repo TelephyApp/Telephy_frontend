@@ -7,28 +7,47 @@ class PhychologistCard extends StatelessWidget {
     required this.psychologistName,
     required this.workplace,
     required this.ratePerHour,
+    required this.setBorderCardBottomLeft,
+    required this.setBorderCardBottomRight,
     this.imagePath,
-    this.body,
+    this.imageWidth,
+    this.imageHeight,
     super.key,
   });
+
   final String psychologistName;
   final String workplace;
   final String ratePerHour;
   final String? imagePath;
-  final Widget? body;
+  final double? imageWidth;
+  final double? imageHeight;
+  final bool setBorderCardBottomLeft;
+  final bool setBorderCardBottomRight;
+
   @override
   Widget build(BuildContext context) {
     bool isImageIsEmpty = imagePath == null || imagePath == "";
-    bool hasBody = body != null;
+    bool isImageWidth = imageWidth != null;
+
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      margin: EdgeInsets.only(
+        top: 24,
+        left: 24,
+        right: 24,
+      ),
+      height: 150,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Config.lighterToneColor,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(setBorderCardBottomLeft ? 20 : 0),
+            bottomRight: Radius.circular(setBorderCardBottomRight ? 20 : 0)),
+        color: Config.mainColor1,
       ),
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
@@ -42,7 +61,9 @@ class PhychologistCard extends StatelessWidget {
                       Text(
                         "$psychologistName",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -79,25 +100,22 @@ class PhychologistCard extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  color: Config.lighterToneColor,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
                     isImageIsEmpty ? "assets/images/user.png" : "$imagePath",
-                    width: 100,
+                    width: isImageWidth ? imageWidth : 120,
+                    fit: BoxFit.contain,
                   ),
                 ),
               )
             ],
           ),
-          hasBody
-              ? body!
-              : SizedBox(
-                  height: 0,
-                )
         ],
       ),
     );
