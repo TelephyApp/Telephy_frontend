@@ -76,7 +76,7 @@ class _MainLayoutState extends State<MainLayout> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           child: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 6.0,
@@ -120,6 +120,7 @@ class _MainLayoutState extends State<MainLayout> {
                   ),
                   onPressed: () {
                     onTap(4);
+
                   },
                 ),
               ],
