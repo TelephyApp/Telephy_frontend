@@ -98,8 +98,8 @@ class _BookingScreenState extends State<BookingScreen> {
                               mainAxisSpacing: 8.0, // Spacing between rows
                               crossAxisSpacing: 8.0, // Spacing between columns
                             ),
-                            itemCount:
-                              timeSlots.length, // Replace with the number of items you want to display
+                            itemCount: timeSlots
+                                .length, // Replace with the number of items you want to display
                             itemBuilder: (context, index) {
                               return GridItem(index);
                             },
