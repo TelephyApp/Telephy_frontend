@@ -18,7 +18,7 @@ class RegisterPrivateScreen extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(30)),
     );
 
-    InputDecoration inputDec(String hintText) {
+    InputDecoration inputDec(String hintText, {IconData? suffixIcon}) {
       return InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintText: hintText,
@@ -30,7 +30,8 @@ class RegisterPrivateScreen extends StatelessWidget {
         fillColor: Colors.white,
         focusedBorder: boderInputStyle,
         enabledBorder: boderInputStyle,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20)
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+        suffixIcon: Icon(suffixIcon),
       );
     }
 
@@ -88,103 +89,113 @@ class RegisterPrivateScreen extends StatelessWidget {
         ],
       )),
 
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: 38,
-                color: Colors.black,
-                margin: const EdgeInsets.only(bottom: 30)), // state container
-            const SizedBox(
-                height: marginBtwTF, child: Text("ชื่อจริง", style: labelxStyle)),
-            TextField(
-              // controller: usernameController,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              decoration: inputDec("First Name"),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-                height: marginBtwTF, child: Text("นามสกุล", style: labelxStyle)),
-            TextField(
-              // controller: passwordController,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              decoration: inputDec("Last Name"),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-                height: marginBtwTF, child: Text("อีเมล", style: labelxStyle)),
-            TextField(
-              // controller: cfPasswordController,
-              keyboardType: TextInputType.emailAddress,
-              style: const TextStyle(
-                color: Colors.black,
-              ),
-              decoration: inputDec("Email"),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Column(
-                  children: [
-                    const SizedBox(
-                    height: marginBtwTF, child: Text("วันเกิด", style: labelxStyle)),
-                    TextField(
-                      // controller: cfPasswordController,
-                      keyboardType: TextInputType.datetime,
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      decoration: inputDec("dd/mm/yyyy"),
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  height: 38,
+                  color: Colors.black,
+                  margin: const EdgeInsets.only(bottom: 30)), // state container
+              const SizedBox(
+                  height: marginBtwTF, child: Text("ชื่อจริง", style: labelxStyle)),
+              TextField(
+                // controller: usernameController,
+                keyboardType: TextInputType.name,
+                style: const TextStyle(
+                  color: Colors.black,
                 ),
-                Column(
-                  children: [
-                    const SizedBox(
-                    height: marginBtwTF, child: Text("เพศ", style: labelxStyle)),
-                    TextField(
-                      // controller: cfPasswordController,
-                      keyboardType: TextInputType.phone,
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      decoration: inputDec("Gender"),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-                height: marginBtwTF, child: Text("เบอร์โทรศัพท์", style: labelxStyle)),
-            TextField(
-              // controller: cfPasswordController,
-              keyboardType: TextInputType.phone,
-              style: const TextStyle(
-                color: Colors.black,
+                decoration: inputDec("First Name"),
               ),
-              decoration: inputDec("Phone Number"),
-            ),
-            Center(
-              child: nextButton,
-            )
-          ],
+              const SizedBox(
+                height: marginBtwTF,
+              ),
+              const SizedBox(
+                  height: marginBtwTF, child: Text("นามสกุล", style: labelxStyle)),
+              TextField(
+                // controller: passwordController,
+                keyboardType: TextInputType.name,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Last Name"),
+              ),
+              const SizedBox(
+                height: marginBtwTF,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: marginBtwTF, child: Text("วันเกิด", style: labelxStyle)),
+                      SizedBox(
+                        width: 180,
+                        child: TextField(
+                          // controller: cfPasswordController,
+                          keyboardType: TextInputType.datetime,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          decoration: inputDec("dd/mm/yyyy", suffixIcon: Icons.date_range_rounded),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    //! Not done yet, need to replace with dropdown
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: marginBtwTF, child: Text("เพศ", style: labelxStyle)),
+                      SizedBox(
+                        width: 120,
+                        child: TextField(
+                          // controller: cfPasswordController,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          decoration: inputDec("gender", suffixIcon: Icons.arrow_drop_down_rounded),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: marginBtwTF,
+              ),
+              const SizedBox(
+                  height: marginBtwTF, child: Text("อีเมล", style: labelxStyle)),
+              TextField(
+                // controller: cfPasswordController,
+                keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Email"),
+              ),
+              const SizedBox(
+                height: marginBtwTF,
+              ),
+              const SizedBox(
+                  height: marginBtwTF, child: Text("เบอร์โทรศัพท์", style: labelxStyle)),
+              TextField(
+                // controller: cfPasswordController,
+                keyboardType: TextInputType.phone,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Phone Number"),
+              ),
+              Center(
+                child: nextButton,
+              )
+            ],
+          ),
         ),
       ),
     );

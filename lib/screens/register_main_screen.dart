@@ -89,55 +89,57 @@ class RegisterMainScreen extends StatelessWidget {
           const SizedBox(width: 30,)
         ],
       )),
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                height: 38,
-                color: Colors.black,
-                margin: const EdgeInsets.only(bottom: 30)), // state container
-            const SizedBox(
-                height: marginBtwTF, child: Text("ชื่อผู้ใช้", style: labelxStyle)),
-            TextField(
-              controller: usernameController,
-              keyboardType: TextInputType.name,
-              style: const TextStyle(
-                color: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  height: 38,
+                  color: Colors.black,
+                  margin: const EdgeInsets.only(bottom: 30)), // state container
+              const SizedBox(
+                  height: marginBtwTF, child: Text("ชื่อผู้ใช้", style: labelxStyle)),
+              TextField(
+                controller: usernameController,
+                keyboardType: TextInputType.name,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Username"),
               ),
-              decoration: inputDec("Username"),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-                height: marginBtwTF, child: Text("รหัสผ่าน", style: labelxStyle)),
-            TextField(
-              controller: passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              style: const TextStyle(
-                color: Colors.black,
+              const SizedBox(
+                height: 20,
               ),
-              decoration: inputDec("Password"),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-                height: marginBtwTF, child: Text("ยืนยันรหัสผ่าน", style: labelxStyle)),
-            TextField(
-              controller: cfPasswordController,
-              keyboardType: TextInputType.visiblePassword,
-              style: const TextStyle(
-                color: Colors.black,
+              const SizedBox(
+                  height: marginBtwTF, child: Text("รหัสผ่าน", style: labelxStyle)),
+              TextField(
+                controller: passwordController,
+                keyboardType: TextInputType.visiblePassword,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Password"),
               ),
-              decoration: inputDec("Confirm Password"),
-            ),
-            Center(
-              child: nextButton,
-            )
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                  height: marginBtwTF, child: Text("ยืนยันรหัสผ่าน", style: labelxStyle)),
+              TextField(
+                controller: cfPasswordController,
+                keyboardType: TextInputType.visiblePassword,
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: inputDec("Confirm Password"),
+              ),
+              Center(
+                child: nextButton,
+              )
+            ],
+          ),
         ),
       ),
     );
