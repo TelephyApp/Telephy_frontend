@@ -64,7 +64,7 @@ class _CallPageState extends State<CallPage> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = const VideoDimensions(width: 1920, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(null, widget.channelName!, null, 0);
+    await _engine.joinChannel(token, widget.channelName!, null, 0);
   }
 
   /// Create agora sdk instance and initialize

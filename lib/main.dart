@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'booking',
+      initialRoute: 'video',
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
