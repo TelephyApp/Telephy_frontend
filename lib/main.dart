@@ -3,7 +3,7 @@ import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
-import 'package:telephy/screens/register_screen_main.dart';
+import 'package:telephy/screens/register_main_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'main',
+      initialRoute: 'register_main',
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
