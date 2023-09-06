@@ -22,6 +22,13 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const List<String> timeSlots = [
+      "19.00 น.",
+      "19.30 น.",
+      "20.00 น.",
+      "20.30 น.",
+      "19.00 น."
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -61,18 +68,41 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                   Container(
                     margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     child: Column(
                       children: [
-                        _tableCalendar(),
                         Container(
-                          height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20),
+                              ),
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/bg.jpeg"),
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.center,
+                                opacity: 0.4,
+                              ),
+                            ),
+                            child: _tableCalendar()),
+                        Container(
+                          height: 300,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.vertical(
-                                bottom: Radius.circular(20)),
-                            color: Config.mainColor2,
+                              bottom: Radius.circular(20),
+                            ),
+                            color: Config.lighterToneColor,
+                          ),
+                          child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, // Number of columns
+                              mainAxisSpacing: 8.0, // Spacing between rows
+                              crossAxisSpacing: 8.0, // Spacing between columns
+                            ),
+                            itemCount:
+                              timeSlots.length, // Replace with the number of items you want to display
+                            itemBuilder: (context, index) {
+                              return GridItem(index);
+                            },
                           ),
                         )
                       ],
@@ -102,12 +132,13 @@ class _BookingScreenState extends State<BookingScreen> {
       lastDay: DateTime(2023, 12, 31),
       calendarFormat: _format,
       currentDay: _currentDay,
-      rowHeight: 48,
+      rowHeight: 60,
       calendarStyle: const CalendarStyle(
         todayDecoration: BoxDecoration(
           color: Config.mainColor2,
           shape: BoxShape.circle,
         ),
+        todayTextStyle: TextStyle(color: Config.darkerToneColor),
       ),
       availableCalendarFormats: const {
         CalendarFormat.week: 'Week',
@@ -131,6 +162,25 @@ class _BookingScreenState extends State<BookingScreen> {
           }
         });
       },
+    );
+  }
+}
+
+class GridItem extends StatelessWidget {
+  final int index;
+
+  GridItem(this.index);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue, // Change the background color as needed
+      child: Center(
+        child: Text(
+          'Item $index',
+          style: TextStyle(fontSize: 18, color: Colors.white),
+        ),
+      ),
     );
   }
 }
