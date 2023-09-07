@@ -4,6 +4,7 @@ import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/home_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/utils/config.dart';
+import 'package:telephy/widgets/calender.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -41,6 +42,7 @@ class _MainLayoutState extends State<MainLayout> {
         onPageChanged: onPageChanged,
         children: const <Widget>[
           HomeScreen(),
+          Calendar(),
           ChatLogsScreen(),
           ProfileScreen(),
         ],
