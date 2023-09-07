@@ -18,6 +18,7 @@ class DetailTile extends StatelessWidget {
         vertical: 16,
         horizontal: 16,
       ),
+      margin: EdgeInsets.symmetric(horizontal: 1),
       decoration: BoxDecoration(
         color: Config.baseColor,
         boxShadow: [
