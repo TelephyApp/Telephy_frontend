@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
-import 'package:telephy/screens/calendar_screen.dart';
+import 'package:telephy/screens/Psych/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
-import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/Psych/profile_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
-import 'package:telephy/screens/timesystem_screen.dart';
+import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
