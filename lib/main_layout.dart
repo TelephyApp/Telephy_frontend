@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telephy/screens/User/info_appointment.dart';
+// import 'package:telephy/screens/User/info_appointment.dart';
 import 'package:telephy/screens/Psych/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/Psych/home_screen.dart';
