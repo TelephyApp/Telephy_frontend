@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/main_layout.dart';
+import 'package:telephy/screens/User/confirmBooking_screen.dart';
 import 'package:telephy/screens/auth_screen.dart';
 import 'package:telephy/screens/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'main',
+      initialRoute: 'confirmBooking',
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         'calendar': (context) => const CalendarScreen(),
         'timesystem': (context) => const TimeSystemScreen(),
         'register': (context) => const RegisterScreen(),
+        'confirmBooking' :(context) => const confirmBookingScreen(),
       },
     );
   }
