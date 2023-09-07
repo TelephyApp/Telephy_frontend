@@ -14,9 +14,13 @@ class _BookingScreenState extends State<BookingScreen> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
+  // ignore: unused_field
   int? _currentIndex;
+  // ignore: unused_field
   bool _isWeekend = false;
+  // ignore: unused_field
   bool _dateSelected = false;
+  // ignore: unused_field
   bool _timeSelected = false;
 
   @override
