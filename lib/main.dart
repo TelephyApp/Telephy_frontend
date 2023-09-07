@@ -5,6 +5,7 @@ import 'package:telephy/screens/booking_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/screens/time_slot.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'booking',
+      initialRoute: 'timeSlot',
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         'profile': (context) => const ProfileScreen(),
         'register': (context) => const RegisterScreen(),
         'booking': (context) => const BookingScreen(),
+        'timeSlot': (context) => const TimeSlot(),
       },
     );
   }
