@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telephy/utils/config.dart';
+import 'package:telephy/page.dart';
 
-import 'page.dart';
+import 'package:telephy/utils/config.dart';
 
 void main() {
   runApp(const MyApp());
