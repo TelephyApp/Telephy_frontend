@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:telephy/main_layout.dart';
-import 'package:telephy/screens/booking_screen.dart';
 import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/screens/video_main.dart';
@@ -24,10 +23,6 @@ class AppPages {
     GetPage(
       name: '/register',
       page: () => RegisterScreen(),
-    ),
-    GetPage(
-      name: '/booking',
-      page: () => BookingScreen(),
     ),
     GetPage(
       name: '/login',
