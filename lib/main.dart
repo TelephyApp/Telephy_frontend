@@ -5,7 +5,7 @@ import 'package:telephy/screens/booking_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
-import 'package:telephy/screens/time_slot.dart';
+import 'package:telephy/screens/time_slot_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 void main() {

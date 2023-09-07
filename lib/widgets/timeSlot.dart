@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class AppointmentDoctor extends StatefulWidget {
-  const AppointmentDoctor({super.key});
+class TimeslotDoctor extends StatefulWidget {
+  const TimeslotDoctor({super.key});
 
   @override
-  _AppointmentDoctorState createState() => _AppointmentDoctorState();
+  _TimeslotDoctorState createState() => _TimeslotDoctorState();
 }
 
-class _AppointmentDoctorState extends State<AppointmentDoctor> {
+class _TimeslotDoctorState extends State<TimeslotDoctor> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(Duration(days: 2));
   final Color lighter_Tone = Color(0xFFDDDEFC);

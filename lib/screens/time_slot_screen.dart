@@ -14,7 +14,12 @@ class _TimeSlotState extends State<TimeSlot> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children: [AppointmentDoctor()],
+        children: [
+          Expanded(
+            child: Calendar(),
+          ),
+          Expanded(child: TimeslotDoctor())
+        ],
       ),
     );
   }
