@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/auth_screen.dart';
 import 'package:telephy/screens/calendar_screen.dart';
@@ -10,6 +11,8 @@ import 'package:telephy/screens/video_main.dart';
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/screens/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
+
+import 'page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //set theme
@@ -50,7 +53,8 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'login',
+      initialRoute: 'message',
+      getPages: AppPages.routes,
       routes: {
         '/': (context) => const AuthScreen(),
         'main': (context) => const MainLayout(),
