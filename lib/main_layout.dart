@@ -43,8 +43,8 @@ class _MainLayoutState extends State<MainLayout> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: const [
-          // HomeScreen(),
-          InfoAppointment(),
+          HomeScreen(),
+          // InfoAppointment(),
           CalendarScreen(),
           TimeSystemScreen(),
           ChatLogsScreen(),
