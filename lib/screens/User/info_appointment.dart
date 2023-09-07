@@ -16,7 +16,7 @@ class InfoAppointment extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            PhychologistCard(
+            PsychologistCard(
               psychologistName: 'somchai',
               workplace: 'F',
               ratePerHour: '350',
