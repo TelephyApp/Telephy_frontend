@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telephy/utils/config.dart';
 
-class PhychologistCard extends StatelessWidget {
-  const PhychologistCard({
+class PsychologistCard extends StatelessWidget {
+  const PsychologistCard({
     required this.psychologistName,
     required this.workplace,
     required this.ratePerHour,
     required this.setBorderCardBottomLeft,
     required this.setBorderCardBottomRight,
+    required this.setBorderCardBottomLeft,
+    required this.setBorderCardBottomRight,
     this.imagePath,
+    this.imageWidth,
+    this.imageHeight,
+    this.verticalBorderRadius,
+    this.horizontalBorderRadius,
     this.imageWidth,
     this.imageHeight,
     super.key,
@@ -21,6 +27,8 @@ class PhychologistCard extends StatelessWidget {
   final String? imagePath;
   final double? imageWidth;
   final double? imageHeight;
+  final bool? verticalBorderRadius;
+  final bool? horizontalBorderRadius;
   final bool setBorderCardBottomLeft;
   final bool setBorderCardBottomRight;
 
@@ -42,81 +50,78 @@ class PhychologistCard extends StatelessWidget {
             topRight: Radius.circular(20),
             bottomLeft: Radius.circular(setBorderCardBottomLeft ? 20 : 0),
             bottomRight: Radius.circular(setBorderCardBottomRight ? 20 : 0)),
-        color: Config.mainColor1,
+        color: Config.accentColor2,
       ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 20,
+              ),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "$psychologistName",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "$psychologistName",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
                   Row(
                     children: [
+                      FaIcon(
+                        FontAwesomeIcons.locationCrosshairs,
+                        size: 17,
+                      ),
                       SizedBox(
                         width: 5,
                       ),
-                      Icon(
-                        Icons.location_on,
-                        size: 20,
-                      ),
-                      Text("$workplace")
+                      Text('$workplace'),
                     ],
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
                   Row(
                     children: [
-                      SizedBox(
-                        width: 8,
-                      ),
                       FaIcon(
                         FontAwesomeIcons.stethoscope,
-                        size: 17,
+                        size: 15,
                       ),
-                      Text("$ratePerHour บาท / 1 ชั่วโมง")
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text('$ratePerHour บาท / 1 ชั่วโมง'),
                     ],
-                  )
+                  ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Config.lighterToneColor,
+            ),
+            Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  isImageIsEmpty ? "assets/images/erum.png" : "$imagePath",
+                  width: isImageWidth ? imageWidth : 120,
+                  fit: BoxFit.contain,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    isImageIsEmpty ? "assets/images/user.png" : "$imagePath",
-                    width: isImageWidth ? imageWidth : 120,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
+              ),
+            ),
+          ],
+        ),
+
       ),
     );
   }
