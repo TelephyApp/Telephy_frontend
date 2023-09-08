@@ -69,7 +69,7 @@ flutter:
   assets:
     - assets/images/erum.png
     - assets/images/user.png
-    - assets/images/bg.png
+    - assets/images/bg.jpeg
 
   #   - images/a_dot_ham.jpeg
 
