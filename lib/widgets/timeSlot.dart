@@ -13,8 +13,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: TimeSlotTable(currentDate: currentDate), // ส่งค่า currentDate ไปยัง TimeSlotTable
-        floatingActionButton: FloatingActionButton( // เพิ่ม FAB สำหรับการอัปเดต currentDate
+        body: TimeSlotTable(
+            currentDate: currentDate), // ส่งค่า currentDate ไปยัง TimeSlotTable
+        floatingActionButton: FloatingActionButton(
+          // เพิ่ม FAB สำหรับการอัปเดต currentDate
           onPressed: () {
             setState(() {
               currentDate = DateTime.now(); // อัปเดต currentDate เมื่อกด FAB
@@ -57,6 +59,13 @@ class TimeSlotTable extends StatelessWidget {
           Container(
             height: 80,
             decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 129, 129, 129),
+                  offset: Offset(0, 2),
+                  blurRadius: 4,
+                )
+              ],
               borderRadius: BorderRadius.all(Radius.circular(20)),
               gradient: LinearGradient(
                 colors: [Color(0xFFB2DDFD), Color(0xFFB2B4FE)],

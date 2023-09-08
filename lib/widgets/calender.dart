@@ -125,13 +125,13 @@ class _CalendarState extends State<Calendar> {
                               Icons.arrow_back_ios,
                               color: Colors
                                   .white, // Set the left arrow button color
-                              size: 15.0,
+                              size: 13.0,
                             ),
                             rightChevronIcon: Icon(
                               Icons.arrow_forward_ios,
                               color: Colors
                                   .white, // Set the right arrow button color
-                              size: 15.0,
+                              size: 13.0,
                             ),
                           ),
                           daysOfWeekStyle: const DaysOfWeekStyle(
