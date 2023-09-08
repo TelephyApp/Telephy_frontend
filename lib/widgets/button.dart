@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import '../utils/config.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
+  final String text;
 
-  const MyButton({super.key, required this.onTap});
+  const MyButton({
+    super.key,
+    required this.onTap,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +21,17 @@ class MyButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.purpleAccent.shade100, Colors.blue.shade300]),
+            begin: Alignment.bottomLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Config.accentColor2,
+              Config.mainColor2,
+            ],
+          ),
         ),
         child: Center(
           child: Text(
-            'เข้าสู่ระบบ',
+            text,
             style: TextStyle(
               color: Colors.black,
               fontSize: 20,
