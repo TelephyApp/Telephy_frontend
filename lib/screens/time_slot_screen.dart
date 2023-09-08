@@ -18,7 +18,7 @@ class _TimeSlotState extends State<TimeSlot> {
           Expanded(
             child: Calendar(),
           ),
-          Expanded(child: TimeslotDoctor())
+          Expanded(child: TimeSlotTable())
         ],
       ),
     );
