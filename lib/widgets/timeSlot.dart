@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late DateTime currentDate = DateTime.now(); // กำหนดค่าเริ่มต้นให้ currentDate
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: TimeSlotTable(),
+        body: TimeSlotTable(currentDate: currentDate), // ส่งค่า currentDate ไปยัง TimeSlotTable
+        floatingActionButton: FloatingActionButton( // เพิ่ม FAB สำหรับการอัปเดต currentDate
+          onPressed: () {
+            setState(() {
+              currentDate = DateTime.now(); // อัปเดต currentDate เมื่อกด FAB
+            });
+          },
+          child: Icon(Icons.refresh),
+        ),
       ),
     );
   }
@@ -15,10 +30,13 @@ class MyApp extends StatelessWidget {
 class TimeSlotTable extends StatelessWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
+  final DateTime currentDate; // รับค่า currentDate จาก MyApp
+
+  TimeSlotTable({required this.currentDate});
 
   @override
   Widget build(BuildContext context) {
-    final currentDate = DateTime.now();
+    // ใช้ currentDate ที่รับมาจาก MyApp
     final nextTwoDays = List.generate(
       3,
       (index) => currentDate.add(Duration(days: index)),
@@ -37,7 +55,7 @@ class TimeSlotTable extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 110,
+            height: 80,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               gradient: LinearGradient(
@@ -49,7 +67,7 @@ class TimeSlotTable extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: SizedBox(width: 50),
+                  child: SizedBox(width: 20),
                 ),
                 for (var dayIndex = 0;
                     dayIndex < lastThreeDays.length;
@@ -59,7 +77,7 @@ class TimeSlotTable extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 40,
+                            height: 10,
                           ),
                           Text(
                             DateFormat('EEE').format(lastThreeDays[dayIndex]),
@@ -180,6 +198,7 @@ class _HourlySlotState extends State<HourlySlot> {
             Text(
               " ",
               style: TextStyle(
+                fontWeight: FontWeight.normal,
                 fontSize: 16,
               ),
             ),

@@ -14,7 +14,7 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   DateTime today = DateTime.now();
   bool showCalendar = false; // Track whether to show the calendar
-
+  DateTime selectedDay = DateTime.now();
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
@@ -58,7 +58,7 @@ class _CalendarState extends State<Calendar> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 54.0, bottom: 20.0),
+              padding: const EdgeInsets.only(top: 30.0, bottom: 20.0),
               child: Center(
                 child: Column(
                   children: [
