@@ -48,10 +48,11 @@ class _BookingScreenState extends State<BookingScreen> {
         leadingWidth: 60,
         titleSpacing: -10,
         title: Text(
-          "นัดพบจิตแพทย์",
+          "นัดพบนักจิตวิยา",
           style: TextStyle(
             fontSize: 25,
             color: Config.darkerToneColor,
+            fontWeight: FontWeight.normal,
           ),
         ),
         backgroundColor: Colors.white,
