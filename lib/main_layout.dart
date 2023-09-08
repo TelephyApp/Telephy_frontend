@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:telephy/screens/User/info_appointment.dart';
+import 'package:telephy/screens/Psych/calendar_screen.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
-import 'package:telephy/screens/home_screen.dart';
-import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/Psych/home_screen.dart';
+import 'package:telephy/screens/Psych/profile_screen.dart';
+import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 class MainLayout extends StatefulWidget {
@@ -39,20 +42,23 @@ class _MainLayoutState extends State<MainLayout> {
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: const <Widget>[
+        children: const [
           HomeScreen(),
+          // InfoAppointment(),
+          CalendarScreen(),
+          TimeSystemScreen(),
           ChatLogsScreen(),
           ProfileScreen(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          onTap(1);
+          onTap(2);
         },
         elevation: 8,
         backgroundColor: Config.baseColor,
         child: const FaIcon(
-          FontAwesomeIcons.comment,
+          FontAwesomeIcons.add,
           color: Config.mainColor1,
         ),
       ),
@@ -72,13 +78,13 @@ class _MainLayoutState extends State<MainLayout> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           child: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 6.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
+              children: [
                 IconButton(
                   icon: const FaIcon(
                     FontAwesomeIcons.home,
@@ -90,11 +96,33 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
                 IconButton(
                   icon: const FaIcon(
+                    FontAwesomeIcons.calendar,
+                    color: Config.mainColor1,
+                  ),
+                  onPressed: () {
+                    onTap(1);
+                  },
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.comment,
+                    color: Config.mainColor1,
+                  ),
+                  onPressed: () {
+                    onTap(3);
+                  },
+                ),
+                IconButton(
+                  icon: const FaIcon(
                     FontAwesomeIcons.user,
                     color: Config.mainColor1,
                   ),
                   onPressed: () {
-                    onTap(2);
+                    onTap(4);
+
                   },
                 ),
               ],
