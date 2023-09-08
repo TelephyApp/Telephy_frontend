@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class TimeSystemScreen extends StatefulWidget {
+  const TimeSystemScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TimeSystemScreen> createState() => _TimeSystemScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TimeSystemScreenState extends State<TimeSystemScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,8 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Home"),
-          
+          Text("timeslot"),
         ],
       ),
     );
