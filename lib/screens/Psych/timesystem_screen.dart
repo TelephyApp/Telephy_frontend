@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class TimeSystemScreen extends StatefulWidget {
+  const TimeSystemScreen({super.key});
 
+  @override
+  State<TimeSystemScreen> createState() => _TimeSystemScreenState();
+}
+
+class _TimeSystemScreenState extends State<TimeSystemScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -10,8 +15,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Profile"),
-          
+          Text("timeslot"),
         ],
       ),
     );

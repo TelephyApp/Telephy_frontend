@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:telephy/widgets/button.dart';
+import 'package:telephy/widgets/login_button.dart';
 import 'package:telephy/widgets/textfield_login.dart';
 import 'package:telephy/widgets/square_tile.dart';
+import '../utils/config.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,6 +24,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    const double marginbtw = 20;
+    Widget bigCircle = Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+    );
     return Container(
         // wrap Container ไว้เพื่อทำสีแบบ gradient
         decoration: BoxDecoration(
@@ -30,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-              Colors.deepPurple.shade200,
-              Colors.lightBlue.shade200
+              Config.mainColor1,
+              Config.mainColor2,
             ])),
         child: Scaffold(
           // นี่คือตัวจัด layout หลัก
@@ -43,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   // sizedbox = ทำที่ว่าง
                   const SizedBox(
-                    height: 120,
+                    height: 80,
                   ),
                   // logo
                   Icon(
@@ -61,13 +71,13 @@ class _LoginPageState extends State<LoginPage> {
                     'เข้าสู่ระบบ',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: marginbtw,
                   ),
 
                   // username textfield
@@ -79,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: marginbtw,
                   ),
 
                   // password textfield
@@ -91,17 +101,17 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: marginbtw,
                   ),
 
                   // ปุ่ม sign in
-                  MyButton(
+                  LoginButton(
                     text: 'เข้าสู่ระบบ',
                     onTap: signUserIn,
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: marginbtw,
                   ),
 
                   // google sign in button
@@ -113,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(
-                    height: 20,
+                    height: marginbtw,
                   ),
 
                   // register text
@@ -127,12 +137,12 @@ class _LoginPageState extends State<LoginPage> {
                       Text(
                         'ลงทะเบียน',
                         style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold
-                        ),
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
-                  )
+                  ),
+
                 ],
               ),
             ),

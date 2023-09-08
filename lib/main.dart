@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telephy/main_layout.dart';
-import 'package:telephy/screens/auth_screen.dart';
-import 'package:telephy/screens/booking_screen.dart';
-import 'package:telephy/screens/chatlogs_screen.dart';
-import 'package:telephy/screens/login_screen.dart';
-import 'package:telephy/screens/profile_screen.dart';
-import 'package:telephy/screens/register_screen.dart';
-import 'package:telephy/screens/register_fin_screen.dart';
+import 'package:get/get.dart';
+import 'package:telephy/page.dart';
+
 import 'package:telephy/utils/config.dart';
 
 void main() {
@@ -21,12 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //set theme
       theme: ThemeData(
         //pre-define input decoration
+        fontFamily: 'Mitr',
         inputDecorationTheme: const InputDecorationTheme(
           focusColor: Config.mainColor1,
           border: Config.outlinedBorder,
@@ -47,17 +43,8 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'regfin',
-      routes: {
-        '/': (context) => const AuthScreen(),
-        'main': (context) => const MainLayout(),
-        'chatlogs': (context) => const ChatLogsScreen(),
-        'profile': (context) => const ProfileScreen(),
-        'register': (context) => const RegisterScreen(),
-        'booking': (context) => const BookingScreen(),
-        'login': (context) => const LoginPage(),
-        'regfin': (context) => const RegisterFinishScreen(),
-      },
+      initialRoute: 'login',
+      getPages: AppPages.routes,
     );
   }
 }
