@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RegisterAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
   
   const RegisterAppBar({
     super.key, 
-    required this.title,
+    required this.title, 
+    required this.onPressed,
   });
 
+  final String title;
+  final VoidCallback onPressed;
   
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,9 @@ class RegisterAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
-      foregroundColor: Colors.black,
+      foregroundColor: const Color(0xFF000000),
       leading: IconButton(
-        onPressed: () {}, 
+        onPressed: onPressed,
         icon: const Icon(Icons.arrow_back_ios_new_rounded),
       ),
       centerTitle: true,
@@ -32,7 +34,7 @@ class RegisterAppBar extends StatelessWidget implements PreferredSizeWidget {
         title, 
         style: const TextStyle(
           fontSize: 28,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w400,
           ),
         ),
     );

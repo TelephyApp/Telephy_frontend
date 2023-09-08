@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 class RegistBT extends StatelessWidget {
   const RegistBT({
     super.key, 
-    required this.titleBT,
+    required this.titleBT, 
+    required this.onPressed,
   });
 
+  final VoidCallback onPressed;
   final String titleBT;
   
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 45),
+      margin: const EdgeInsets.only(top: 70),
       width: 240,
-      height: 40,
+      height: 35,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topRight,
@@ -21,6 +23,14 @@ class RegistBT extends StatelessWidget {
           colors: [Color.fromRGBO(134, 210, 252, 1), Color.fromRGBO(204, 173, 249, 1)],
         ),
         borderRadius: BorderRadius.circular(30),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+            spreadRadius: -3,
+          )
+        ]
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -31,13 +41,13 @@ class RegistBT extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(30)),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           titleBT, 
           style: const TextStyle(
             fontSize: 18,
             color: Colors.black,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.w500,
           ),),
       ),
     );
