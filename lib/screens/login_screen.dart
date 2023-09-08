@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:telephy/widgets/button_login.dart';
+import 'package:telephy/widgets/button.dart';
 import 'package:telephy/widgets/textfield_login.dart';
 import 'package:telephy/widgets/square_tile.dart';
 
@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // ปุ่ม sign in
                   MyButton(
+                    text: 'เข้าสู่ระบบ',
                     onTap: signUserIn,
                   ),
 
@@ -107,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SquareTile(imagePath: 'assets/google.png'),
+                      SquareTile(imagePath: 'assets/images/google.png'),
                     ],
                   ),
 
