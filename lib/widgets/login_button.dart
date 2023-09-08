@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../utils/config.dart';
 
-class MyButton extends StatelessWidget {
+class LoginButton extends StatelessWidget {
   final Function()? onTap;
   final String text;
 
-  const MyButton({
+  const LoginButton({
     super.key,
     required this.onTap,
     required this.text,
@@ -16,7 +16,7 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         margin: EdgeInsets.symmetric(horizontal: 135),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
@@ -35,7 +35,7 @@ class MyButton extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ),
