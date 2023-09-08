@@ -64,19 +64,22 @@ class _BookingScreenState extends State<BookingScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  PhychologistCard(
-                    psychologistName: "อัมรี ฮ้วง",
-                    workplace: "ลาดบัง",
-                    ratePerHour: "4000",
-                    // imagePath: "assets/images/erum.png",
-                    setBorderCardBottomLeft: true,
-                    setBorderCardBottomRight: true,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PsychologistCard(
+                      psychologistName: "อัมรี ฮ้วง",
+                      workplace: "ลาดบัง",
+                      ratePerHour: "4000",
+                      // imagePath: "assets/images/erum.png",
+                      setBorderCardBottomLeft: true,
+                      setBorderCardBottomRight: true,
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(8),
                     child: Column(
                       children: [
                         Container(
@@ -93,7 +96,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             ),
                             child: _tableCalendar()),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(20),
@@ -168,7 +171,6 @@ class _BookingScreenState extends State<BookingScreen> {
                                             '${timeSlots[index].timeString}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontWeight: FontWeight.bold,
                                               color:
                                                   !timeSlots[index].isAvailable
                                                       ? Colors.black38
@@ -215,8 +217,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                   ),
                                   child: Text(
                                     'ยืนยันการนัดหมาย',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -255,12 +256,15 @@ class _BookingScreenState extends State<BookingScreen> {
       currentDay: _currentDay,
       rowHeight: 60,
       calendarStyle: const CalendarStyle(
-        todayDecoration: BoxDecoration(
-          color: Config.mainColor2,
-          shape: BoxShape.circle,
-        ),
-        todayTextStyle: TextStyle(color: Config.darkerToneColor),
-      ),
+          todayDecoration: BoxDecoration(
+            color: Config.mainColor2,
+            shape: BoxShape.circle,
+          ),
+          todayTextStyle: TextStyle(color: Config.darkerToneColor),
+          weekendTextStyle: TextStyle(color: Config.darkerToneColor)),
+      daysOfWeekStyle: DaysOfWeekStyle(
+          weekdayStyle: TextStyle(color: Config.darkerToneColor),
+          weekendStyle: TextStyle(color: Config.darkerToneColor)),
       availableCalendarFormats: const {
         CalendarFormat.week: 'Week',
       },
@@ -283,25 +287,6 @@ class _BookingScreenState extends State<BookingScreen> {
           }
         });
       },
-    );
-  }
-}
-
-class GridItem extends StatelessWidget {
-  final int index;
-
-  GridItem(this.index);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue, // Change the background color as needed
-      child: Center(
-        child: Text(
-          'Item $index',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
-      ),
     );
   }
 }

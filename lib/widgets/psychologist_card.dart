@@ -9,15 +9,12 @@ class PsychologistCard extends StatelessWidget {
     required this.ratePerHour,
     required this.setBorderCardBottomLeft,
     required this.setBorderCardBottomRight,
-    required this.setBorderCardBottomLeft,
-    required this.setBorderCardBottomRight,
     this.imagePath,
     this.imageWidth,
     this.imageHeight,
     this.verticalBorderRadius,
     this.horizontalBorderRadius,
-    this.imageWidth,
-    this.imageHeight,
+    this.backgroundImage,
     super.key,
   });
 
@@ -29,6 +26,7 @@ class PsychologistCard extends StatelessWidget {
   final double? imageHeight;
   final bool? verticalBorderRadius;
   final bool? horizontalBorderRadius;
+  final String? backgroundImage;
   final bool setBorderCardBottomLeft;
   final bool setBorderCardBottomRight;
 
@@ -36,13 +34,10 @@ class PsychologistCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isImageIsEmpty = imagePath == null || imagePath == "";
     bool isImageWidth = imageWidth != null;
+    bool isImageBackgroundIsEmpty =
+        backgroundImage == null || backgroundImage == "";
 
     return Container(
-      margin: EdgeInsets.only(
-        top: 24,
-        left: 24,
-        right: 24,
-      ),
       height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -50,7 +45,14 @@ class PsychologistCard extends StatelessWidget {
             topRight: Radius.circular(20),
             bottomLeft: Radius.circular(setBorderCardBottomLeft ? 20 : 0),
             bottomRight: Radius.circular(setBorderCardBottomRight ? 20 : 0)),
-        color: Config.accentColor2,
+        color: isImageBackgroundIsEmpty ? Config.lighterToneColor : null,
+        image: isImageBackgroundIsEmpty
+            ? null
+            : DecorationImage(
+                image: AssetImage(backgroundImage!),
+                fit: BoxFit.cover,
+                opacity: 0.5,
+              ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -60,7 +62,7 @@ class PsychologistCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
-                horizontal: 20,
+                horizontal: 8,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,12 +110,11 @@ class PsychologistCard extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
+                  borderRadius: BorderRadius.circular(20), color: Colors.white),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  isImageIsEmpty ? "assets/images/erum.png" : "$imagePath",
+                  isImageIsEmpty ? "assets/images/user.png" : "$imagePath",
                   width: isImageWidth ? imageWidth : 120,
                   fit: BoxFit.contain,
                 ),
@@ -121,7 +122,6 @@ class PsychologistCard extends StatelessWidget {
             ),
           ],
         ),
-
       ),
     );
   }
