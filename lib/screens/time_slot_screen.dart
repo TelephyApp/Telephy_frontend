@@ -17,17 +17,12 @@ class _TimeSlotState extends State<TimeSlot> {
     return Container(
       child: Column(
         children: [
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: constraints.maxHeight),
-                child: CalendarDoctor(onDaySelected: (day) {
-                  setState(() {
-                    selectedDay = day;
-                  });
-                }),
-              );
-            },
+          Expanded(
+            child: CalendarDoctor(onDaySelected: (day) {
+              setState(() {
+                selectedDay = day;
+              });
+            }),
           ),
           Expanded(
             child: TimeSlotTable(currentDate: selectedDay),
