@@ -44,6 +44,7 @@ class TimeSlotTable extends StatelessWidget {
     final lastThreeDays = nextTwoDays;
 
     return Container(
+      padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFFEFEFE), Color(0xFFDDDEFC)],
@@ -54,7 +55,8 @@ class TimeSlotTable extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 80,
+            height: 100,
+            padding: EdgeInsets.all(10),
             decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -73,7 +75,9 @@ class TimeSlotTable extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: SizedBox(width: 20),
+                  child: SizedBox(
+                    width: 20,
+                  ),
                 ),
                 for (var dayIndex = 0;
                     dayIndex < lastThreeDays.length;

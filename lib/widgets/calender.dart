@@ -23,7 +23,6 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
       today = day;
     });
 
-    // เรียก callback ที่ถูกส่งเข้ามาจาก CalendarDoctor
     widget.onDaySelected(day);
   }
 
@@ -68,7 +67,7 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 30.0, bottom: 20.0),
+              padding: const EdgeInsets.only(top: 30.0, bottom: 15),
               child: Center(
                 child: Column(
                   children: [
