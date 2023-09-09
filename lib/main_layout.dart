@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/home_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
+import 'package:telephy/screens/time_slot_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 class MainLayout extends StatefulWidget {
@@ -42,6 +43,7 @@ class _MainLayoutState extends State<MainLayout> {
         children: const <Widget>[
           HomeScreen(),
           ChatLogsScreen(),
+          TimeSlot(),
           ProfileScreen(),
         ],
       ),
