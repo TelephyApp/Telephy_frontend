@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/screens/login_screen.dart';
+import 'package:telephy/screens/register_final_screen.dart';
 import 'package:telephy/screens/register_main_screen.dart';
 import 'package:telephy/screens/register_private_screen.dart';
 import 'package:telephy/widgets/regist/regist_app_bar.dart';
@@ -101,7 +102,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isActive: _currentStep == 2,
       state: StepState.complete,
       title: const Text("เสร็จสิ้น"), 
-      content: Text("Finish")
+      content:  RegisterFinishScreen(),
     ),
 
   ];
@@ -110,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _goToLoginPage(BuildContext context) {
   Navigator.of(context).push(
     MaterialPageRoute(
-      builder: (context) => LoginPage(),
+      builder: (context) => const LoginPage(),
     ),
   );
 }
