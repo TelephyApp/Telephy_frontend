@@ -7,19 +7,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late DateTime currentDate = DateTime.now(); // กำหนดค่าเริ่มต้นให้ currentDate
+  late DateTime currentDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: TimeSlotTable(
-            currentDate: currentDate), // ส่งค่า currentDate ไปยัง TimeSlotTable
+        body: TimeSlotTable(currentDate: currentDate),
         floatingActionButton: FloatingActionButton(
-          // เพิ่ม FAB สำหรับการอัปเดต currentDate
           onPressed: () {
             setState(() {
-              currentDate = DateTime.now(); // อัปเดต currentDate เมื่อกด FAB
+              currentDate = DateTime.now();
             });
           },
           child: Icon(Icons.refresh),
@@ -32,19 +30,18 @@ class _MyAppState extends State<MyApp> {
 class TimeSlotTable extends StatelessWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
-  final DateTime currentDate; // รับค่า currentDate จาก MyApp
+  final DateTime currentDate;
 
   TimeSlotTable({required this.currentDate});
 
   @override
   Widget build(BuildContext context) {
-    // ใช้ currentDate ที่รับมาจาก MyApp
     final nextTwoDays = List.generate(
       3,
       (index) => currentDate.add(Duration(days: index)),
     );
 
-    final lastThreeDays = nextTwoDays.reversed.toList();
+    final lastThreeDays = nextTwoDays;
 
     return Container(
       decoration: BoxDecoration(

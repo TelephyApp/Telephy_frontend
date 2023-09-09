@@ -10,7 +10,7 @@ class TimeSlot extends StatefulWidget {
 }
 
 class _TimeSlotState extends State<TimeSlot> {
-  DateTime currentDate = DateTime.now();
+  DateTime selectedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,14 @@ class _TimeSlotState extends State<TimeSlot> {
       child: Column(
         children: [
           Expanded(
-            child: Calendar(),
+            child: CalendarDoctor(onDaySelected: (day) {
+              setState(() {
+                selectedDay = day;
+              });
+            }),
           ),
           Expanded(
-            child: TimeSlotTable(
-                currentDate:
-                    currentDate), // ส่งค่า currentDate ไปยัง TimeSlotTable
+            child: TimeSlotTable(currentDate: selectedDay),
           ),
         ],
       ),

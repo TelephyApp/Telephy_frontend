@@ -1,24 +1,30 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+class CalendarDoctor extends StatefulWidget {
+  final void Function(DateTime)
+      onDaySelected; // เปลี่ยน data type ของ onDaySelected เป็น void Function(DateTime)
+
+  const CalendarDoctor({Key? key, required this.onDaySelected})
+      : super(key: key);
 
   @override
-  State<Calendar> createState() => _CalendarState();
+  State<CalendarDoctor> createState() => _CalendarDoctorState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _CalendarDoctorState extends State<CalendarDoctor> {
   DateTime today = DateTime.now();
   bool showCalendar = false; // Track whether to show the calendar
   DateTime selectedDay = DateTime.now();
+
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
     });
+
+    // เรียก callback ที่ถูกส่งเข้ามาจาก CalendarDoctor
+    widget.onDaySelected(day);
   }
 
   @override
@@ -48,13 +54,17 @@ class _CalendarState extends State<Calendar> {
               ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
-                    125.0), // Top-left corner with a radius of 150
+                  125.0,
+                ),
                 topRight: Radius.circular(
-                    20.0), // Top-right corner with a radius of 20
+                  20.0,
+                ),
                 bottomLeft: Radius.circular(
-                    20.0), // Bottom-left corner with a radius of 20
+                  20.0,
+                ),
                 bottomRight: Radius.circular(
-                    20.0), // Bottom-right corner with a radius of 20
+                  20.0,
+                ),
               ),
             ),
             child: Padding(
@@ -74,13 +84,11 @@ class _CalendarState extends State<Calendar> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          showCalendar =
-                              !showCalendar; // Toggle the calendar visibility
+                          showCalendar = !showCalendar;
                         });
                       },
                       child: Row(
-                        mainAxisSize: MainAxisSize
-                            .min, // Use MainAxisSize.min to make the row as narrow as possible
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             DateFormat.MMMMd().format(today),
@@ -100,7 +108,6 @@ class _CalendarState extends State<Calendar> {
                       ),
                     ),
                     Visibility(
-                      // Conditionally show the calendar
                       visible: showCalendar,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 35.0, right: 35.0),
@@ -111,33 +118,28 @@ class _CalendarState extends State<Calendar> {
                             formatButtonVisible: false,
                             titleCentered: true,
                             titleTextStyle: TextStyle(
-                              color: Colors.white, // Set the month text color
+                              color: Colors.white,
                             ),
                             formatButtonTextStyle: TextStyle(
-                              color: Colors
-                                  .white, // Set the format button text color
+                              color: Colors.white,
                             ),
                             formatButtonDecoration: BoxDecoration(
-                              color: Colors
-                                  .transparent, // Make the format button background transparent
+                              color: Colors.transparent,
                             ),
                             leftChevronIcon: Icon(
                               Icons.arrow_back_ios,
-                              color: Colors
-                                  .white, // Set the left arrow button color
+                              color: Colors.white,
                               size: 13.0,
                             ),
                             rightChevronIcon: Icon(
                               Icons.arrow_forward_ios,
-                              color: Colors
-                                  .white, // Set the right arrow button color
+                              color: Colors.white,
                               size: 13.0,
                             ),
                           ),
                           daysOfWeekStyle: const DaysOfWeekStyle(
                             weekdayStyle: TextStyle(
-                              color: Color(
-                                  0xFFB2B4FE), // Set the weekday text color
+                              color: Color(0xFFB2B4FE),
                             ),
                             weekendStyle: TextStyle(
                               color: Color(0xFFB2B4FE),
@@ -149,12 +151,11 @@ class _CalendarState extends State<Calendar> {
                           selectedDayPredicate: (day) => isSameDay(
                             day,
                             today,
-                          ), // Highlight the selected day
+                          ),
                           onDaySelected: _onDaySelected,
                           calendarStyle: const CalendarStyle(
                             defaultTextStyle: TextStyle(
-                              color: Colors
-                                  .white, // Set the text style for the day cells to white
+                              color: Colors.white,
                             ),
                             weekendTextStyle: TextStyle(
                               color: Colors.white,
@@ -167,34 +168,31 @@ class _CalendarState extends State<Calendar> {
                               color: Color(0xFF0F1B2D),
                             ),
                             todayDecoration: BoxDecoration(
-                              color: Color(
-                                  0xFFB2B4FE), // Change the color as desired
+                              color: Color(0xFFB2B4FE),
                               shape: BoxShape.circle,
                             ),
                           ),
                           calendarBuilders: CalendarBuilders(
-                              selectedBuilder: (context, date, _) {
-                            // Customize the appearance of the selected date here
-                            return Container(
-                              margin: const EdgeInsets.all(0.25),
-                              width: 50,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    Colors.white, // Change the color as desired
-                              ),
-                              child: Text(
-                                '${date.day}',
-                                style: const TextStyle(
-                                  color: Color(
-                                      0xFF0F1B2D), // Change the text color as desired
-                                  fontWeight: FontWeight.bold,
+                            selectedBuilder: (context, date, _) {
+                              return Container(
+                                margin: const EdgeInsets.all(0.25),
+                                width: 50,
+                                height: 50,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            );
-                          }),
+                                child: Text(
+                                  '${date.day}',
+                                  style: const TextStyle(
+                                    color: Color(0xFF0F1B2D),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
