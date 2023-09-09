@@ -72,14 +72,9 @@ flutter:
     - assets/images/
     - assets/images/erum.png
     - assets/images/user.png
-<<<<<<< HEAD
-    - assets/images/bg.png
-    - assets/images/thankyou.png
-=======
     - assets/images/bg.jpeg
 
 
->>>>>>> 5c99cd3ac140ddbaac01f48e00e8e6bc37cb624f
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
