@@ -89,14 +89,31 @@ class TimeSlotTable extends StatelessWidget {
                             DateFormat('EEE').format(lastThreeDays[dayIndex]),
                             style: TextStyle(
                               fontSize: 12,
-                              color: Color(0xFF0F1B2D),
+                              color: dayIndex == 0
+                                  ? Color(0xFFFEFEFE)
+                                  : Color(0xFF0F1B2D),
                             ),
                           ),
-                          Text(
-                            DateFormat('dd').format(lastThreeDays[dayIndex]),
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Color(0xFF0F1B2D),
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: dayIndex == 0
+                                  ? Color(0xFF0F1B2D)
+                                  : Color.fromARGB(0, 254, 254, 254),
+                            ),
+                            child: Center(
+                              child: Text(
+                                DateFormat('dd')
+                                    .format(lastThreeDays[dayIndex]),
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: dayIndex == 0
+                                      ? Color(0xFFFEFEFE)
+                                      : Color(0xFF0F1B2D),
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -150,14 +167,14 @@ class TimeSlot extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Text(
             '$hour:00',
             style: TextStyle(fontSize: 16, color: Color(0xFF0F1B2D)),
           ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
         ],
       ),
@@ -199,7 +216,7 @@ class _HourlySlotState extends State<HourlySlot> {
         child: Column(
           children: [
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Text(
               " ",
@@ -209,7 +226,7 @@ class _HourlySlotState extends State<HourlySlot> {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 20,
             ),
           ],
         ),
