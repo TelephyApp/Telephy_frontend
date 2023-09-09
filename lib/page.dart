@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:telephy/main_layout.dart';
 import 'package:telephy/screens/login_screen.dart';
-import 'package:telephy/screens/register_final_screen.dart';
-import 'package:telephy/screens/register_main_screen.dart';
-import 'package:telephy/screens/register_private_screen.dart';
+import 'package:telephy/screens/register_screen.dart';
+// import 'package:telephy/screens/register_main_screen.dart';
+// import 'package:telephy/screens/register_private_screen.dart';
+// import 'package:telephy/screens/register_final_screen.dart';
 import 'package:telephy/screens/video_main.dart';
 
 class AppPages {
@@ -18,19 +19,24 @@ class AppPages {
     ),
     GetPage(
       name: '/register',
-      page: () => RegisterMainScreen(),
+      page: () => RegisterScreen(),
     ),
-    GetPage(
-      name: '/register/private_info',
-      page: () => RegisterPrivateScreen(),
-    ),
-    GetPage(
-      name: '/register/private_info/finish',
-      page: () => RegisterFinishScreen(),
-    ),
+    // GetPage(
+    //   name: '/register/main',
+    //   page: () => RegisterPrivateScreen(),
+    // ),
+    // GetPage(
+    //   name: '/register/private_info',
+    //   page: () => RegisterPrivateScreen(),
+    // ),
+    // GetPage(
+    //   name: '/register/private_info/finish',
+    //   page: () => RegisterFinishScreen(),
+    // ),
     GetPage(
       name: '/login',
       page: () => LoginPage(),
     ),
+
   ];
 }
