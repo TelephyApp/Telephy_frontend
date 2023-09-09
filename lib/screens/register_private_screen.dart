@@ -1,5 +1,6 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // import 'package:telephy/widgets/regist/regist_app_bar.dart';
 // import 'package:telephy/widgets/regist/regist_bt.dart';
 import 'package:telephy/widgets/regist/regist_text_field.dart';
@@ -12,31 +13,47 @@ class RegisterPrivateScreen extends StatefulWidget {
 }
 
 class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
-  final TextEditingController firstName = TextEditingController();
-  final TextEditingController lastName = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController birthDate = TextEditingController();
-  final SingleValueDropDownController gender = SingleValueDropDownController();
-  final TextEditingController phoneNum = TextEditingController();
-
-  DateTime selectedDate = DateTime.now();
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _birthDate = TextEditingController();
+  final SingleValueDropDownController _gender = SingleValueDropDownController();
+  final TextEditingController _phoneNum = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     const double marginBtwTF = 25;
+
+    TextStyle hintStyle({bool? isHint}) => TextStyle(
+          color: isHint != null ? Colors.black : Colors.grey,
+          fontSize: 16,
+        );
+
+    const OutlineInputBorder inputBorder = OutlineInputBorder(
+      borderSide: BorderSide(
+        style: BorderStyle.solid,
+        width: 1,
+      ),
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+    );
+
+    InputDecoration decorationTextField(
+        {required hintText,
+        required TextStyle hintStyle,
+        required InputBorder inputBorder,
+        Icon? suffixIcon}) {
+      return InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        hintText: hintText,
+        hintStyle: hintStyle,
+        filled: true,
+        fillColor: Colors.white,
+        focusedBorder: inputBorder,
+        enabledBorder: inputBorder,
+        suffixIcon: suffixIcon,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+      );
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +62,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "ชื่อจริง",
           hintText: "Fisrt Name",
           type: TextInputType.name,
-          tfController: firstName,
+          tfController: _firstName,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -54,7 +71,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "นามสกุล",
           hintText: "Last Name",
           type: TextInputType.name,
-          tfController: lastName,
+          tfController: _lastName,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -82,45 +99,31 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
                             spreadRadius: -3,
                           )
                         ]),
-                    child: InkWell(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: InputDecorator(
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(Icons.edit_calendar_rounded),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          hintText: "dd/mm/yyyy",
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                        ),
-                        child: Text(
-                          "${selectedDate.toLocal()}".split(' ')[0],
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                        ),
+                    child: TextField(
+                      style: hintStyle(isHint: false), // Style for entered text
+                      controller: _birthDate,
+                      decoration: decorationTextField(
+                        hintText: "dd/mm/yyyy",
+                        hintStyle: hintStyle(), // Style for hint text
+                        inputBorder: inputBorder,
+                        suffixIcon: const Icon(Icons.calendar_today_rounded),
                       ),
+                      onTap: () async {
+                        DateTime? datePick = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(2101),
+                        );
+
+                        if (datePick != null) {
+                          String dateText =
+                              DateFormat('dd-MM-yyyy').format(datePick);
+                          setState(() {
+                            _birthDate.text = dateText;
+                          });
+                        }
+                      },
                     ),
                   )
                 ],
@@ -149,7 +152,13 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
                           spreadRadius: -3,
                         )
                       ]),
-                  child: GenderDropDown(controller: gender),
+                  child: GenderDropDown(
+                    controller: _gender,
+                    textFieldDecoration: decorationTextField(
+                        hintText: "gender",
+                        hintStyle: hintStyle(),
+                        inputBorder: inputBorder),
+                  ),
                 ),
               ],
             ),
@@ -162,7 +171,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "อีเมล",
           hintText: "E-mail",
           type: TextInputType.emailAddress,
-          tfController: email,
+          tfController: _email,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -171,11 +180,8 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "เบอร์โทรศัพท์",
           hintText: "Phone Number",
           type: TextInputType.phone,
-          tfController: phoneNum,
+          tfController: _phoneNum,
         ),
-        // Center(
-        //   child: RegistBT(titleBT: "ถัดไป"),
-        // )
       ],
     );
   }
@@ -185,9 +191,11 @@ class GenderDropDown extends StatelessWidget {
   const GenderDropDown({
     super.key,
     required this.controller,
+    required this.textFieldDecoration,
   });
 
   final SingleValueDropDownController controller;
+  final InputDecoration textFieldDecoration;
 
   @override
   Widget build(BuildContext context) {
@@ -196,31 +204,7 @@ class GenderDropDown extends StatelessWidget {
       clearOption: true,
       // enableSearch: true,
       // dropdownColor: Colors.green,
-      textFieldDecoration: const InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-        hintText: "Gender",
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: 16,
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            style: BorderStyle.solid,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            style: BorderStyle.solid,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-      ),
+      textFieldDecoration: textFieldDecoration,
       validator: (value) {
         if (value == null) {
           return "Required field";
@@ -232,7 +216,7 @@ class GenderDropDown extends StatelessWidget {
       dropDownList: const [
         DropDownValueModel(name: 'ชาย', value: "ชาย"),
         DropDownValueModel(name: 'หญิง', value: "หญิง"),
-        DropDownValueModel(name: 'อื่นๆ', value: "อื่นๆ"),
+        DropDownValueModel(name: 'ไม่ระบุ', value: "ไม่ระบุ"),
       ],
       onChanged: (val) {},
     );
