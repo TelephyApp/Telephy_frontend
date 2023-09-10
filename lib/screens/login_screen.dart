@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:telephy/widgets/login_button.dart';
+import 'package:get/get.dart';
+import 'package:telephy/main_layout.dart';
 import 'package:telephy/widgets/textfield_login.dart';
 import 'package:telephy/widgets/square_tile.dart';
 import '../utils/config.dart';
@@ -20,7 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   bool obsecurePass = true;
 
   // sign user in method
-  void signUserIn() {}
+  void signUserIn() {
+    Get.to(
+      () => MainLayout(),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,9 @@ class MessagePage extends GetView<MessageController> {
         child: Row(
           children: [
             Stack(
-              children: [GestureDetector()],
+              children: [
+                GestureDetector(),
+              ],
             )
           ],
         ),
@@ -30,7 +32,21 @@ class MessagePage extends GetView<MessageController> {
         child: Stack(
           children: [
             CustomScrollView(
-              slivers: [],
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  title: Row(children: [
+                    CircleAvatar(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text("Chat")
+                  ]),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                )
+              ],
             )
           ],
         ),
