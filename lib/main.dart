@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telephy/page.dart';
+import 'package:telephy/main_layout.dart';
+import 'package:telephy/routes/pages.dart';
 
 import 'package:telephy/utils/config.dart';
 
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'register',
+      home: MainLayout(),
       getPages: AppPages.routes,
     );
   }
