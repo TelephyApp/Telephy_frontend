@@ -25,14 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     const double marginbtw = 20;
-    Widget bigCircle = Container(
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-    );
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
         // wrap Container ไว้เพื่อทำสีแบบ gradient
         decoration: BoxDecoration(
@@ -143,6 +136,16 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
 
+                  Spacer(),
+
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 198,
+                    child: Image.asset(
+                      'assets/images/cloud.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ],
               ),
             ),
