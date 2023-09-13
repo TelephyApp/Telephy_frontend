@@ -24,10 +24,8 @@ class _TimeSlotState extends State<TimeSlot> {
               });
             }),
           ),
-          Expanded(
-            child: TimeSlotTable(currentDate: selectedDay),
-          ),
-        ],
+        TimeSlotTable(currentDate: selectedDay),
+      ],
       ),
     );
   }
