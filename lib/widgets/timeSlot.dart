@@ -1,38 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late DateTime currentDate = DateTime.now();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: TimeSlotTable(currentDate: currentDate),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              currentDate = DateTime.now();
-            });
-          },
-          child: Icon(Icons.refresh),
-        ),
-      ),
-    );
-  }
-}
-
 class TimeSlotTable extends StatelessWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
 
-  TimeSlotTable({required this.currentDate});
+  const TimeSlotTable({super.key, required this.currentDate});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +18,8 @@ class TimeSlotTable extends StatelessWidget {
     final lastThreeDays = nextTwoDays;
 
     return Container(
-      padding: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
+      //padding: const EdgeInsets.all(10.0),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFFEFEFE), Color(0xFFDDDEFC)],
           begin: Alignment.topCenter,
@@ -56,7 +30,7 @@ class TimeSlotTable extends StatelessWidget {
         children: [
           Container(
             height: 100,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -74,7 +48,7 @@ class TimeSlotTable extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: SizedBox(
                     width: 20,
                   ),
@@ -86,7 +60,7 @@ class TimeSlotTable extends StatelessWidget {
                     child: Center(
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -94,8 +68,8 @@ class TimeSlotTable extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 12,
                               color: dayIndex == 0
-                                  ? Color(0xFFFEFEFE)
-                                  : Color(0xFF0F1B2D),
+                                  ? const Color(0xFFFEFEFE)
+                                  : const Color(0xFF0F1B2D),
                             ),
                           ),
                           Container(
@@ -104,8 +78,8 @@ class TimeSlotTable extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               color: dayIndex == 0
-                                  ? Color(0xFF0F1B2D)
-                                  : Color.fromARGB(0, 254, 254, 254),
+                                  ? const Color(0xFF0F1B2D)
+                                  : const Color.fromARGB(0, 254, 254, 254),
                             ),
                             child: Center(
                               child: Text(
@@ -114,8 +88,8 @@ class TimeSlotTable extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 25,
                                   color: dayIndex == 0
-                                      ? Color(0xFFFEFEFE)
-                                      : Color(0xFF0F1B2D),
+                                      ? const Color(0xFFFEFEFE)
+                                      : const Color(0xFF0F1B2D),
                                 ),
                               ),
                             ),
@@ -151,7 +125,7 @@ class TimeSlotTable extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],
@@ -163,21 +137,21 @@ class TimeSlotTable extends StatelessWidget {
 class TimeSlot extends StatelessWidget {
   final String hour;
 
-  TimeSlot({required this.hour});
+  const TimeSlot({super.key, required this.hour});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             '$hour:00',
-            style: TextStyle(fontSize: 16, color: Color(0xFF0F1B2D)),
+            style: const TextStyle(fontSize: 16, color: Color(0xFF0F1B2D)),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],
@@ -190,7 +164,7 @@ class HourlySlot extends StatefulWidget {
   final DateTime day;
   final String hour;
 
-  HourlySlot({required this.day, required this.hour});
+  const HourlySlot({super.key, required this.day, required this.hour});
 
   @override
   _HourlySlotState createState() => _HourlySlotState();
@@ -210,14 +184,14 @@ class _HourlySlotState extends State<HourlySlot> {
       child: Container(
         decoration: BoxDecoration(
           color: isTapped
-              ? Color.fromRGBO(178, 221, 253, 1)
-              : Color.fromARGB(0, 209, 172, 255),
+              ? const Color.fromRGBO(178, 221, 253, 1)
+              : const Color.fromARGB(0, 209, 172, 255),
           border: Border.all(
-            color: isTapped ? Color(0xFFE4DAD1) : Color(0xFFD2ACFF),
+            color: isTapped ? const Color(0xFFE4DAD1) : const Color(0xFFD2ACFF),
             width: 0.5,
           ),
         ),
-        child: Column(
+        child: const Column(
           children: [
             SizedBox(
               height: 20,
