@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
@@ -26,14 +25,14 @@ class _BookingScreenState extends State<BookingScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Config.darkerToneColor,
           ),
         ),
         leadingWidth: 60,
         titleSpacing: -10,
-        title: Text(
+        title: const Text(
           "นัดพบจิตแพทย์",
           style: TextStyle(
             fontSize: 25,
@@ -50,7 +49,7 @@ class _BookingScreenState extends State<BookingScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  PhychologistCard(
+                  const PhychologistCard(
                     psychologistName: "อัมรี ฮ้วง",
                     workplace: "ลาดบัง",
                     ratePerHour: "4000",
@@ -60,7 +59,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     height: 20,
                   ),
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),

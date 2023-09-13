@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -28,14 +30,12 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Content(),
-    );
+    return Content();
   }
 
   Widget Content() {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +53,7 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
               ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
-                  125.0,
+                  100.0,
                 ),
                 topRight: Radius.circular(
                   20.0,
@@ -200,6 +200,7 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
               ),
             ),
           ),
+          SizedBox(height: showCalendar ? 0 : 0),
         ],
       ),
     );

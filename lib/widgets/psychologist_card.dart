@@ -21,7 +21,7 @@ class PhychologistCard extends StatelessWidget {
     bool isImageIsEmpty = imagePath == null || imagePath == "";
     bool hasBody = body != null;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Config.lighterToneColor,
@@ -36,40 +36,40 @@ class PhychologistCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
-                        "$psychologistName",
-                        style: TextStyle(
+                        psychologistName,
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.location_on,
                         size: 20,
                       ),
-                      Text("$workplace")
+                      Text(workplace)
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
-                      FaIcon(
+                      const FaIcon(
                         FontAwesomeIcons.stethoscope,
                         size: 17,
                       ),
@@ -79,7 +79,7 @@ class PhychologistCard extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -95,7 +95,7 @@ class PhychologistCard extends StatelessWidget {
           ),
           hasBody
               ? body!
-              : SizedBox(
+              : const SizedBox(
                   height: 0,
                 )
         ],
