@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/home_screen.dart';
 import 'package:telephy/screens/profile_screen.dart';
 import 'package:telephy/screens/time_slot_screen.dart';
@@ -42,8 +41,7 @@ class _MainLayoutState extends State<MainLayout> {
         onPageChanged: onPageChanged,
         children: const <Widget>[
           HomeScreen(),
-          ChatLogsScreen(),
-          TimeSlot(),
+          TimeSlotScreen(),
           ProfileScreen(),
         ],
       ),

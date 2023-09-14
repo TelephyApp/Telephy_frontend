@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/utils/config.dart';
 
 class TimeSlotTable extends StatelessWidget {
   final int numberOfHours = 24;
@@ -18,10 +19,10 @@ class TimeSlotTable extends StatelessWidget {
     final lastThreeDays = nextTwoDays;
 
     return Container(
-      //padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFFFEFEFE), Color(0xFFDDDEFC)],
+          colors: [Color(0xFFFEFEFE), Color(0xFFFEFEFE), Color(0xFFDDDEFC)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -29,76 +30,84 @@ class TimeSlotTable extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 100,
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(255, 129, 129, 129),
-                  offset: Offset(0, 2),
-                  blurRadius: 4,
-                )
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              gradient: LinearGradient(
-                colors: [Color(0xFFB2DDFD), Color(0xFFB2B4FE)],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-            ),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: SizedBox(
-                    width: 20,
-                  ),
+            decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFF0F1B2D), width: 0),
+                color: Config.darkerToneColor,
+                borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            child: Container(
+              height: 100,
+              padding: const EdgeInsets.all(11),
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 129, 129, 129),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  )
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                gradient: LinearGradient(
+                  colors: [Color(0xFFB2DDFD), Color(0xFFB2B4FE)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                 ),
-                for (var dayIndex = 0;
-                    dayIndex < lastThreeDays.length;
-                    dayIndex++)
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            DateFormat('EEE').format(lastThreeDays[dayIndex]),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: dayIndex == 0
-                                  ? const Color(0xFFFEFEFE)
-                                  : const Color(0xFF0F1B2D),
+              ),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: SizedBox(
+                      width: 20,
+                    ),
+                  ),
+                  for (var dayIndex = 0;
+                      dayIndex < lastThreeDays.length;
+                      dayIndex++)
+                    Expanded(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: dayIndex == 0
-                                  ? const Color(0xFF0F1B2D)
-                                  : const Color.fromARGB(0, 254, 254, 254),
+                            Text(
+                              DateFormat('EEE').format(lastThreeDays[dayIndex]),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: dayIndex == 0
+                                    ? const Color(0xFFFEFEFE)
+                                    : const Color(0xFF0F1B2D),
+                              ),
                             ),
-                            child: Center(
-                              child: Text(
-                                DateFormat('dd')
-                                    .format(lastThreeDays[dayIndex]),
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: dayIndex == 0
-                                      ? const Color(0xFFFEFEFE)
-                                      : const Color(0xFF0F1B2D),
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: dayIndex == 0
+                                    ? const Color(0xFF0F1B2D)
+                                    : const Color.fromARGB(0, 254, 254, 254),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  DateFormat('dd')
+                                      .format(lastThreeDays[dayIndex]),
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: dayIndex == 0
+                                        ? const Color(0xFFFEFEFE)
+                                        : const Color(0xFF0F1B2D),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -175,6 +184,8 @@ class _HourlySlotState extends State<HourlySlot> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isPastDay = widget.day.isBefore(DateTime.now());
+
     return GestureDetector(
       onTap: () {
         setState(() {

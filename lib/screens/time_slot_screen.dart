@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:telephy/widgets/calender.dart';
 import 'package:telephy/widgets/timeSlot.dart';
 
-class TimeSlot extends StatefulWidget {
-  const TimeSlot({Key? key}) : super(key: key);
+class TimeSlotScreen extends StatefulWidget {
+  const TimeSlotScreen({Key? key}) : super(key: key);
 
   @override
-  _TimeSlotState createState() => _TimeSlotState();
+  _TimeSlotScreenState createState() => _TimeSlotScreenState();
 }
 
-class _TimeSlotState extends State<TimeSlot> {
+class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
 
   @override
@@ -22,24 +22,11 @@ class _TimeSlotState extends State<TimeSlot> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Text('data'),
-              // Text('data2'),
-
-              // CalendarDoctor(onDaySelected: (day) {
-              //   setState(() {
-              //     selectedDay = day;
-              //   });
-              // }),
-
-              // TimeSlotTable(currentDate: selectedDay),
-
-              Container(
-                child: CalendarDoctor(onDaySelected: (day) {
-                  setState(() {
-                    selectedDay = day;
-                  });
-                }),
-              ),
+              CalendarDoctor(onDaySelected: (day) {
+                setState(() {
+                  selectedDay = day;
+                });
+              }),
               Expanded(
                 child: TimeSlotTable(currentDate: selectedDay),
               ),
