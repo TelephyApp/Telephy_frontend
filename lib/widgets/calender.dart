@@ -59,143 +59,147 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
                   20.0,
                 ),
                 bottomLeft: Radius.circular(
-                  20.0,
+                  0.0,
                 ),
                 bottomRight: Radius.circular(
-                  20.0,
+                  0.0,
                 ),
               ),
             ),
             child: Padding(
               padding: const EdgeInsets.only(top: 30.0, bottom: 15),
               child: Center(
-                child: Column(
-                  children: [
-                    const Text(
-                      'โปรดเลือกเวลาที่ต้องการ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w400,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'โปรดเลือกเวลาที่ต้องการ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          showCalendar = !showCalendar;
-                        });
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            DateFormat.MMMMd().format(today),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w400,
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showCalendar = !showCalendar;
+                          });
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              DateFormat.MMMMd().format(today),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            showCalendar
-                                ? Icons.arrow_drop_up_rounded
-                                : Icons.arrow_drop_down_rounded,
-                            color: Colors.white,
-                          ),
-                        ],
+                            Icon(
+                              showCalendar
+                                  ? Icons.arrow_drop_up_rounded
+                                  : Icons.arrow_drop_down_rounded,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Visibility(
-                      visible: showCalendar,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-                        child: TableCalendar(
-                          locale: "en_US",
-                          rowHeight: 29,
-                          headerStyle: const HeaderStyle(
-                            formatButtonVisible: false,
-                            titleCentered: true,
-                            titleTextStyle: TextStyle(
-                              color: Colors.white,
+                      Visibility(
+                        visible: showCalendar,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 35.0, right: 35.0),
+                          child: TableCalendar(
+                            locale: "en_US",
+                            rowHeight: 29,
+                            headerStyle: const HeaderStyle(
+                              formatButtonVisible: false,
+                              titleCentered: true,
+                              titleTextStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              formatButtonTextStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              formatButtonDecoration: BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              leftChevronIcon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 13.0,
+                              ),
+                              rightChevronIcon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 13.0,
+                              ),
                             ),
-                            formatButtonTextStyle: TextStyle(
-                              color: Colors.white,
+                            daysOfWeekStyle: const DaysOfWeekStyle(
+                              weekdayStyle: TextStyle(
+                                color: Color(0xFFB2B4FE),
+                              ),
+                              weekendStyle: TextStyle(
+                                color: Color(0xFFB2B4FE),
+                              ),
                             ),
-                            formatButtonDecoration: BoxDecoration(
-                              color: Colors.transparent,
+                            firstDay: DateTime.utc(1950, 1, 1),
+                            lastDay: DateTime.utc(2100, 12, 31),
+                            focusedDay: today,
+                            selectedDayPredicate: (day) => isSameDay(
+                              day,
+                              today,
                             ),
-                            leftChevronIcon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                              size: 13.0,
+                            onDaySelected: _onDaySelected,
+                            calendarStyle: const CalendarStyle(
+                              defaultTextStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              weekendTextStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              outsideTextStyle: TextStyle(
+                                color: Color(0xFFE4DAD1),
+                              ),
+                              todayTextStyle: TextStyle(color: Colors.white),
+                              selectedTextStyle: TextStyle(
+                                color: Color(0xFF0F1B2D),
+                              ),
+                              todayDecoration: BoxDecoration(
+                                color: Color(0xFFB2B4FE),
+                                shape: BoxShape.circle,
+                              ),
                             ),
-                            rightChevronIcon: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                              size: 13.0,
-                            ),
-                          ),
-                          daysOfWeekStyle: const DaysOfWeekStyle(
-                            weekdayStyle: TextStyle(
-                              color: Color(0xFFB2B4FE),
-                            ),
-                            weekendStyle: TextStyle(
-                              color: Color(0xFFB2B4FE),
-                            ),
-                          ),
-                          firstDay: DateTime.utc(1950, 1, 1),
-                          lastDay: DateTime.utc(2100, 12, 31),
-                          focusedDay: today,
-                          selectedDayPredicate: (day) => isSameDay(
-                            day,
-                            today,
-                          ),
-                          onDaySelected: _onDaySelected,
-                          calendarStyle: const CalendarStyle(
-                            defaultTextStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            weekendTextStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            outsideTextStyle: TextStyle(
-                              color: Color(0xFFE4DAD1),
-                            ),
-                            todayTextStyle: TextStyle(color: Colors.white),
-                            selectedTextStyle: TextStyle(
-                              color: Color(0xFF0F1B2D),
-                            ),
-                            todayDecoration: BoxDecoration(
-                              color: Color(0xFFB2B4FE),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          calendarBuilders: CalendarBuilders(
-                            selectedBuilder: (context, date, _) {
-                              return Container(
-                                margin: const EdgeInsets.all(0.25),
-                                width: 50,
-                                height: 50,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Text(
-                                  '${date.day}',
-                                  style: const TextStyle(
-                                    color: Color(0xFF0F1B2D),
-                                    fontWeight: FontWeight.bold,
+                            calendarBuilders: CalendarBuilders(
+                              selectedBuilder: (context, date, _) {
+                                return Container(
+                                  margin: const EdgeInsets.all(0.25),
+                                  width: 50,
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
                                   ),
-                                ),
-                              );
-                            },
+                                  child: Text(
+                                    '${date.day}',
+                                    style: const TextStyle(
+                                      color: Color(0xFF0F1B2D),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
