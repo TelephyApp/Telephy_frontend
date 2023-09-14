@@ -13,10 +13,44 @@ class TimeSlotScreen extends StatefulWidget {
 
 class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
+  bool isBooking = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //check button
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            isBooking = !isBooking;
+          });
+        },
+        child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFFD2ACFF),
+                  Color(0xFFD2ACFF),
+                  Color(0xFFADBDFA),
+                  Color(0xFFB2DDFD)
+                ], // Adjust the gradient colors
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: isBooking
+                ? Icon(
+                    Icons.check_rounded,
+                    color: Colors.white,
+                  )
+                : Icon(
+                    Icons.add_rounded,
+                    color: Colors.white,
+                  )),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
