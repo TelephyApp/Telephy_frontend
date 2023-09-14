@@ -36,6 +36,7 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
   Widget Content() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
+      
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,3 +211,5 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
     );
   }
 }
+
+
