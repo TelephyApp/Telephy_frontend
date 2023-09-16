@@ -187,45 +187,92 @@ class _HourlySlotState extends State<HourlySlot> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isPastDay = widget.day.isBefore(DateTime.now());
+    final DateTime currentTime = DateTime.now();
+    final DateTime currentDateTime = DateTime(
+      widget.day.year,
+      widget.day.month,
+      widget.day.day,
+      int.parse(widget.hour),
+    );
 
-    return GestureDetector(
-      onTap: isBooking
-          ? () {
-              setState(() {
-                isTapped = !isTapped;
-              });
-            }
-          : null,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isTapped
-              ? const Color.fromRGBO(178, 221, 253, 1)
-              : const Color.fromARGB(0, 209, 172, 255),
-          border: Border.all(
-            color: isTapped ? const Color(0xFFE4DAD1) : const Color(0xFFD2ACFF),
-            width: 0.5,
-          ),
-        ),
-        child: const Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              " ",
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
+    final bool isPastDay = currentDateTime.isBefore(currentTime);
+
+    return isPastDay
+        ? Container(
+            // This container will be unclickable for past days
+            decoration: BoxDecoration(
+              color: Color(0xFFDDDEFC),
+              border: Border.all(
+                color: const Color(0xFFD2ACFF),
+                width: 0.5,
               ),
             ),
-            SizedBox(
-              height: 20,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : GestureDetector(
+            // This GestureDetector is clickable for future days
+            onTap: isBooking
+                ? () {
+                    setState(() {
+                      isTapped = !isTapped;
+                    });
+                  }
+                : null,
+            child: Container(
+              decoration: BoxDecoration(
+                color: isTapped
+                    ? const Color.fromRGBO(178, 221, 253, 1)
+                    : const Color.fromARGB(0, 209, 172, 255),
+                border: Border.all(
+                  color: isTapped
+                      ? const Color(0xFFE4DAD1)
+                      : const Color(0xFFD2ACFF),
+                  width: 0.5,
+                ),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    isTapped
+                        ? '${DateFormat('EEEE').format(widget.day)} '
+                            '${widget.hour}:00'
+                        : " ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
-
