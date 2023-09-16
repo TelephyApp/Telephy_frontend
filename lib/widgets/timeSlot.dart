@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:telephy/utils/config.dart';
+
+bool isBooking = false;
 
 class TimeSlotTable extends StatelessWidget {
   final int numberOfHours = 24;
@@ -187,11 +190,13 @@ class _HourlySlotState extends State<HourlySlot> {
     final bool isPastDay = widget.day.isBefore(DateTime.now());
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isTapped = !isTapped;
-        });
-      },
+      onTap: isBooking
+          ? () {
+              setState(() {
+                isTapped = !isTapped;
+              });
+            }
+          : null,
       child: Container(
         decoration: BoxDecoration(
           color: isTapped
@@ -223,3 +228,4 @@ class _HourlySlotState extends State<HourlySlot> {
     );
   }
 }
+
