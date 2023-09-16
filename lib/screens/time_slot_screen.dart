@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:telephy/widgets/calender.dart';
 import 'package:telephy/widgets/timeSlot.dart';
 
+
 class TimeSlotScreen extends StatefulWidget {
   const TimeSlotScreen({Key? key}) : super(key: key);
 
@@ -13,7 +14,6 @@ class TimeSlotScreen extends StatefulWidget {
 
 class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
-  bool isBooking = false;
 
   @override
   Widget build(BuildContext context) {
