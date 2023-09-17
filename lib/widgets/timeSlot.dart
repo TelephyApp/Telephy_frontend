@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:telephy/utils/config.dart';
 
 bool isBooking = false;
@@ -195,19 +194,27 @@ class _HourlySlotState extends State<HourlySlot> {
       int.parse(widget.hour),
     );
 
+    String generateTimeRange(int hour) {
+      final startHour = hour;
+      final endHour = (hour + 1) % 24;
+
+      return '${startHour.toString().padLeft(2, '0')}:00-${endHour.toString().padLeft(2, '0')}:00';
+    }
+
+    String timeRange = generateTimeRange(int.parse(widget.hour));
+
     final bool isPastDay = currentDateTime.isBefore(currentTime);
 
     return isPastDay
         ? Container(
-            // This container will be unclickable for past days
             decoration: BoxDecoration(
-              color: Color(0xFFDDDEFC),
+              color: const Color(0xFFDDDEFC),
               border: Border.all(
                 color: const Color(0xFFD2ACFF),
                 width: 0.5,
               ),
             ),
-            child: Column(
+            child: const Column(
               children: [
                 SizedBox(
                   height: 25,
@@ -229,7 +236,6 @@ class _HourlySlotState extends State<HourlySlot> {
             ),
           )
         : GestureDetector(
-            // This GestureDetector is clickable for future days
             onTap: isBooking
                 ? () {
                     setState(() {
@@ -251,15 +257,15 @@ class _HourlySlotState extends State<HourlySlot> {
               ),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Text(
                     isTapped
-                        ? '${DateFormat('EEEE').format(widget.day)} '
-                            '${widget.hour}:00'
+                        ? '${DateFormat('EEE').format(widget.day)} '
+                            '${timeRange}'
                         : " ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 12,
                     ),
@@ -267,7 +273,7 @@ class _HourlySlotState extends State<HourlySlot> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                 ],

@@ -42,11 +42,11 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
               borderRadius: BorderRadius.circular(15),
             ),
             child: isBooking
-                ? Icon(
+                ? const Icon(
                     Icons.check_rounded,
                     color: Colors.white,
                   )
-                : Icon(
+                : const Icon(
                     Icons.add_rounded,
                     color: Colors.white,
                   )),
