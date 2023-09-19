@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: '/message',
+      initialRoute: '/main',
       getPages: AppPages.routes,
     );
   }
