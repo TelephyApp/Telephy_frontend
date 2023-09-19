@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:telephy/main_layout.dart';
+import 'package:telephy/screens/chat_history_screen.dart';
 import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
 // import 'package:telephy/screens/register_main_screen.dart';
@@ -37,6 +38,9 @@ class AppPages {
       name: '/login',
       page: () => LoginPage(),
     ),
-
+    GetPage(
+      name: '/chatHistory',
+      page: () => chatHistory(),
+    ),
   ];
 }
