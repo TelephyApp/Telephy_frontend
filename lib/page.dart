@@ -40,7 +40,7 @@ class AppPages {
     ),
     GetPage(
       name: '/chatHistory',
-      page: () => chatHistory(),
+      page: () => ChatHistory(),
     ),
   ];
 }
