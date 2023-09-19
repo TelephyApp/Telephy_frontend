@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         'profile': (context) => const ProfileScreen(),
         'register': (context) => const RegisterScreen(),
         'booking': (context) => const BookingScreen(),
-        'timeSlot': (context) => const TimeSlotScreen(),
+        'timeSlot': (context) => const TimeSlot(),
       },
     );
   }
