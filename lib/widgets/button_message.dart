@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:telephy/message_module/controller.dart';
 class ToggleButton extends StatefulWidget {
   @override
   _ToggleButtonState createState() => _ToggleButtonState();
@@ -31,13 +31,12 @@ class _ToggleButtonState extends State<ToggleButton> {
       appBar: AppBar(
         title: Text('Demo'),
       ),
-      
       body: Center(
         child: Container(
           width: width,
           height: height,
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0XFFD2ACFF),width: 2.5),
+            border: Border.all(color: Color(0XFFD2ACFF), width: 2.5),
             color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(50.0),
@@ -64,10 +63,10 @@ class _ToggleButtonState extends State<ToggleButton> {
               ),
               GestureDetector(
                 onTap: () {
+                  
                   setState(() {
                     xAlign = loginAlign;
                     loginColor = selectedColor;
-
                     signInColor = normalColor;
                   });
                 },
