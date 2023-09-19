@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
 
-bool isBooking = false;
-
-class TimeSlotTable extends StatelessWidget {
+class TimeSlotTable extends StatefulWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
 
-  const TimeSlotTable({super.key, required this.currentDate});
+  const TimeSlotTable({Key? key, required this.currentDate}) : super(key: key);
+
+  @override
+  _TimeSlotTableState createState() => _TimeSlotTableState();
+}
+
+class _TimeSlotTableState extends State<TimeSlotTable> {
+  bool isBooking = false; // Added state variable
+  List<List<bool>> isSlotTapped = List.generate(
+      3,
+      (dayIndex) =>
+          List.generate(24, (hourIndex) => false)); // Slot tapped state
 
   @override
   Widget build(BuildContext context) {
     final nextTwoDays = List.generate(
       3,
-      (index) => currentDate.add(Duration(days: index)),
+      (index) => widget.currentDate.add(Duration(days: index)),
     );
 
     final lastThreeDays = nextTwoDays;
@@ -33,11 +42,13 @@ class TimeSlotTable extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFF0F1B2D), width: 0),
-                color: Config.darkerToneColor,
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20))),
+              border: Border.all(color: const Color(0xFF0F1B2D), width: 0),
+              color: Config.darkerToneColor,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
             child: Container(
               height: 100,
               padding: const EdgeInsets.all(11),
@@ -114,7 +125,7 @@ class TimeSlotTable extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: numberOfHours,
+              itemCount: widget.numberOfHours,
               itemBuilder: (BuildContext context, int hourIndex) {
                 final hour = hourIndex.toString().padLeft(2, '0');
                 return Row(
@@ -129,6 +140,15 @@ class TimeSlotTable extends StatelessWidget {
                         child: HourlySlot(
                           day: lastThreeDays[dayIndex],
                           hour: hour,
+                          isTapped: isSlotTapped[dayIndex]
+                              [hourIndex], // Pass tapped state
+                          onTap: () {
+                            // Toggle tapped state for this specific day and hour
+                            setState(() {
+                              isSlotTapped[dayIndex][hourIndex] =
+                                  !isSlotTapped[dayIndex][hourIndex];
+                            });
+                          },
                         ),
                       ),
                   ],
@@ -148,7 +168,7 @@ class TimeSlotTable extends StatelessWidget {
 class TimeSlot extends StatelessWidget {
   final String hour;
 
-  const TimeSlot({super.key, required this.hour});
+  const TimeSlot({Key? key, required this.hour}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -171,27 +191,28 @@ class TimeSlot extends StatelessWidget {
   }
 }
 
-class HourlySlot extends StatefulWidget {
+class HourlySlot extends StatelessWidget {
   final DateTime day;
   final String hour;
+  final bool isTapped;
+  final VoidCallback onTap;
 
-  const HourlySlot({super.key, required this.day, required this.hour});
-
-  @override
-  _HourlySlotState createState() => _HourlySlotState();
-}
-
-class _HourlySlotState extends State<HourlySlot> {
-  bool isTapped = false;
+  const HourlySlot({
+    Key? key,
+    required this.day,
+    required this.hour,
+    required this.isTapped,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final DateTime currentTime = DateTime.now();
     final DateTime currentDateTime = DateTime(
-      widget.day.year,
-      widget.day.month,
-      widget.day.day,
-      int.parse(widget.hour),
+      day.year,
+      day.month,
+      day.day,
+      int.parse(hour),
     );
 
     String generateTimeRange(int hour) {
@@ -201,7 +222,7 @@ class _HourlySlotState extends State<HourlySlot> {
       return '${startHour.toString().padLeft(2, '0')}:00-${endHour.toString().padLeft(2, '0')}:00';
     }
 
-    String timeRange = generateTimeRange(int.parse(widget.hour));
+    String timeRange = generateTimeRange(int.parse(hour));
 
     final bool isPastDay = currentDateTime.isBefore(currentTime);
 
@@ -236,13 +257,7 @@ class _HourlySlotState extends State<HourlySlot> {
             ),
           )
         : GestureDetector(
-            onTap: isBooking
-                ? () {
-                    setState(() {
-                      isTapped = !isTapped;
-                    });
-                  }
-                : null,
+            onTap: onTap, // Use onTap function passed from parent
             child: Container(
               decoration: BoxDecoration(
                 color: isTapped
@@ -262,8 +277,7 @@ class _HourlySlotState extends State<HourlySlot> {
                   ),
                   Text(
                     isTapped
-                        ? '${DateFormat('EEE').format(widget.day)} '
-                            '${timeRange}'
+                        ? '${DateFormat('EEE').format(day)} $timeRange'
                         : " ",
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,

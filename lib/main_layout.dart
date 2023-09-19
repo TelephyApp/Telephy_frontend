@@ -41,7 +41,7 @@ class _MainLayoutState extends State<MainLayout> {
         onPageChanged: onPageChanged,
         children: const <Widget>[
           HomeScreen(),
-          TimeSlotScreen(),
+          TimeSlot(),
           ProfileScreen(),
         ],
       ),
