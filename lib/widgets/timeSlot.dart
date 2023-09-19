@@ -169,28 +169,43 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
         Positioned(
           bottom: 20,
           right: 20, // Set the button position to the bottom right
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              
-              shadowColor: Colors.transparent,
-              //make color or elevated button transparent
-            ),
-            onPressed: () {
-              setState(() {
-                isBooking = !isBooking;
-              });
-            },
-            child: Container(
-                height: 80,
-                width: 80,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isBooking = !isBooking;
+                });
+              },
+              splashColor: Colors.grey.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                height: 60,
+                width: 60,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF86D2FC), Color(0xFFCCADF9)],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    )),
-                child: Icon(isBooking ? Icons.done : Icons.add)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x500F1B2D),
+                      blurRadius: 10,
+                      offset: Offset(4, 3), // Shadow position
+                    )
+                  ],
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF86D2FC), Color(0xFFCCADF9)],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    isBooking ? Icons.done : Icons.add,
+                    size: 40, // ปรับขนาดของไอคอนตามต้องการ
+                    color: Colors.white, // สีไอคอน
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ],
