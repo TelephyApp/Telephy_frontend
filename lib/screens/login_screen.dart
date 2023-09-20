@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
-import 'package:telephy/main_layout.dart';
+import 'package:telephy/psych_layout.dart';
 import 'package:telephy/widgets/square_tile.dart';
 import '../utils/config.dart';
 import '../services/google_auth_services.dart';
@@ -21,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   // sign user in method
   void signUserIn() {
     Get.to(
-      () => MainLayout(),
+      () => UserLayout(),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
