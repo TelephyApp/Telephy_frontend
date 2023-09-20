@@ -3,20 +3,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/index.dart';
 import 'package:telephy/routes/names.dart';
-import 'package:telephy/screens/Psych/calendar_screen.dart';
 import 'package:telephy/screens/Psych/home_screen.dart';
 import 'package:telephy/screens/Psych/profile_screen.dart';
 import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
 
-class MainLayout extends StatefulWidget {
-  const MainLayout({Key? key}) : super(key: key);
+class PsychLayout extends StatefulWidget {
+  const PsychLayout({Key? key}) : super(key: key);
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  State<PsychLayout> createState() => _PsychLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _PsychLayoutState extends State<PsychLayout> {
   int currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -45,25 +44,11 @@ class _MainLayoutState extends State<MainLayout> {
         onPageChanged: onPageChanged,
         children: const [
           HomeScreen(),
-          // InfoAppointment(),
-          CalendarScreen(),
           TimeSystemScreen(),
           MessageScreen(),
           ProfileScreen(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          onTap(2);
-        },
-        elevation: 8,
-        backgroundColor: Config.baseColor,
-        child: const FaIcon(
-          FontAwesomeIcons.add,
-          color: Config.mainColor1,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         height: 55,
         decoration: BoxDecoration(
@@ -83,49 +68,49 @@ class _MainLayoutState extends State<MainLayout> {
           child: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 6.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.home,
-                    color: Config.mainColor1,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.home,
+                      color: Config.mainColor1,
+                    ),
+                    onPressed: () {
+                      onTap(0);
+                    },
                   ),
-                  onPressed: () {
-                    onTap(0);
-                  },
-                ),
-                IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.calendar,
-                    color: Config.mainColor1,
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.calendar,
+                      color: Config.mainColor1,
+                    ),
+                    onPressed: () {
+                      onTap(1);
+                    },
                   ),
-                  onPressed: () {
-                    onTap(1);
-                  },
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.comment,
-                    color: Config.mainColor1,
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.comment,
+                      color: Config.mainColor1,
+                    ),
+                    onPressed: () {
+                      onTap(2);
+                    },
                   ),
-                  onPressed: () {
-                    onTap(3);
-                  },
-                ),
-                IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.user,
-                    color: Config.mainColor1,
+                  IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.user,
+                      color: Config.mainColor1,
+                    ),
+                    onPressed: () {
+                      onTap(3);
+                    },
                   ),
-                  onPressed: () {
-                    onTap(4);
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
