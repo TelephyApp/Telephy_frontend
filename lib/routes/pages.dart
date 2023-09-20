@@ -4,6 +4,7 @@ import 'package:telephy/pages/message/chat/index.dart';
 import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/pages/message/index.dart';
+import 'package:telephy/screens/chat_history_screen.dart';
 
 class AppPages {
   static final List<GetPage> routes = [
@@ -27,6 +28,10 @@ class AppPages {
     GetPage(
       name: '/login',
       page: () => LoginPage(),
+    ),
+    GetPage(
+      name: '/chatHistory',
+      page: () => ChatHistory(),
     ),
   ];
 }
