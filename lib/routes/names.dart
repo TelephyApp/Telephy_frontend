@@ -1,6 +1,7 @@
 class AppRoutes {
   static const INITIAL = '/';
-  static const MAIN = '/main';
+  static const MAIN_USER = '/main-user';
+  static const MAIN_PSYCH = '/main-psych';
   static const SIGN_IN = '/sign_in';
   static const Register = '/register';
   // message
