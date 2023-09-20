@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:telephy/screens/User/info_appointment.dart';
+import 'package:get/get.dart';
+import 'package:telephy/pages/message/index.dart';
+import 'package:telephy/routes/names.dart';
 import 'package:telephy/screens/Psych/calendar_screen.dart';
-import 'package:telephy/screens/chatlogs_screen.dart';
 import 'package:telephy/screens/Psych/home_screen.dart';
 import 'package:telephy/screens/Psych/profile_screen.dart';
 import 'package:telephy/screens/Psych/timesystem_screen.dart';
@@ -47,7 +48,7 @@ class _MainLayoutState extends State<MainLayout> {
           // InfoAppointment(),
           CalendarScreen(),
           TimeSystemScreen(),
-          ChatLogsScreen(),
+          MessageScreen(),
           ProfileScreen(),
         ],
       ),
@@ -122,7 +123,6 @@ class _MainLayoutState extends State<MainLayout> {
                   ),
                   onPressed: () {
                     onTap(4);
-
                   },
                 ),
               ],
