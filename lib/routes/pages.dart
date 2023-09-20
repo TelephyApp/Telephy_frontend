@@ -13,7 +13,7 @@ class AppPages {
     ),
     GetPage(
       name: '/message',
-      page: () => MessagePage(),
+      page: () => MessageScreen(),
       binding: MessageBinding(),
     ),
     GetPage(

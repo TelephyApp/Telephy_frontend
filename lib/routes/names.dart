@@ -1,5 +1,6 @@
 class AppRoutes {
   static const INITIAL = '/';
+  static const MAIN = '/main';
   static const SIGN_IN = '/sign_in';
   static const Register = '/register';
   // message
