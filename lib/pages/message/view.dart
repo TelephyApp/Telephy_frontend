@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/index.dart';
+import 'package:telephy/widgets/chat/button_message.dart';
+import 'package:telephy/widgets/chatHistory/chat_history_card.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -43,9 +45,13 @@ class _MessageScreenState extends State<MessageScreen> {
 
     //display all users except current user
     if (_auth.currentUser!.email != data['email']) {
-      return ListTile(
-        title: data['email'],
-
+      return GestureDetector(
+        child: ChatCard(
+          username: data['email'],
+          lastMessage: data['email'],
+          numberUnseenMessage: 2,
+          timeLastMessage: '10:30',
+        ),
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => ChatPage()));
@@ -58,8 +64,18 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(padding: EdgeInsets.all(8), child: _buildUserList()),
-    );
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+        body: Container(
+            width: screenWidth,
+            color: const Color(0xFFDDDEFC), // Set the background color
+            child: Column(children: [
+              const SizedBox(height: 50), // Space
+              ToggleButton(),
+              Expanded(
+                child: _buildUserList(),
+              )
+            ])));
   }
 }
