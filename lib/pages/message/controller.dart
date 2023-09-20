@@ -6,8 +6,4 @@ class MessageController extends GetxController {
   final title = "Message";
   final state = MessageState();
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 }
