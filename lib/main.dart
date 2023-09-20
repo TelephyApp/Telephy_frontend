@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telephy/page.dart';
+// import 'package:telephy/main_layout.dart';
+import 'package:telephy/routes/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

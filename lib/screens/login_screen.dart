@@ -1,10 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telephy/widgets/login_button.dart';
-import 'package:telephy/widgets/regist/regist_text_field.dart';
-import 'package:telephy/widgets/textfield_login.dart';
+import 'package:telephy/main_layout.dart';
 import 'package:telephy/widgets/square_tile.dart';
 import '../utils/config.dart';
 import '../services/google_auth_services.dart';
@@ -21,7 +18,14 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool obsecurePass = true;
 
-  void signUserIn() {}
+  // sign user in method
+  void signUserIn() {
+    Get.to(
+      () => MainLayout(),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
