@@ -9,7 +9,7 @@ class ChatPage extends GetView<ChatController> {
   const ChatPage({super.key});
 
   void handleBack() {
-    Get.toNamed(AppRoutes.INITIAL);
+    Get.toNamed(AppRoutes.MAIN);
   }
 
   @override
