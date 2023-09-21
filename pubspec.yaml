@@ -51,6 +51,7 @@ dependencies:
   firebase_database: ^10.2.5
   cloud_firestore: ^4.9.2
   flutter_svg: ^2.0.7
+  agora_rtc_engine: ^6.2.2
 
 dev_dependencies:
   flutter_test:
