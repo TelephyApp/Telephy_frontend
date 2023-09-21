@@ -1,15 +1,12 @@
 import 'package:get/get.dart';
+import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
-import 'package:telephy/pages/message/chat/index.dart';
-import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
-import 'package:telephy/pages/message/index.dart';
 import '../screens/auth_screen.dart';
 
 import 'package:telephy/user_layout.dart';
 
 import 'package:telephy/screens/chat_history_screen.dart';
-
 
 class AppPages {
   static final List<GetPage> routes = [
@@ -22,13 +19,9 @@ class AppPages {
       page: () => const PsychLayout(),
     ),
     GetPage(
-      name: '/message',
-      page: () => const MessageScreen(),
-      binding: MessageBinding(),
-    ),
-    GetPage(
       name: '/chat',
-      page: () => const ChatPage(),
+      page: () => ChatScreen(
+          reciverUserEmail: "asdjhkdujksa", reciverUserID: "dsadhjkaskd"),
     ),
     GetPage(
       name: '/register',
