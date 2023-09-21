@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telephy/pages/message/message_page.dart';
 import 'package:telephy/screens/Psych/home_screen.dart';
-import 'package:telephy/screens/Psych/profile_screen.dart';
+import 'package:telephy/screens/User/profile_screen.dart';
 import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
 
