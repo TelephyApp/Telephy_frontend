@@ -3,6 +3,12 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< HEAD
+=======
+  agora_rtc_engine
+  firebase_auth
+  firebase_core
+>>>>>>> cea47ca1b907e65d6920e742f8c6ea9c778ba76f
   permission_handler_windows
 )
 
