@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
-import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
-
-import 'package:telephy/pages/message/index.dart';
 import '../screens/auth_screen.dart';
 
 import 'package:telephy/user_layout.dart';
