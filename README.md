@@ -50,7 +50,7 @@ flutter pub get
    ``` git add -A ```
    this means adding all changed files.
 2. Commit
-   ``` git commit -m "<comments_here_must_have>"
+   ``` git commit -m "<comments_here_must_have>" ```
 
 *Push and Pull*
 Before pushing your commit into Github, I would highly recommend you to pull main branch into your branch first
