@@ -200,8 +200,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                 child: Center(
                   child: Icon(
                     isBooking ? Icons.done : Icons.add,
-                    size: 40, // ปรับขนาดของไอคอนตามต้องการ
-                    color: Colors.white, // สีไอคอน
+                    size: 40, 
+                    color: Colors.white, 
                   ),
                 ),
               ),

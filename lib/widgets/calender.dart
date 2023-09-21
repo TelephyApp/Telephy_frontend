@@ -1,4 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctor extends StatefulWidget {
   final void Function(DateTime)
-      onDaySelected; // เปลี่ยน data type ของ onDaySelected เป็น void Function(DateTime)
+      onDaySelected; 
 
   const CalendarDoctor({Key? key, required this.onDaySelected})
       : super(key: key);
