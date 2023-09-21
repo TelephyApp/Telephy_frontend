@@ -15,7 +15,7 @@ class _ChatLogsScreenState extends State<ChatLogsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Chat"),
+          Text("Chattt"),
         ],
       ),
     );

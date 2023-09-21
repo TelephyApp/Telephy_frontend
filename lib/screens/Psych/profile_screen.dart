@@ -11,7 +11,6 @@ class ProfileScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text("Profile"),
-          
         ],
       ),
     );
