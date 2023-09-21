@@ -12,7 +12,20 @@
           "package_name": "com.example.telephy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "135646484807-64ls2ev0mr57pah3042upedj911qmt14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.telephy",
+            "certificate_hash": "2d2803fd3c32fadc1894f086898e037e9a273ee5"
+          }
+        },
+        {
+          "client_id": "135646484807-vrhe9il2icatvgli1eplgivco4cdkpgo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBU42j_U5GDlpi24I3CM8BF50MABsyMAcs"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "135646484807-vrhe9il2icatvgli1eplgivco4cdkpgo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "135646484807-9t9htjhf37i8numcqe1dft2erqfoktfl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.telephy"
+              }
+            }
+          ]
         }
       }
     }
