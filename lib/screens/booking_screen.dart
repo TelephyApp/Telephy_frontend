@@ -47,13 +47,8 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
         leadingWidth: 60,
         titleSpacing: -10,
-<<<<<<< HEAD
-        title: const Text(
-          "นัดพบจิตแพทย์",
-=======
         title: Text(
           "นัดพบนักจิตวิยา",
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
           style: TextStyle(
             fontSize: 25,
             color: Config.darkerToneColor,
@@ -70,13 +65,6 @@ class _BookingScreenState extends State<BookingScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-<<<<<<< HEAD
-                  const PhychologistCard(
-                    psychologistName: "อัมรี ฮ้วง",
-                    workplace: "ลาดบัง",
-                    ratePerHour: "4000",
-                    imagePath: "assets/images/erum.png",
-=======
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: PsychologistCard(
@@ -87,20 +75,12 @@ class _BookingScreenState extends State<BookingScreen> {
                       setBorderCardBottomLeft: true,
                       setBorderCardBottomRight: true,
                     ),
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Container(
-<<<<<<< HEAD
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-=======
                     margin: EdgeInsets.all(8),
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
                     child: Column(
                       children: [
                         Container(
