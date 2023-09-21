@@ -12,11 +12,11 @@ class AppPages {
   static final List<GetPage> routes = [
     GetPage(
       name: '/main-user',
-      page: () => UserLayout(),
+      page: () => const UserLayout(),
     ),
     GetPage(
       name: '/main-psych',
-      page: () => PsychLayout(),
+      page: () => const PsychLayout(),
     ),
     GetPage(
       name: '/chat',
@@ -25,7 +25,7 @@ class AppPages {
     ),
     GetPage(
       name: '/register',
-      page: () => RegisterScreen(),
+      page: () => const RegisterScreen(),
     ),
     GetPage(
       name: '/login',
@@ -33,7 +33,7 @@ class AppPages {
     ),
     GetPage(
       name: '/chatHistory',
-      page: () => ChatHistory(),
+      page: () => const ChatHistory(),
     ),
   ];
 }
