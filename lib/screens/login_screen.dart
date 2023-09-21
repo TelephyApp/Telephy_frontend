@@ -19,14 +19,22 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool obsecurePass = true;
 
+  // if using MVC , move all of this to LoginController
+  //-----------------------------
   // sign user in method
-  void signUserIn() {
+  void signIn() {
     Get.to(
       () => UserLayout(),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
+
+  void toRegister(){
+    
+  }
+
+  //-----------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             LoginButton(
               text: 'เข้าสู่ระบบ',
-              onTap: signUserIn,
+              onTap: signIn,
             ),
             const SizedBox(height: 30),
             GestureDetector(

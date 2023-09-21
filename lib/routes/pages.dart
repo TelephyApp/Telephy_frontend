@@ -14,32 +14,32 @@ class AppPages {
   static final List<GetPage> routes = [
     GetPage(
       name: '/main-user',
-      page: () => UserLayout(),
+      page: () => const UserLayout(),
     ),
     GetPage(
       name: '/main-psych',
-      page: () => PsychLayout(),
+      page: () => const PsychLayout(),
     ),
     GetPage(
       name: '/message',
-      page: () => MessageScreen(),
+      page: () => const MessageScreen(),
       binding: MessageBinding(),
     ),
     GetPage(
       name: '/chat',
-      page: () => ChatPage(),
+      page: () => const ChatPage(),
     ),
     GetPage(
       name: '/register',
-      page: () => RegisterScreen(),
+      page: () => const RegisterScreen(),
     ),
     GetPage(
       name: '/login',
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
     ),
     GetPage(
       name: '/chatHistory',
-      page: () => ChatHistory(),
+      page: () => const ChatHistory(),
     ),
   ];
 }

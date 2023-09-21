@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:telephy/pages/message/index.dart';
 import 'package:telephy/routes/names.dart';
 import 'package:telephy/screens/Psych/profile_screen.dart';
-import 'package:telephy/screens/User/home_screen.dart';
+import 'package:telephy/screens/User/user_home_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 class UserLayout extends StatefulWidget {
@@ -42,7 +42,7 @@ class _UserLayoutState extends State<UserLayout> {
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: const [
-          HomeScreen(),
+          UserHomeScreen(),
           MessageScreen(),
           ProfileScreen(),
         ],

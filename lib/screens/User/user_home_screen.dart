@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:telephy/screens/User/info_appointment.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/card_appointment/detail_tile.dart';
 
@@ -11,6 +13,36 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
+  List<Map<String, String>> phychologists = [
+    {
+      "name": "มาลัง",
+      "detail": "หวี",
+    },
+    {
+      "name": "มาลี",
+      "detail": "ชอบลื้อ",
+    },
+    {
+      "name": "มาลัย",
+      "detail": "ขายไม่หมด",
+    }
+  ];
+
+  // if using MVC , move all of this to UserHomeController
+  //-----------------------------
+  // sign user in method
+  void onSelectedPhy(String name) {
+    Get.to(
+      () => InfoAppointment(
+        phychologistName: name,
+      ),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void toRegister() {}
+  //-----------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,34 +117,28 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: ListView(
-                  children: [
-                    SizedBox(height: 20),
-                    DetailTile(
-                      name: 'มาลี หวัง',
-                      dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                    ),
-                    SizedBox(height: 20),
-                    DetailTile(
-                      name: 'มาลี หวัง',
-                      dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                    ),
-                    SizedBox(height: 20),
-                    DetailTile(
-                      name: 'มาลี หวัง',
-                      dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                    ),
-                    SizedBox(height: 20),
-                    DetailTile(
-                      name: 'มาลี หวัง',
-                      dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                    ),
-                    SizedBox(height: 20),
-                    DetailTile(
-                      name: 'มาลี หวัง',
-                      dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                    ),
-                  ],
+                child: ListView.builder(
+                  itemCount: phychologists.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 8,
+                        ),
+                        DetailTile(
+                          name: "${phychologists[index]['name']}",
+                          detail: "${phychologists[index]['detail']}",
+                          onclick: () => {
+                            onSelectedPhy(
+                                phychologists[index]['name'] as String)
+                          },
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
