@@ -3,15 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
+import 'package:telephy/widgets/chat/button_message.dart';
 
-class MessageScreen extends StatefulWidget {
-  const MessageScreen({super.key});
-
-  @override
-  State<MessageScreen> createState() => _MessageScreenState();
-}
-
-class _MessageScreenState extends State<MessageScreen> {
+class MessagePage extends StatelessWidget {
+  MessagePage({Key? key, required this.context}) : super(key: key);
+  final BuildContext context;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void handleBack() {
@@ -64,16 +60,16 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     // final screenWidth = MediaQuery.of(context).size.width;
 
-    // return Container(
-    //     width: screenWidth,
-    //     color: const Color(0xFFDDDEFC), // Set the background color
-    //     child: Column(children: [
-    //       const SizedBox(height: 50),
-    //       Text("data"), // Space
-    //       ToggleButton(),
-    //       _buildUserList(),
-    //     ]));
+    return Container(
+        // width: screenWidth,
+        color: const Color(0xFFDDDEFC), // Set the background color
+        child: Column(children: [
+          const SizedBox(height: 50),
+          Text("data"), // Space
+          ToggleButton(),
+          Expanded(child: _buildUserList())
+        ]));
 
-    return _buildUserList();
+    // return _buildUserList();
   }
 }
