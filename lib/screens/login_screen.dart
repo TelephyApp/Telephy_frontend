@@ -30,9 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void toRegister(){
-    
-  }
+  void toRegister() {}
 
   //-----------------------------
 

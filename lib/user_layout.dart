@@ -48,57 +48,63 @@ class _UserLayoutState extends State<UserLayout> {
         ],
       ),
       bottomNavigationBar: Container(
-        height: 55,
         decoration: BoxDecoration(
-          color: Config.baseColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              spreadRadius: 0,
-              blurRadius: 10,
-              offset: Offset(0, 2),
-            ),
-          ],
+          color: Colors.transparent,
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
-          child: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 6.0,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.home,
-                      color: Config.mainColor1,
+        child: Container(
+          height: 55,
+          decoration: BoxDecoration(
+            color: Config.baseColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                spreadRadius: 0,
+                blurRadius: 10,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(30.0)),
+            child: BottomAppBar(
+              shape: const CircularNotchedRectangle(),
+              notchMargin: 6.0,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.home,
+                        color: Config.mainColor1,
+                      ),
+                      onPressed: () {
+                        onTap(0);
+                      },
                     ),
-                    onPressed: () {
-                      onTap(0);
-                    },
-                  ),
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.comment,
-                      color: Config.mainColor1,
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.comment,
+                        color: Config.mainColor1,
+                      ),
+                      onPressed: () {
+                        onTap(1);
+                      },
                     ),
-                    onPressed: () {
-                      onTap(1);
-                    },
-                  ),
-                  IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.user,
-                      color: Config.mainColor1,
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.user,
+                        color: Config.mainColor1,
+                      ),
+                      onPressed: () {
+                        onTap(2);
+                      },
                     ),
-                    onPressed: () {
-                      onTap(2);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
