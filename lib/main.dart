@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telephy/page.dart';
+import 'package:telephy/routes/pages.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:telephy/utils/config.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      //set theme
+      title: 'Telephy',
       theme: ThemeData(
-        //pre-define input decoration
         fontFamily: 'Mitr',
         inputDecorationTheme: const InputDecorationTheme(
           focusColor: Config.mainColor1,
@@ -43,7 +46,11 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
+<<<<<<< HEAD
       initialRoute: '/video',
+=======
+      initialRoute: 'login',
+>>>>>>> cea47ca1b907e65d6920e742f8c6ea9c778ba76f
       getPages: AppPages.routes,
     );
   }
