@@ -96,12 +96,12 @@ flutter:
   fonts:
     - family: Mitr
       fonts:
-        - asset: lib/assets/fonts/Mitr-Bold.ttf
-        - asset: lib/assets/fonts/Mitr-Extralight.ttf
-        - asset: lib/assets/fonts/Mitr-Light.ttf
-        - asset: lib/assets/fonts/Mitr-Medium.ttf
-        - asset: lib/assets/fonts/Mitr-Regular.ttf
-        - asset: lib/assets/fonts/Mitr-SemiBold.ttf
+        - asset: assets/fonts/Mitr-Bold.ttf
+        # - asset: assets/fonts/Mitr-Extralight.ttf
+        - asset: assets/fonts/Mitr-Light.ttf
+        - asset: assets/fonts/Mitr-Medium.ttf
+        - asset: assets/fonts/Mitr-Regular.ttf
+        - asset: assets/fonts/Mitr-SemiBold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
