@@ -1,3 +1,8 @@
 {
+<<<<<<< HEAD
   "cmake.sourceDirectory": "D:/thirdyear/Telephy/Telephy_frontend/linux"
+=======
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cmake.sourceDirectory": "D:/projects/Telephy_frontend/windows/flutter"
+>>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
 }
