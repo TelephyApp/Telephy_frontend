@@ -64,7 +64,7 @@ to reduce conflict when merging into main, then solve the conflict in your branc
    ```git pull origin main```
 4. this might cause conflict, solve it!
 5. then add and commit your conflict solved
-*6. then push your branch into main*
+6. then push your branch into main
    ```git push```
 7. go to GitHub Page and click Pull Request
 8. Done, wait for DevOps(fair) to merge it!
