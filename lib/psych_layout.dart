@@ -44,7 +44,7 @@ class _PsychLayoutState extends State<PsychLayout> {
         onPageChanged: onPageChanged,
         children: const [
           HomeScreen(),
-          TimeSystemScreen(),
+          TimeSlot(),
           MessageScreen(),
           ProfileScreen(),
         ],

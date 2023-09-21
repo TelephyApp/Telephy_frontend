@@ -38,11 +38,7 @@ class PsychologistCard extends StatelessWidget {
         backgroundImage == null || backgroundImage == "";
 
     return Container(
-<<<<<<< HEAD
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-=======
       height: 150,
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -71,44 +67,6 @@ class PsychologistCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-<<<<<<< HEAD
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        psychologistName,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const Icon(
-                        Icons.location_on,
-                        size: 20,
-                      ),
-                      Text(workplace)
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const FaIcon(
-=======
                   Text(
                     "$psychologistName",
                     style: TextStyle(
@@ -137,7 +95,6 @@ class PsychologistCard extends StatelessWidget {
                   Row(
                     children: [
                       FaIcon(
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
                         FontAwesomeIcons.stethoscope,
                         size: 15,
                       ),
@@ -149,29 +106,6 @@ class PsychologistCard extends StatelessWidget {
                   ),
                 ],
               ),
-<<<<<<< HEAD
-              Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    isImageIsEmpty ? "assets/images/user.png" : "$imagePath",
-                    width: 100,
-                  ),
-                ),
-              )
-            ],
-          ),
-          hasBody
-              ? body!
-              : const SizedBox(
-                  height: 0,
-                )
-        ],
-=======
             ),
             Container(
               margin: EdgeInsets.all(8),
@@ -188,7 +122,6 @@ class PsychologistCard extends StatelessWidget {
             ),
           ],
         ),
->>>>>>> 95c1daa9d2be5831a2c1a13a95b74bb27adf4d62
       ),
     );
   }
