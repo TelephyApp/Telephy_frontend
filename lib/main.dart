@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:telephy/routes/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
 import 'package:telephy/utils/config.dart';
 
 void main() async {
@@ -46,11 +45,8 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-<<<<<<< HEAD
+
       initialRoute: '/video',
-=======
-      initialRoute: 'login',
->>>>>>> cea47ca1b907e65d6920e742f8c6ea9c778ba76f
       getPages: AppPages.routes,
     );
   }
