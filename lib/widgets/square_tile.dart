@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 
 class SquareTile extends StatelessWidget {
   final String imagePath;
-  const SquareTile({super.key, required this.imagePath});
+  final Function()? onTap;
+  const SquareTile({
+    super.key,
+    required this.imagePath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Image.asset(
+          imagePath,
+        ),
+        height: 50,
+        width: 80,
       ),
-      child: Image.asset(
-        imagePath,
-      ),
-      height: 50,
-      width: 80,
     );
   }
 }
