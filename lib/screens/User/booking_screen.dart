@@ -1,13 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key});
-
+  const BookingScreen({required this.phychologistName, super.key});
+  final String phychologistName;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
@@ -39,7 +40,9 @@ class _BookingScreenState extends State<BookingScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Config.darkerToneColor,
@@ -68,7 +71,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: PsychologistCard(
-                      psychologistName: "อัมรี ฮ้วง",
+                      psychologistName: widget.phychologistName,
                       workplace: "ลาดบัง",
                       ratePerHour: "4000",
                       // imagePath: "assets/images/erum.png",
