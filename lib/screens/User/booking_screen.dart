@@ -41,7 +41,7 @@ class _BookingScreenState extends State<BookingScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -50,8 +50,8 @@ class _BookingScreenState extends State<BookingScreen> {
         ),
         leadingWidth: 60,
         titleSpacing: -10,
-        title: Text(
-          "นัดพบนักจิตวิยา",
+        title: const Text(
+          "นัดพบจิตแพทย์",
           style: TextStyle(
             fontSize: 25,
             color: Config.darkerToneColor,
@@ -83,7 +83,10 @@ class _BookingScreenState extends State<BookingScreen> {
                     height: 20,
                   ),
                   Container(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Column(
                       children: [
                         Container(
