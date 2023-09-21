@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:telephy/routes/names.dart';
 
 import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
 
 import 'package:telephy/widgets/square_tile.dart';
@@ -26,6 +28,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // sign user in method
+  void goToUser() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => UserLayout())));
+  }
 
   void signUserIn() async {
     // show loading circle
@@ -77,6 +83,8 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
+
+  //-----------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             LoginButton(
               text: 'เข้าสู่ระบบ',
-              onTap: signUserIn,
+              onTap: goToUser,
             ),
             const SizedBox(height: 30),
             Row(

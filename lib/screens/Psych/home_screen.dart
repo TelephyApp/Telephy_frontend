@@ -69,30 +69,30 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: ListView(
               children: [
-                DetailTile(
-                  name: 'มาลี หวัง',
-                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                ),
-                SizedBox(height: 20),
-                DetailTile(
-                  name: 'มาลี หวัง',
-                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                ),
-                SizedBox(height: 20),
-                DetailTile(
-                  name: 'มาลี หวัง',
-                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                ),
-                SizedBox(height: 20),
-                DetailTile(
-                  name: 'มาลี หวัง',
-                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                ),
-                SizedBox(height: 20),
-                DetailTile(
-                  name: 'มาลี หวัง',
-                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-                ),
+                // DetailTile(
+                //   name: 'มาลี หวัง',
+                //   detail: '12 ส.ค. 2023, 8:00 - 9:00',
+                // ),
+                // SizedBox(height: 20),
+                // DetailTile(
+                //   name: 'มาลี หวัง',
+                //   detail: '12 ส.ค. 2023, 8:00 - 9:00',
+                // ),
+                // SizedBox(height: 20),
+                // DetailTile(
+                //   name: 'มาลี หวัง',
+                //   detail: '12 ส.ค. 2023, 8:00 - 9:00',
+                // ),
+                // SizedBox(height: 20),
+                // DetailTile(
+                //   name: 'มาลี หวัง',
+                //   detail: '12 ส.ค. 2023, 8:00 - 9:00',
+                // ),
+                // SizedBox(height: 20),
+                // DetailTile(
+                //   name: 'มาลี หวัง',
+                //   detail: '12 ส.ค. 2023, 8:00 - 9:00',
+                // ),
               ],
             ),
           ),
