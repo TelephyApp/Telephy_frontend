@@ -53,8 +53,8 @@ flutter pub get
    ``` git commit -m "<comments_here_must_have>" ```
 
 *Push and Pull*
-Before pushing your commit into Github, I would highly recommend you to pull main branch into your branch first
-to reduce conflict when merging into main, then solve the conflict in your branch before pushing into main branch
+*Before pushing your commit into Github, I would highly recommend you to pull main branch into your branch first
+to reduce conflict when merging into main, then solve the conflict in your branch before pushing into main branch*
 
 1. make sure you are now in your branch
 2. then fetch main branch
