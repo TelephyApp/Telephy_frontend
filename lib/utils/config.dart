@@ -48,6 +48,13 @@ class Config {
         color: Colors.red,
       ));
 
+  static const normalFont = TextStyle(
+    color: Colors.black,
+    fontSize: 14,
+    fontFamily: 'Mitr',
+    fontWeight: FontWeight.w400,
+  );
+
   static const mainColor1 = Color(0xFFB2B4FE);
   static const mainColor2 = Color(0xFFB2DDFD);
   static const lighterToneColor = Color(0xFFDDDEFC);
@@ -55,4 +62,5 @@ class Config {
   static const accentColor2 = Color(0xFFD2ACFF);
   static const baseColor = Color(0xFFFEFEFE);
   static const darkerToneColor = Color(0xFF0F1B2D);
+  static const backgroundColor = Color(0xFFDDDEFA);
 }
