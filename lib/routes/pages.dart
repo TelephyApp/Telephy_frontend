@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
 import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/videocall_module/videocall_screen.dart';
 import '../screens/auth_screen.dart';
 
 import 'package:telephy/user_layout.dart';
@@ -22,6 +23,10 @@ class AppPages {
       name: '/chat',
       page: () => ChatScreen(
           reciverUserEmail: "asdjhkdujksa", reciverUserID: "dsadhjkaskd"),
+    ),
+    GetPage(
+      name: '/video',
+      page: () => VideoCallPage(),
     ),
     GetPage(
       name: '/register',
