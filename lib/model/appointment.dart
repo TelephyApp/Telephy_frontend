@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Appointment {
   final String timeslotUid;
   final String userUid;
@@ -26,9 +24,9 @@ class Appointment {
   factory Appointment.fromMap(Map<String, dynamic> map) {
     return Appointment(
       timeslotUid: map['timeslot_uid'] ?? '',
-      userUid: map['user_uid'] ?? DateTime.now(),
+      userUid: map['user_uid'] ?? '',
       psyUid: map['psy_uid'] ?? '',
-      startTime: map['start_time'] ?? '',
+      startTime: map['start_time'] ?? DateTime.now(),
     );
   }
 }
