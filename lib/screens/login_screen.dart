@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/routes/names.dart';
 
-import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/screens/Register/register_screen.dart';
 import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
 

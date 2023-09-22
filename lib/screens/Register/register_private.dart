@@ -1,4 +1,5 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:telephy/widgets/regist/regist_app_bar.dart';
@@ -6,19 +7,55 @@ import 'package:intl/intl.dart';
 import 'package:telephy/widgets/regist/regist_text_field.dart';
 
 class RegisterPrivateScreen extends StatefulWidget {
-  const RegisterPrivateScreen({Key? key}) : super(key: key);
+  final TextEditingController firstName;
+  final TextEditingController lastName;
+  final TextEditingController email;
+  final TextEditingController birthDate;
+  final SingleValueDropDownController gender;
+  final TextEditingController phoneNum;
+  final TextEditingController medicalConditional;
+
+  const RegisterPrivateScreen(
+      {Key? key,
+      required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.birthDate,
+      required this.gender,
+      required this.phoneNum, 
+      required this.medicalConditional
+      })
+      : super(key: key);
 
   @override
   State<RegisterPrivateScreen> createState() => _RegisterPrivateScreenState();
 }
 
 class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
-  final TextEditingController _firstName = TextEditingController();
-  final TextEditingController _lastName = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _birthDate = TextEditingController();
-  final SingleValueDropDownController _gender = SingleValueDropDownController();
-  final TextEditingController _phoneNum = TextEditingController();
+  
+  Widget genderDropDown({required controller, required textFieldDecoration}) {
+    return DropDownTextField(
+      controller: controller,
+      clearOption: true,
+      // enableSearch: true,
+      // dropdownColor: Colors.green,
+      textFieldDecoration: textFieldDecoration,
+      validator: (value) {
+        if (value == null) {
+          return "Required field";
+        } else {
+          return null;
+        }
+      },
+      dropDownItemCount: 3,
+      dropDownList: const [
+        DropDownValueModel(name: 'ชาย', value: "ชาย"),
+        DropDownValueModel(name: 'หญิง', value: "หญิง"),
+        DropDownValueModel(name: 'ไม่ระบุ', value: "ไม่ระบุ"),
+      ],
+      onChanged: (val) {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +88,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
         suffixIcon: suffixIcon,
+        suffixIconColor: const Color.fromRGBO(210, 172, 255, 1),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
       );
     }
@@ -62,7 +100,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "ชื่อจริง",
           hintText: "Fisrt Name",
           type: TextInputType.name,
-          tfController: _firstName,
+          tfController: widget.firstName,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -71,7 +109,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "นามสกุล",
           hintText: "Last Name",
           type: TextInputType.name,
-          tfController: _lastName,
+          tfController: widget.lastName,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -100,29 +138,46 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
                           )
                         ]),
                     child: TextField(
-                      style: hintStyle(isHint: false), // Style for entered text
-                      controller: _birthDate,
+                      readOnly: true,
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
+                      controller: widget.birthDate,
                       decoration: decorationTextField(
                         hintText: "dd/mm/yyyy",
                         hintStyle: hintStyle(), // Style for hint text
                         inputBorder: inputBorder,
                         suffixIcon: const Icon(Icons.calendar_today_rounded),
                       ),
-                      onTap: () async {
-                        DateTime? datePick = await showDatePicker(
+                      onTap: () {
+                        showCupertinoModalPopup(
                           context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2101),
+                          builder: (context) => Container(
+                            height: 216,
+                            padding: const EdgeInsets.only(top: 6.0),
+                            // The Bottom margin is provided to align the popup above the system
+                            // navigation bar.
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            // Provide a background color for the popup.
+                            color: CupertinoColors.systemBackground
+                                .resolveFrom(context),
+                            // Use a SafeArea widget to avoid system overlaps.
+                            child: SafeArea(
+                              top: false,
+                              child: CupertinoDatePicker(
+                                  backgroundColor: Colors.white,
+                                  initialDateTime: DateTime.now(),
+                                  mode: CupertinoDatePickerMode.date,
+                                  onDateTimeChanged: (DateTime selectedTime) {
+                                    setState(() {
+                                      widget.birthDate.text =
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(selectedTime);
+                                    });
+                                  }),
+                            ),
+                          ),
                         );
-
-                        if (datePick != null) {
-                          String dateText =
-                              DateFormat('dd-MM-yyyy').format(datePick);
-                          setState(() {
-                            _birthDate.text = dateText;
-                          });
-                        }
                       },
                     ),
                   )
@@ -152,8 +207,8 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
                           spreadRadius: -3,
                         )
                       ]),
-                  child: GenderDropDown(
-                    controller: _gender,
+                  child: genderDropDown(
+                    controller: widget.gender,
                     textFieldDecoration: decorationTextField(
                         hintText: "gender",
                         hintStyle: hintStyle(),
@@ -171,7 +226,7 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "อีเมล",
           hintText: "E-mail",
           type: TextInputType.emailAddress,
-          tfController: _email,
+          tfController: widget.email,
         ),
         const SizedBox(
           height: marginBtwTF,
@@ -180,45 +235,18 @@ class _RegisterPrivateScreenState extends State<RegisterPrivateScreen> {
           title: "เบอร์โทรศัพท์",
           hintText: "Phone Number",
           type: TextInputType.phone,
-          tfController: _phoneNum,
+          tfController: widget.phoneNum,
+        ),
+        const SizedBox(
+          height: marginBtwTF,
+        ),
+        RegistTextField(
+          title: "เงื่อนไขทางการแพทย์",
+          hintText: "โรคประจำตัว ยาที่แพ้ ยาที่กินประจำ เป็นต้น",
+          type: TextInputType.text,
+          tfController: widget.medicalConditional,
         ),
       ],
-    );
-  }
-}
-
-class GenderDropDown extends StatelessWidget {
-  const GenderDropDown({
-    super.key,
-    required this.controller,
-    required this.textFieldDecoration,
-  });
-
-  final SingleValueDropDownController controller;
-  final InputDecoration textFieldDecoration;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropDownTextField(
-      controller: controller,
-      clearOption: true,
-      // enableSearch: true,
-      // dropdownColor: Colors.green,
-      textFieldDecoration: textFieldDecoration,
-      validator: (value) {
-        if (value == null) {
-          return "Required field";
-        } else {
-          return null;
-        }
-      },
-      dropDownItemCount: 3,
-      dropDownList: const [
-        DropDownValueModel(name: 'ชาย', value: "ชาย"),
-        DropDownValueModel(name: 'หญิง', value: "หญิง"),
-        DropDownValueModel(name: 'ไม่ระบุ', value: "ไม่ระบุ"),
-      ],
-      onChanged: (val) {},
     );
   }
 }
