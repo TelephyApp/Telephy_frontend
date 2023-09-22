@@ -1,11 +1,11 @@
 class Appointment {
-  final String timeslotUid;
+  final String id;
   final String userUid;
   final String psyUid;
   final DateTime startTime;
 
   Appointment({
-    required this.timeslotUid,
+    required this.id,
     required this.userUid,
     required this.psyUid,
     required this.startTime,
@@ -14,7 +14,7 @@ class Appointment {
   //convert to a map
   Map<String, dynamic> toMap() {
     return {
-      'timeslot_uid': timeslotUid,
+      'id': id,
       'user_uid': userUid,
       'psy_uid': psyUid,
       'start_time': startTime,
@@ -23,7 +23,7 @@ class Appointment {
 
   factory Appointment.fromMap(Map<String, dynamic> map) {
     return Appointment(
-      timeslotUid: map['timeslot_uid'] ?? '',
+      id: map['id'] ?? '',
       userUid: map['user_uid'] ?? '',
       psyUid: map['psy_uid'] ?? '',
       startTime: map['start_time'] ?? DateTime.now(),
