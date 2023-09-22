@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: '/chat',
+      initialRoute: '/login',
       getPages: AppPages.routes,
     );
   }

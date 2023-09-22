@@ -1,40 +1,42 @@
-// import 'dart:math';
+import 'dart:math';
 
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:get/get.dart';
-// import 'package:telephy/model/call.dart';
-// import 'package:telephy/videocall_module/call_method.dart';
-// import 'package:telephy/videocall_module/videocall_screen_test.dart';
 
-// class CallUtils {
-//   static final CallMethods callMethods = CallMethods();
-//   static dial({required User from, required User to, context}) async {
-//     // Users users = GetStateUpdaterMixin;
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:telephy/model/call.dart';
+import 'package:telephy/videocall_module/call_method.dart';
+import 'package:telephy/videocall_module/test_screen.dart';
+import 'package:telephy/videocall_module/videocall_screen_test.dart';
+import 'package:telephy/model/user.dart';
 
-//     Call call = Call(
-//       callerId: from.uid,
-//       callerName: from.name,
-//       callerPic: from.profilePhoto,
+class CallUtils {
+  static final CallMethods callMethods = CallMethods();
+  static dial({required User from, required User to, context}) async {
+    // Users users = GetStateUpdaterMixin;
 
-//       receiverId: to.uid,
-//       receiverName: to.name,
-//       receiverPic: to.profilePhoto,
-//       channelId: Random().nextInt(1000).toString(),
-//       hasDialled: true,
-//     );
+    Call call = Call(
+      callerId: from.uid,
+      callerName: from.name,
+      callerPic: from.profilePhoto,
 
-//     bool callMade = await callMethods.makeCall(call: call);
+      receiverId: to.uid,
+      receiverName: to.name,
+      receiverPic: to.profilePhoto,
+      channelId: Random().nextInt(1000).toString(),
+      hasDialled: true,
+    );
 
-//     // call.hasDialled = true;
+    bool callMade = await callMethods.makeCall(call: call);
 
-//     if (callMade) {
-//       Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => CallScreen(call: call),
-//           ));
-//     }
-//   }
-// }
+    // call.hasDialled = true;
+
+    if (callMade) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TestCallScreen(call: call),
+          ));
+    }
+  }
+}

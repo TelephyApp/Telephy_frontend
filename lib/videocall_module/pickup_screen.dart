@@ -8,6 +8,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:telephy/model/call.dart';
 import 'package:telephy/routes/pages.dart';
 import 'package:telephy/videocall_module/call_method.dart';
+import 'package:telephy/videocall_module/test_screen.dart';
 import 'package:telephy/videocall_module/videocall_screen.dart';
 import 'package:telephy/videocall_module/videocall_screen_test.dart';
 
@@ -129,7 +130,7 @@ class PickupScreen extends StatelessWidget {
                                     iconSize: 40,
                                     color: Colors.white,
                                     icon: FaIcon(FontAwesomeIcons.phone),
-                                    onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => CallScreen(call : call)))
+                                    onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => TestCallScreen(call : call)))
                                   ),
                                 ),
                               ),
