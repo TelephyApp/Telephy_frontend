@@ -1,3 +1,51 @@
+import 'dart:js_util';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:telephy/model/call.dart';
+import 'package:telephy/videocall_module/call_method.dart';
+import 'package:telephy/videocall_module/videocall_screen_test.dart';
+
+class TestCallScreen extends StatefulWidget {
+  final Call call;
+
+  TestCallScreen({super.key, required this.call});
+
+  @override
+  State<TestCallScreen> createState() => _TestCallScreenState();
+}
+
+class _TestCallScreenState extends State<TestCallScreen> {
+  final CallMethods callMethods = CallMethods();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Text(
+            "Call has been made",
+          ),
+          MaterialButton(
+            color: Colors.red,
+            child: Icon(
+              Icons.call_end,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              callMethods.endCall(call: widget.call);
+              Navigator.pop(context);
+              
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+
 // import 'dart:async';
 
 // import 'package:agora_rtc_engine/agora_rtc_engine.dart';
