@@ -6,7 +6,7 @@ class Message {
   final String recieverId;
   final String message;
   final Timestamp timestamp;
-
+  
   Message(
       {required this.senderId,
       required this.senderEmail,
@@ -24,4 +24,6 @@ class Message {
       'timestamp': timestamp,
     };
   }
+
+
 }
