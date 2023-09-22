@@ -55,6 +55,13 @@ class Config {
     fontWeight: FontWeight.w400,
   );
 
+  static const smallFont = TextStyle(
+    color: Colors.black,
+    fontSize: 10,
+    fontFamily: 'Mitr',
+    fontWeight: FontWeight.w400,
+  );
+
   static const mainColor1 = Color(0xFFB2B4FE);
   static const mainColor2 = Color(0xFFB2DDFD);
   static const lighterToneColor = Color(0xFFDDDEFC);
