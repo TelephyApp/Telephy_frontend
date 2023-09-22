@@ -1,23 +1,25 @@
-class Psychologist {
+class Users {
+  final String username;
   final String firstname;
   final String lastname;
-  final String detail;
+  final String email;
   final String gender;
   final int age;
+  final DateTime birthday;
   final String phone;
-  final String hospital;
-  final String ratePerHours;
+  final String medicalCondition;
   final String imagePath;
 
-  Psychologist({
+  Users({
+    required this.username,
     required this.firstname,
     required this.lastname,
-    required this.detail,
+    required this.email,
     required this.gender,
     required this.age,
     required this.phone,
-    required this.hospital,
-    required this.ratePerHours,
+    required this.birthday,
+    required this.medicalCondition,
     required this.imagePath,
   });
 
@@ -26,26 +28,28 @@ class Psychologist {
     return {
       'firstname': firstname,
       'lastname': lastname,
-      'detail': detail,
+      'username': username,
       'gender': gender,
       'age': age,
       'phone': phone,
-      'hospital': hospital,
-      'rate_per_hours': ratePerHours,
+      'email': email,
+      'birthday': birthday,
+      'medical_condition': medicalCondition,
       'image_path': imagePath,
     };
   }
 
-  factory Psychologist.fromMap(Map<String, dynamic> map) {
-    return Psychologist(
+  factory Users.fromMap(Map<String, dynamic> map) {
+    return Users(
+      username: map['username'] ?? '',
       firstname: map['firstname'] ?? '',
       lastname: map['lastname'] ?? '',
-      detail: map['detail'] ?? '',
+      email: map['email'] ?? '',
       gender: map['gender'] ?? '',
       age: map['age'] ?? 0,
       phone: map['phone'] ?? '',
-      hospital: map['hospital'] ?? '',
-      ratePerHours: map['rate_per_hours'] ?? '',
+      birthday: map['birthday'] ?? DateTime.now(),
+      medicalCondition: map['medical_condition'] ?? '',
       imagePath: map['image_path'] ?? '',
     );
   }
