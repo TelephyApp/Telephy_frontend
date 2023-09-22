@@ -35,6 +35,21 @@ class UserService {
     }
   }
   
+  Future<Users?> getUserByUID(String uid) async {
+    try {
+      final DocumentSnapshot userDoc = await users.doc(uid).get();
+
+      if (userDoc.exists) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+        return Users.fromMap(userData);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      throw e;
+    }
+  }
 
   Future<List<DocumentSnapshot>> getOnlineUsers() async {
     CollectionReference usersRef =
