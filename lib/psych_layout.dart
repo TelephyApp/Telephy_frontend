@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:telephy/pages/message/index.dart';
-import 'package:telephy/routes/names.dart';
 import 'package:telephy/screens/Psych/home_screen.dart';
 import 'package:telephy/screens/Psych/profile_screen.dart';
-import 'package:telephy/screens/Psych/timesystem_screen.dart';
+import 'package:telephy/screens/Psych/time_slot_screen.dart';
 import 'package:telephy/utils/config.dart';
 
 class PsychLayout extends StatefulWidget {
@@ -44,7 +42,7 @@ class _PsychLayoutState extends State<PsychLayout> {
         onPageChanged: onPageChanged,
         children: const [
           HomeScreen(),
-          TimeSystemScreen(),
+          TimeSlotScreen(),
           MessageScreen(),
           ProfileScreen(),
         ],
