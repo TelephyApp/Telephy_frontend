@@ -33,7 +33,7 @@ class ChatService extends ChangeNotifier {
     await _fireStore
         .collection("chat_rooms")
         .doc(chatRoomId)
-        .collection("message")
+        .collection("messages")
         .add(newMessage.toMap());
   }
 
@@ -47,8 +47,8 @@ class ChatService extends ChangeNotifier {
     return _fireStore
         .collection('chat_rooms')
         .doc(chatRoomId)
-        .collection('messages ')
-        .orderBy('timestamp', descending: false)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
         .snapshots();
   }
 }
