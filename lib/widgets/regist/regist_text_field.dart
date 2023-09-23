@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RegistTextField extends StatefulWidget {
+class RegistTextField extends StatelessWidget {
   const RegistTextField(
       {super.key,
       required this.title,
@@ -8,20 +8,18 @@ class RegistTextField extends StatefulWidget {
       required this.type,
       required this.tfController,
       this.suffixIcon,
-      this.isPassword});
+      this.isPassword,
+      this.validators});
 
+  final String? Function(String?)? validators;
   final String title;
   final String hintText;
   final IconData? suffixIcon;
   final TextEditingController tfController;
   final TextInputType type;
   final bool? isPassword;
+  // final Function(String)? validator;
 
-  @override
-  State<RegistTextField> createState() => _RegistTextFieldState();
-}
-
-class _RegistTextFieldState extends State<RegistTextField> {
   final boderInputStyle = const OutlineInputBorder(
     borderSide: BorderSide(
       style: BorderStyle.solid,
@@ -35,7 +33,7 @@ class _RegistTextFieldState extends State<RegistTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title,
+        Text(title,
             style: const TextStyle(
               fontSize: 18,
               color: Color(0xFF000000),
@@ -54,15 +52,22 @@ class _RegistTextFieldState extends State<RegistTextField> {
                   spreadRadius: -3,
                 )
               ]),
-          child: TextField(
-            obscureText: widget.isPassword != null ? true : false,
-            keyboardType: widget.type,
+          child: TextFormField(
+            validator: validators,
+            controller: tfController,
+            obscureText: isPassword != null ? true : false,
+            keyboardType: type,
             style: const TextStyle(
               color: Colors.black,
             ),
             decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              hintText: widget.hintText,
+              // errorBorder: boderInputStyle,
+              // focusedErrorBorder: OutlineInputBorder(
+
+              // ),
+              errorStyle: const TextStyle(fontSize: 16),
+              // floatingLabelBehavior: FloatingLabelBehavior.never,
+              hintText: hintText,
               hintStyle: const TextStyle(
                 color: Colors.grey,
                 fontSize: 16,
@@ -72,7 +77,7 @@ class _RegistTextFieldState extends State<RegistTextField> {
               focusedBorder: boderInputStyle,
               enabledBorder: boderInputStyle,
               contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              suffixIcon: Icon(widget.suffixIcon),
+              suffixIcon: Icon(suffixIcon),
             ),
           ),
         ),
