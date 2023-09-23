@@ -14,13 +14,16 @@ class ChatService extends ChangeNotifier {
     final String currentUserId = _firebaseAuth.currentUser!.uid;
     final String currentUserEmail = _firebaseAuth.currentUser!.email.toString();
     final Timestamp timestamp = Timestamp.now();
-    //create a new message
+    final String type = "normal_message";
+    final String callTime = ""; //create a new message
     Message newMessage = Message(
       senderId: currentUserId,
       senderEmail: currentUserEmail,
       recieverId: recieverId,
       message: message,
       timestamp: timestamp,
+      type: type,
+      callTime: callTime,
     );
     //construct chat room id from current user id and reciever id
     List<String> ids = [currentUserId, recieverId];
