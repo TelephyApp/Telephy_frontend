@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/services/chat_service.dart';
+import 'package:telephy/utils/call_utilities.dart';
 import 'package:telephy/utils/config.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -175,6 +176,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // build message input
   Widget _buildMessageInput() {
+    User sender = 
+    User receiver = 
     return Row(
       children: [
         //text field
@@ -195,7 +198,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
         //send button
         IconButton(
-            onPressed: sendMessage,
+            // onPressed: sendMessage,
+            onPressed: () => CallUtils.dial(from: _firebaseAuth.currentUser, to: ),
             icon: SvgPicture.asset('assets/images/carbon_send-filled.svg'),
             iconSize: 20),
       ],
