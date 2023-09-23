@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/users.dart';
 import 'package:telephy/screens/login_screen.dart';
@@ -395,7 +396,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
                 } else {
                   // route back to login screen
-                  goToLoginPage(context);
+                  // goToLoginPage(context);
+                  Get.offNamed('/login');
                 }
               },
             ),
@@ -452,7 +454,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             User user = userCredential.user!;
                             await _userService.storeUserData(user, userData);
-                            
+                            Get.offNamed('/main-user'); 
                           } on FirebaseAuthException catch (e) {
                             // TODO: handle error
                             print(e);
