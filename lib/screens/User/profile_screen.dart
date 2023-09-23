@@ -18,7 +18,11 @@ class ProfileScreen extends StatelessWidget {
         )
       ]),
       body: Center(
-        child: Text("Profile"),
+        child: Column(
+          children: [
+            Text("Profile"),
+          ],
+        ),
       ),
     );
   }

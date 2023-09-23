@@ -48,9 +48,7 @@ class _UserLayoutState extends State<UserLayout> {
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-        ),
+        decoration: BoxDecoration(color: Colors.transparent),
         child: Container(
           height: 55,
           decoration: BoxDecoration(
