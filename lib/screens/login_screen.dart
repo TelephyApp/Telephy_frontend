@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:telephy/routes/names.dart';
 
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/user_layout.dart';
@@ -194,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             LoginButton(
               text: 'เข้าสู่ระบบ',
-              onTap: goToUser,
+              onTap: signUserIn,
             ),
             const SizedBox(height: 30),
             Row(
