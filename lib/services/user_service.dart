@@ -7,7 +7,7 @@ class UserService {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
-  Future<void> storeUserData(User user,Users createdUser) async {
+  Future<void> storeUserData(User user, Users createdUser) async {
     await users.doc(user.uid).set({
       'firstname': createdUser.firstname,
       'lastname': createdUser.lastname,
@@ -19,7 +19,6 @@ class UserService {
       'birthday': createdUser.email,
       'medical_condition': createdUser.medicalCondition,
       'image_path': user.photoURL
-
     });
   }
 
@@ -34,7 +33,7 @@ class UserService {
       return false;
     }
   }
-  
+
   Future<Users?> getUserByUID(String uid) async {
     try {
       final DocumentSnapshot userDoc = await users.doc(uid).get();

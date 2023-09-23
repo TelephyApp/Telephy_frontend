@@ -28,6 +28,15 @@ class RegistTextField extends StatelessWidget {
     borderRadius: BorderRadius.all(Radius.circular(30)),
   );
 
+  final errorBorderInputStyle = const OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.red,
+      style: BorderStyle.solid,
+      width: 1,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(30)),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,17 +50,17 @@ class RegistTextField extends StatelessWidget {
             )),
         // const SizedBox(height: 8),
         Container(
-          height: 40,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5,
-                  offset: Offset(0, 2),
-                  spreadRadius: -3,
-                )
-              ]),
+          // height: 50,
+          // decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(30),
+          //     boxShadow: const [
+          //       BoxShadow(
+          //         color: Colors.grey,
+          //         blurRadius: 5,
+          //         offset: Offset(0, 2),
+          //         spreadRadius: -3,
+          //       )
+          //     ]),
           child: TextFormField(
             validator: validators,
             controller: tfController,
@@ -61,11 +70,11 @@ class RegistTextField extends StatelessWidget {
               color: Colors.black,
             ),
             decoration: InputDecoration(
-              // errorBorder: boderInputStyle,
-              // focusedErrorBorder: OutlineInputBorder(
-
-              // ),
-              errorStyle: const TextStyle(fontSize: 16),
+              errorBorder: errorBorderInputStyle,
+              focusedErrorBorder: errorBorderInputStyle,
+              error: null,
+              // errorText: null,
+              // errorStyle: const TextStyle(fontSize: 0),
               // floatingLabelBehavior: FloatingLabelBehavior.never,
               hintText: hintText,
               hintStyle: const TextStyle(

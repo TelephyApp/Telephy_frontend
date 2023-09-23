@@ -1,8 +1,12 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/model/users.dart';
 import 'package:telephy/screens/login_screen.dart';
+import 'package:telephy/services/user_service.dart';
 import 'package:telephy/widgets/regist/register_final.dart';
 import 'package:telephy/widgets/regist/regist_app_bar.dart';
 import 'package:telephy/widgets/regist/regist_bt.dart';
@@ -22,6 +26,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     GlobalKey<FormState>(),
     GlobalKey<FormState>()
   ];
+
+  //firebase
+  final _userService = UserService();
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  late final Users userData;
 
   // controllers
   final username = TextEditingController();
@@ -47,6 +56,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     borderRadius: BorderRadius.all(Radius.circular(30)),
   );
 
+  final errorBorderInputStyle = const OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.red,
+      style: BorderStyle.solid,
+      width: 1,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(30)),
+  );
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    username.dispose();
+    password.dispose();
+    cfPassword.dispose();
+    firstName.dispose();
+    lastName.dispose();
+    birthDate.dispose();
+    email.dispose();
+    gender.dispose();
+    phoneNum.dispose();
+    medicalConditional.dispose();
+
+    super.dispose();
+  }
+
   Widget genderDropDown({required controller, required textFieldDecoration}) {
     return DropDownTextField(
       controller: controller,
@@ -55,8 +90,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // dropdownColor: Colors.green,
       textFieldDecoration: textFieldDecoration,
       validator: (value) {
-        if (value == null) {
-          return "Required field";
+        if (value == "") {
+          return "โปรดระบุเพศ";
         } else {
           return null;
         }
@@ -162,18 +197,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: TextStyle(fontSize: 18),
                   ),
                   Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                            offset: Offset(0, 2),
-                            spreadRadius: -3,
-                          )
-                        ]),
-                    child: TextField(
+                    // height: 40,
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(30),
+                    //     boxShadow: const [
+                    //       BoxShadow(
+                    //         color: Colors.black,
+                    //         blurRadius: 5,
+                    //         offset: Offset(0, 2),
+                    //         spreadRadius: -3,
+                    //       )
+                    //     ]),
+                    child: TextFormField(
+                      validator:
+                          RequiredValidator(errorText: "โปรดระบุวันเกิด"),
                       readOnly: true,
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                       controller: birthDate,
@@ -187,6 +224,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ), // Style for hint text
                         focusedBorder: inputBorder,
                         enabledBorder: inputBorder,
+                        errorBorder: errorBorderInputStyle,
+                        focusedErrorBorder: errorBorderInputStyle,
                         suffixIcon: const Icon(Icons.calendar_today_rounded),
                         suffixIconColor: const Color.fromRGBO(210, 172, 255, 1),
                         contentPadding:
@@ -239,22 +278,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Container(
-                  height: 40,
+                  // height: 40,
                   width: 125,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                          spreadRadius: -3,
-                        )
-                      ]),
+                  // decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(30),
+                  //     boxShadow: const [
+                  //       BoxShadow(
+                  //         color: Colors.black,
+                  //         blurRadius: 5,
+                  //         offset: Offset(0, 2),
+                  //         spreadRadius: -3,
+                  //       )
+                  //     ]),
                   child: genderDropDown(
                     controller: gender,
                     textFieldDecoration: InputDecoration(
-                      hintText: "gender",
+                      hintText: "เพศ",
                       hintStyle: const TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
@@ -263,6 +302,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fillColor: Colors.white,
                       focusedBorder: inputBorder,
                       enabledBorder: inputBorder,
+                      errorBorder: errorBorderInputStyle,
+                      focusedErrorBorder: errorBorderInputStyle,
+                      // errorMaxLines: 1,
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
                     ),
                   ),
                 ),
@@ -279,7 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           type: TextInputType.emailAddress,
           tfController: email,
           validators: MultiValidator([
-            RequiredValidator(errorText: "กรุณาป้อนอีเมลด้วยครับ"),
+            RequiredValidator(errorText: "โปรดระบุอีเมล"),
             EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
           ]),
         ),
@@ -298,7 +342,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         RegistTextField(
           title: "เงื่อนไขทางการแพทย์",
-          hintText: "โรคประจำตัว ยาที่แพ้ เป็นต้น",
+          hintText: "โรคประจำตัว ยาที่แพ้ เป็นต้น (หากมี)",
           type: TextInputType.text,
           tfController: medicalConditional,
         ),
@@ -329,53 +373,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: RegisterAppBar(
-        title: _currentStep == 0
-            ? "ลงทะเบียน"
-            : _currentStep == 1
-                ? "ประวัติส่วนตัว"
-                : "เสร็จสิ้น",
-        onPressed: () {
-          if (_currentStep > 0) {
-            setState(() {
-              _currentStep--;
-            });
-          } else {
-            // route back to login screen
-            goToLoginPage(context);
+    return FutureBuilder(
+        future: firebase,
+        builder: ((context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           }
-        },
-      ),
-      body: Stepper(
-          elevation: 0,
-          connectorThickness: 4,
-          connectorColor:
-              const MaterialStatePropertyAll(Color.fromRGBO(210, 172, 255, 1)),
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          steps: getSteps(),
-          onStepTapped: (int newStep) {
-            setState(() {
-              _currentStep = newStep;
-            });
-          },
-          controlsBuilder: (BuildContext context, ControlsDetails details) {
-            return Center(
-              child: RegistBT(
-                titleBT: _currentStep < 2 ? 'ถัดไป' : 'เสร็จสิ้น',
-                onPressed: () {
+          return Scaffold(
+            appBar: RegisterAppBar(
+              title: _currentStep == 0
+                  ? "ลงทะเบียน"
+                  : _currentStep == 1
+                      ? "ประวัติส่วนตัว"
+                      : "เสร็จสิ้น",
+              onPressed: () {
+                if (_currentStep > 0) {
                   setState(() {
-                    if (formKeys[_currentStep].currentState!.validate()) {
-                      if (_currentStep < 2) {
-                        _currentStep++;
-                      } else {}
-                    }
+                    _currentStep--;
+                  });
+                } else {
+                  // route back to login screen
+                  goToLoginPage(context);
+                }
+              },
+            ),
+            body: Stepper(
+                elevation: 0,
+                connectorThickness: 4,
+                connectorColor: const MaterialStatePropertyAll(
+                    Color.fromRGBO(210, 172, 255, 1)),
+                type: StepperType.horizontal,
+                currentStep: _currentStep,
+                steps: getSteps(),
+                onStepTapped: (int newStep) {
+                  setState(() {
+                    _currentStep = newStep;
                   });
                 },
-              ),
-            );
-          }),
-    );
+                controlsBuilder:
+                    (BuildContext context, ControlsDetails details) {
+                  return Center(
+                    child: RegistBT(
+                      titleBT: _currentStep < 2 ? 'ถัดไป' : 'เสร็จสิ้น',
+                      onPressed: () async {
+                        if (_currentStep < 2 &&
+                            formKeys[_currentStep].currentState!.validate()) {
+                          setState(() {
+                            _currentStep++;
+                          });
+                        } else if (_currentStep == 2 &&
+                            formKeys[0].currentState!.validate() &&
+                            formKeys[1].currentState!.validate()) {
+                          DateTime birthday =
+                              DateFormat("dd/mm/yyyy").parse(birthDate.text);
+                          int age =
+                              ((DateTime.now().difference(birthday).inDays) /
+                                      365)
+                                  .floor();
+
+                          userData = Users(
+                              username: username.text,
+                              firstname: firstName.text,
+                              lastname: lastName.text,
+                              email: email.text,
+                              gender: gender.dropDownValue.toString(),
+                              age: age,
+                              phone: phoneNum.text,
+                              birthday: birthday,
+                              imagePath: "");
+
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .createUserWithEmailAndPassword(
+                                    email: email.text, password: password.text);
+
+                            User user = userCredential.user!;
+                            await _userService.storeUserData(user, userData);
+                            
+                          } on FirebaseAuthException catch (e) {
+                            // TODO: handle error
+                            print(e);
+                          }
+                        }
+                      },
+                    ),
+                  );
+                }),
+          );
+        }));
   }
 }
