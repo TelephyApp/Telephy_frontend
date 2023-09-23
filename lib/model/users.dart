@@ -7,8 +7,8 @@ class Users {
   final int age;
   final DateTime birthday;
   final String phone;
-  final String medicalCondition;
-  final String imagePath;
+  final String? medicalCondition;
+  final String? imagePath;
 
   Users({
     required this.username,
@@ -19,8 +19,8 @@ class Users {
     required this.age,
     required this.phone,
     required this.birthday,
-    required this.medicalCondition,
-    required this.imagePath,
+    this.medicalCondition,
+    this.imagePath,
   });
 
   //convert to a map
