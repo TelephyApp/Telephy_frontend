@@ -22,5 +22,41 @@ class PsychologistService {
     });
   }
 
+  Future<List<Psychologist>> getAllPsychologists() async {
+    final querySnapshot = await psychologists.get();
+    return querySnapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return Psychologist(
+          firstname: doc['firstname'],
+          lastname: doc['lastname'],
+          detail: doc['detail'],
+          gender: doc['gender'],
+          age: doc['age'],
+          phone: doc['phone'],
+          hospital: doc['hospital'],
+          ratePerHours: doc['rate_per_hours'],
+          imagePath: doc['image_path']);
+    }).toList();
+  }
 
+  Future<Psychologist?> getPsychologistByFullName(String firstName, String lastName) async {
+  try {
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection('psychologists')
+        .where('firstname', isEqualTo: firstName)
+        .where('lastname', isEqualTo: lastName)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      final Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+      return Psychologist.fromMap(data);
+    } else {
+      // No matching doctor found
+      return null;
+    }
+  } catch (error) {
+    print('Error getting psychologist: $error');
+    return null;
+  }
+}
+  
 }
