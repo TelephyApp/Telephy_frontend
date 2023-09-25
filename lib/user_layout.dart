@@ -25,12 +25,29 @@ class _UserLayoutState extends State<UserLayout> {
   void onTap(int page) {
     setState(() {
       currentPage = page;
-      _pageController.animateToPage(
-        page,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
+      _pageController.jumpToPage(page);
+      // _pageController.animateToPage(
+      //   page,
+      //   duration: const Duration(milliseconds: 500),
+      //   curve: Curves.easeInOut,
+      // );
     });
+  }
+
+  final List<IconData> _outlineIcons = [
+    Icons.home_outlined,
+    FontAwesomeIcons.comment,
+    FontAwesomeIcons.user,
+  ];
+
+  final List<IconData> _filledIcons = [
+    Icons.home,
+    FontAwesomeIcons.solidComment,
+    FontAwesomeIcons.solidUser,
+  ];
+
+  Color getIconColor(int index) {
+    return currentPage == index ? Config.mainColor1 : Config.lighterToneColor;
   }
 
   @override
@@ -39,6 +56,7 @@ class _UserLayoutState extends State<UserLayout> {
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           UserHomeScreen(),
           MessagePage(
@@ -48,77 +66,57 @@ class _UserLayoutState extends State<UserLayout> {
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(color: Colors.transparent),
-        child: Container(
-          height: 55,
-          decoration: BoxDecoration(
-            color: Config.baseColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                spreadRadius: 0,
-                blurRadius: 10,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(30.0),
+        height: 55,
+        decoration: BoxDecoration(
+          color: Config.baseColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black38,
+              spreadRadius: 0,
+              blurRadius: 10,
+              offset: Offset(0, 2),
             ),
-            child: BottomAppBar(
-              shape: const CircularNotchedRectangle(),
-              notchMargin: 6.0,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.home_outlined,
-                        color: currentPage == 0
-                            ? Config.mainColor1
-                            // : Color.fromARGB(255, 235, 235, 235),
-                            : Config.lighterToneColor,
-                        size: 32,
-                      ),
-                      onPressed: () {
-                        if (currentPage != 0) {
-                          _pageController.jumpToPage(0);
-                        }
-                      },
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(30.0),
+          ),
+          child: BottomAppBar(
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      currentPage == 0 ? _filledIcons[0] : _outlineIcons[0],
+                      color: getIconColor(0),
+                      size: 32,
                     ),
-                    IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.comment,
-                        color: currentPage == 1
-                            ? Config.mainColor1
-                            // : Color.fromARGB(255, 235, 235, 235),
-                            : Config.lighterToneColor,
-                      ),
-                      onPressed: () {
-                        if (currentPage != 1) {
-                          _pageController.jumpToPage(1);
-                        }
-                      },
+                    onPressed: () {
+                      onTap(0);
+                    },
+                  ),
+                  IconButton(
+                    icon: FaIcon(
+                      currentPage == 1 ? _filledIcons[1] : _outlineIcons[1],
+                      color: getIconColor(1),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.user,
-                        color: currentPage == 2
-                            ? Config.mainColor1
-                            // : Color.fromARGB(255, 235, 235, 235),
-                            : Config.lighterToneColor,
-                      ),
-                      onPressed: () {
-                        if (currentPage != 2) {
-                          _pageController.jumpToPage(2);
-                        }
-                      },
+                    onPressed: () {
+                      onTap(1);
+                    },
+                  ),
+                  IconButton(
+                    icon: FaIcon(
+                      currentPage == 2 ? _filledIcons[2] : _outlineIcons[2],
+                      color: getIconColor(2),
                     ),
-                  ],
-                ),
+                    onPressed: () {
+                      onTap(1);
+                    },
+                  ),
+                ],
               ),
             ),
           ),
