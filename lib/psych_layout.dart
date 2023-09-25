@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telephy/pages/message/index.dart';
-import 'package:telephy/screens/Psych/home_screen.dart';
-import 'package:telephy/screens/Psych/profile_screen.dart';
-import 'package:telephy/screens/Psych/time_slot_screen.dart';
+import 'package:telephy/pages/message/message_page.dart';
+import 'package:telephy/screens/Psych/psych_home_screen.dart';
+import 'package:telephy/screens/User/profile_screen.dart';
+import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
+import 'package:telephy/screens/Psych/time_slot_screen.dart';
 
 class PsychLayout extends StatefulWidget {
   const PsychLayout({Key? key}) : super(key: key);
@@ -40,10 +41,12 @@ class _PsychLayoutState extends State<PsychLayout> {
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: const [
-          HomeScreen(),
+        children: [
+          PsychHomeScreen(),
           TimeSlotScreen(),
-          MessageScreen(),
+          MessagePage(
+            context: context,
+          ),
           ProfileScreen(),
         ],
       ),
@@ -51,7 +54,6 @@ class _PsychLayoutState extends State<PsychLayout> {
         height: 55,
         decoration: BoxDecoration(
           color: Config.baseColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black38,

@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:telephy/model/psychologist.dart';
+import 'package:telephy/screens/User/booking_screen.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
+import 'package:get/get.dart';
 
 class InfoAppointment extends StatelessWidget {
-  const InfoAppointment({super.key});
+  const InfoAppointment({required this.psychologist, super.key});
+  final Psychologist psychologist;
+
+  // if using MVC , move all of this to LoginController
+  //-----------------------------
+  void onAppoint() {
+    Get.to(
+      () => BookingScreen(
+        psychologist: psychologist,
+      ),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void toRegister() {}
+  //-----------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +36,7 @@ class InfoAppointment extends StatelessWidget {
             color: Config.darkerToneColor,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
         ),
         title: Text(
@@ -32,12 +51,15 @@ class InfoAppointment extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            PsychologistCard(
-              psychologistName: 'somchai',
-              workplace: 'F',
-              ratePerHour: '350',
-              setBorderCardBottomLeft: false,
-              setBorderCardBottomRight: false,
+            Padding(
+              padding: const EdgeInsets.only(top: 24, right: 24, left: 24),
+              child: PsychologistCard(
+                psychologistName: psychologist.firstname,
+                workplace: 'F',
+                ratePerHour: '350',
+                setBorderCardBottomLeft: false,
+                setBorderCardBottomRight: false,
+              ),
             ),
             Container(
               margin: EdgeInsets.only(
@@ -168,7 +190,7 @@ class InfoAppointment extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: onAppoint,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(

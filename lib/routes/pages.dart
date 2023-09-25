@@ -1,38 +1,31 @@
 import 'package:get/get.dart';
+import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
-import 'package:telephy/pages/message/chat/index.dart';
-import 'package:telephy/screens/login_screen.dart';
 import 'package:telephy/screens/register_screen.dart';
-import 'package:telephy/pages/message/index.dart';
 import '../screens/auth_screen.dart';
 
 import 'package:telephy/user_layout.dart';
 
 import 'package:telephy/screens/chat_history_screen.dart';
 
-
 class AppPages {
   static final List<GetPage> routes = [
     GetPage(
       name: '/main-user',
-      page: () => UserLayout(),
+      page: () => const UserLayout(),
     ),
     GetPage(
       name: '/main-psych',
-      page: () => PsychLayout(),
-    ),
-    GetPage(
-      name: '/message',
-      page: () => MessageScreen(),
-      binding: MessageBinding(),
+      page: () => const PsychLayout(),
     ),
     GetPage(
       name: '/chat',
-      page: () => ChatPage(),
+      page: () => ChatScreen(
+          reciverUserEmail: "asdjhkdujksa", reciverUserID: "dsadhjkaskd"),
     ),
     GetPage(
       name: '/register',
-      page: () => RegisterScreen(),
+      page: () => const RegisterScreen(),
     ),
     GetPage(
       name: '/login',
@@ -40,7 +33,7 @@ class AppPages {
     ),
     GetPage(
       name: '/chatHistory',
-      page: () => ChatHistory(),
+      page: () => const ChatHistory(),
     ),
   ];
 }

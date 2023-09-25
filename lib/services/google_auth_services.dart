@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthService {
@@ -20,6 +19,7 @@ class GoogleAuthService {
         final UserCredential authResult =
             await _auth.signInWithCredential(authCredential);
         final User? user = authResult.user;
+
         if (user != null) {
           return user;
         } else {
