@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/users.dart';
@@ -440,7 +441,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               firstname: firstName.text,
                               lastname: lastName.text,
                               email: email.text,
-                              gender: gender.dropDownValue.toString(),
+                              gender: gender.dropDownValue!.value,
                               age: age,
                               phone: phoneNum.text,
                               birthday: birthday,
@@ -454,10 +455,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             User user = userCredential.user!;
                             await _userService.storeUserData(user, userData);
-                            Get.offNamed('/main-user'); 
+
+                            // dispose();
+                            Get.offNamed('/main-user');
                           } on FirebaseAuthException catch (e) {
-                            // TODO: handle error
-                            print(e);
+                            print(e.code);
+                            String message;
+                            if (e.code == 'email-already-in-use') {
+                              message =
+                                  "มีอีเมลนี้ในระบบแล้วครับ โปรดใช้อีเมลอื่นแทน";
+                            } else if (e.code == 'weak-password') {
+                              message =
+                                  "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
+                            } else {
+                              message = e.message!;
+                            }
+                            Fluttertoast.showToast(
+                                msg: message, gravity: ToastGravity.CENTER);
                           }
                         }
                       },
