@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Appointment {
   final String userUid;
   final String psyUid;
-  final DateTime startTime;
+  final Timestamp startTime;
 
   Appointment({
     required this.userUid,
@@ -22,7 +24,7 @@ class Appointment {
     return Appointment(
       userUid: map['user_uid'] ?? '',
       psyUid: map['psy_uid'] ?? '',
-      startTime: map['start_time'] ?? DateTime.now(),
+      startTime: map['start_time'] ?? Timestamp.now(),
     );
   }
 }
