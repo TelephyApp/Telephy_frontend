@@ -55,7 +55,6 @@ class UserService {
         FirebaseFirestore.instance.collection('users');
     QuerySnapshot onlineUsersSnapshot =
         await usersRef.where('online', isEqualTo: true).get();
-
     return onlineUsersSnapshot.docs;
   }
 }

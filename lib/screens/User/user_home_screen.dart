@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/screens/User/info_appointment.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/card_appointment/detail_tile.dart';
 
@@ -13,36 +15,31 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
-  List<Map<String, String>> phychologists = [
-    {
-      "name": "มาลัง",
-      "detail": "หวี",
-    },
-    {
-      "name": "มาลี",
-      "detail": "ชอบลื้อ",
-    },
-    {
-      "name": "มาลัย",
-      "detail": "ขายไม่หมด",
-    }
-  ];
+  List<Psychologist> phychologists = [];
 
-  // if using MVC , move all of this to UserHomeController
-  //-----------------------------
-  // sign user in method
-  void onSelectedPhy(String name) {
+  //start page with fetching all psychologists
+  @override
+  void initState() {
+    super.initState();
+    fetchAllPsychologists();
+  }
+
+  //fetching all psychologists
+  void fetchAllPsychologists() async {
+    phychologists = await PsychologistService().getAllPsychologists();
+  }
+
+  //when click psychologist card 
+  void onSelectedPhy(Psychologist psychologist) {
     Get.to(
       () => InfoAppointment(
-        phychologistName: name,
+        psychologist: psychologist,
       ),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
 
-  void toRegister() {}
-  //-----------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,11 +123,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           height: 8,
                         ),
                         DetailTile(
-                          name: "${phychologists[index]['name']}",
-                          detail: "${phychologists[index]['detail']}",
+                          name: "${phychologists[index].firstname}",
+                          detail: "${phychologists[index].detail}",
                           onclick: () => {
                             onSelectedPhy(
-                                phychologists[index]['name'] as String)
+                                phychologists[index])
                           },
                         ),
                         SizedBox(
