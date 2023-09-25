@@ -34,6 +34,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   late final Users userData;
 
+  //var to check does email existed
+  String? emailError;
+
   // controllers
   final username = TextEditingController();
   final password = TextEditingController();
@@ -54,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     borderSide: BorderSide(
       style: BorderStyle.solid,
       width: 1,
+      color: Colors.black,
     ),
     borderRadius: BorderRadius.all(Radius.circular(30)),
   );
@@ -62,14 +66,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
     borderSide: BorderSide(
       color: Colors.red,
       style: BorderStyle.solid,
-      width: 1,
+      width: 0,
     ),
     borderRadius: BorderRadius.all(Radius.circular(30)),
   );
 
+  Future<void> validateEmail(String email) async {
+    bool result = await _userService.doesEmailExist(email);
+    if (result == true) {
+      setState(() {
+        emailError = "อีเมลถูกใช้งานแล้ว";
+      });
+    } else {
+      setState(() {
+        emailError = null;
+      });
+    }
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
     username.dispose();
     password.dispose();
     cfPassword.dispose();
@@ -82,6 +98,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     medicalConditional.dispose();
 
     super.dispose();
+  }
+
+  bool someAsyncFunction() {
+    // Your asynchronous code here
+
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      // Simulating an asynchronous operation
+      bool result = true; // Replace with your actual result
+      print(result);
+    });
+
+    return false; // You can return a default value if needed
   }
 
   Widget genderDropDown({required controller, required textFieldDecoration}) {
@@ -108,6 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  // }
   void goToLoginPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -136,7 +165,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           type: TextInputType.visiblePassword,
           tfController: password,
           isPassword: true,
-          validators: RequiredValidator(errorText: 'โปรดระบุรหัสผ่าน'),
+          validators: MultiValidator([
+            RequiredValidator(errorText: 'โปรดระบุรหัสผ่าน'),
+            MinLengthValidator(6,
+                errorText: 'รหัสผ่านต้องยาวอย่างน้อย 6 ตัวอักษร'),
+          ]),
         ),
         SizedBox(
           height: marginBtwTF,
@@ -324,10 +357,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: "E-mail",
           type: TextInputType.emailAddress,
           tfController: email,
-          validators: MultiValidator([
-            RequiredValidator(errorText: "โปรดระบุอีเมล"),
-            EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
-          ]),
+          validators: (value) {
+            if (value == "") {
+              return ("โปรดระบุอีเมล");
+            } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                .hasMatch(value!)) {
+              return ("โปรดระบุรูปแบบอีเมลให้ถูกต้อง");
+            } else if (emailError != null) {
+              return emailError;
+            } else {
+              return null;
+            }
+          },
         ),
         SizedBox(
           height: marginBtwTF,
@@ -337,7 +378,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: "Phone Number",
           type: TextInputType.phone,
           tfController: phoneNum,
-          validators: RequiredValidator(errorText: 'โปรดระบุหมายเลขโทรศัพท์'),
+          validators: (value) {
+            if (value == "") {
+              return "โปรดระบุหมายเลขโทรศัพท์";
+            } else if (!value!.isNum) {
+              return "ต้องเป็นหมายเลขเท่านั้น";
+            } else if (value.length > 10 || value.length < 10) {
+              return "หมายเลขโทรศัพท์ต้องมีความยาว 10 หลัก";
+            } else {
+              return null;
+            }
+          },
         ),
         SizedBox(
           height: marginBtwTF,
@@ -421,6 +472,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: RegistBT(
                       titleBT: _currentStep < 2 ? 'ถัดไป' : 'เสร็จสิ้น',
                       onPressed: () async {
+                        if (_currentStep == 1) {
+                          // await Future.delayed(Duration(seconds: 1), () async {
+                          //   await validateEmail(email.text);
+                          // });
+                          await validateEmail(email.text);
+                        }
+
                         if (_currentStep < 2 &&
                             formKeys[_currentStep].currentState!.validate()) {
                           setState(() {
@@ -444,7 +502,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               gender: gender.dropDownValue!.value,
                               age: age,
                               phone: phoneNum.text,
-                              birthday: birthday,
+                              birthday: birthDate.text,
                               imagePath: "");
 
                           try {
@@ -456,22 +514,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             User user = userCredential.user!;
                             await _userService.storeUserData(user, userData);
 
-                            // dispose();
+                            dispose();
                             Get.offNamed('/main-user');
                           } on FirebaseAuthException catch (e) {
-                            print(e.code);
-                            String message;
-                            if (e.code == 'email-already-in-use') {
-                              message =
-                                  "มีอีเมลนี้ในระบบแล้วครับ โปรดใช้อีเมลอื่นแทน";
-                            } else if (e.code == 'weak-password') {
-                              message =
-                                  "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
-                            } else {
-                              message = e.message!;
-                            }
-                            Fluttertoast.showToast(
-                                msg: message, gravity: ToastGravity.CENTER);
+                            // print(e.code);
+                            // String message;
+                            // if (e.code == 'email-already-in-use') {
+                            //   message =
+                            //       "มีอีเมลนี้ในระบบแล้วครับ โปรดใช้อีเมลอื่นแทน";
+                            // } else if (e.code == 'weak-password') {
+                            //   message =
+                            //       "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
+                            // } else {
+                            //   message = e.message!;
+                            // }
+                            // Fluttertoast.showToast(
+                            //     msg: message, gravity: ToastGravity.CENTER);
                           }
                         }
                       },
