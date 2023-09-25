@@ -63,8 +63,9 @@ class _UserLayoutState extends State<UserLayout> {
             ],
           ),
           child: ClipRRect(
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(30.0)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(30.0),
+            ),
             child: BottomAppBar(
               shape: const CircularNotchedRectangle(),
               notchMargin: 6.0,
@@ -74,30 +75,46 @@ class _UserLayoutState extends State<UserLayout> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.home,
-                        color: Config.mainColor1,
+                      icon: Icon(
+                        Icons.home_outlined,
+                        color: currentPage == 0
+                            ? Config.mainColor1
+                            // : Color.fromARGB(255, 235, 235, 235),
+                            : Config.lighterToneColor,
+                        size: 32,
                       ),
                       onPressed: () {
-                        onTap(0);
+                        if (currentPage != 0) {
+                          _pageController.jumpToPage(0);
+                        }
                       },
                     ),
                     IconButton(
-                      icon: const FaIcon(
+                      icon: FaIcon(
                         FontAwesomeIcons.comment,
-                        color: Config.mainColor1,
+                        color: currentPage == 1
+                            ? Config.mainColor1
+                            // : Color.fromARGB(255, 235, 235, 235),
+                            : Config.lighterToneColor,
                       ),
                       onPressed: () {
-                        onTap(1);
+                        if (currentPage != 1) {
+                          _pageController.jumpToPage(1);
+                        }
                       },
                     ),
                     IconButton(
-                      icon: const FaIcon(
+                      icon: Icon(
                         FontAwesomeIcons.user,
-                        color: Config.mainColor1,
+                        color: currentPage == 2
+                            ? Config.mainColor1
+                            // : Color.fromARGB(255, 235, 235, 235),
+                            : Config.lighterToneColor,
                       ),
                       onPressed: () {
-                        onTap(2);
+                        if (currentPage != 2) {
+                          _pageController.jumpToPage(2);
+                        }
                       },
                     ),
                   ],
