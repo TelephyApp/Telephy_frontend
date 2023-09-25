@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -108,13 +108,13 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 100),
-                  Icon(
+                  const Icon(
                     Icons.person_add,
                     size: 100,
                     color: Colors.white,
                   ),
                   const SizedBox(height: 25),
-                  Text(
+                  const Text(
                     'เข้าสู่ระบบ',
                     style: TextStyle(
                       color: Colors.black,
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Column(
@@ -150,11 +150,11 @@ class _LoginPageState extends State<LoginPage> {
                               enabledBorder: boderInputStyle,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              prefixIcon: Icon(Icons.email),
+                              prefixIcon: const Icon(Icons.email),
                               prefixIconColor: Colors.black),
                         ),
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       SizedBox(
                         height: 45,
                         width: 250,
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                               enabledBorder: boderInputStyle,
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              prefixIcon: Icon(Icons.lock_rounded),
+                              prefixIcon: const Icon(Icons.lock_rounded),
                               prefixIconColor: Colors.black),
                         ),
                       ),
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             LoginButton(
@@ -208,11 +208,11 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('ยังไม่มีบัญชีผู้ใช้?'),
+                const Text('ยังไม่มีบัญชีผู้ใช้?'),
                 const SizedBox(width: 4),
                 GestureDetector(
                   onTap: onTap_reg,
-                  child: Text(
+                  child: const Text(
                     'ลงทะเบียน',
                     style: TextStyle(
                       decoration: TextDecoration.underline,
