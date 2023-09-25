@@ -22,5 +22,21 @@ class PsychologistService {
     });
   }
 
+  Future<Psychologist?> getPsyByUID(String uid) async {
+    try {
+      final DocumentSnapshot psyDoc = await psychologists.doc(uid).get();
+
+      if (psyDoc.exists) {
+        final userData = psyDoc.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(userData);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      throw e;
+    }
+  }
+
 
 }
