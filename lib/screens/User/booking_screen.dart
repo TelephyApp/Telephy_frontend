@@ -1,17 +1,18 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/screens/User/confirmBooking_screen.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 import 'package:telephy/widgets/timeSlot.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({required this.phychologistName, super.key});
-  final String phychologistName;
+  const BookingScreen({required this.psychologist, super.key});
+  final Psychologist psychologist;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
@@ -24,14 +25,15 @@ class _BookingScreenState extends State<BookingScreen> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
-  List<Timeslot> selectedDayTimeSlots = [];
+  List<Timeslot> _selectedDayTimeSlots = [];
   List<Timeslot> timeslots = [];
+  Psychologist? psychologist;
 
   @override
   void initState() {
     super.initState();
     fetchAllTimeslots();
-    selectedDayTimeSlots = timeslots.where((timeSlot) {
+    _selectedDayTimeSlots = timeslots.where((timeSlot) {
       return timeSlot.startTime.year == DateTime.now().year &&
           timeSlot.startTime.month == DateTime.now().month &&
           timeSlot.startTime.day == DateTime.now().day;
@@ -78,7 +80,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: PsychologistCard(
-                      psychologistName: widget.phychologistName,
+                      psychologistName: widget.psychologist.firstname,
                       workplace: "ลาดบัง",
                       ratePerHour: "4000",
                       // imagePath: "assets/images/erum.png",
@@ -148,7 +150,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                           mainAxisSpacing:
                                               8.0, // Add vertical spacing between items
                                           childAspectRatio: (1 / .4)),
-                                  itemCount: selectedDayTimeSlots.length,
+                                  itemCount: _selectedDayTimeSlots.length,
                                   shrinkWrap: true,
                                   physics:
                                       NeverScrollableScrollPhysics(), // Disable scrolling for the GridView
@@ -177,7 +179,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                             ),
                                           ),
                                           child: Text(
-                                            '${selectedDayTimeSlots[index].startTime.toString()}',
+                                            '${_selectedDayTimeSlots[index].startTime.toString()}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: _currentIndex == index
@@ -216,7 +218,17 @@ class _BookingScreenState extends State<BookingScreen> {
                                   ),
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.to(
+                                      () => confirmBookingScreen(
+                                        psychologist: widget.psychologist,
+                                        timeslot: _selectedDayTimeSlots[_currentIndex!],
+                                      ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
@@ -287,6 +299,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 timeSlot.startTime.month == selectedDay.month &&
                 timeSlot.startTime.day == selectedDay.day;
           }).toList();
+          _selectedDayTimeSlots = selectedDayTimeSlots;
           _currentDay = selectedDay;
           _focusDay = focusedDay;
           _dateSelected = true;
