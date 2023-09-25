@@ -34,9 +34,9 @@ class _BookingScreenState extends State<BookingScreen> {
     super.initState();
     fetchAllTimeslots();
     _selectedDayTimeSlots = timeslots.where((timeSlot) {
-      return timeSlot.startTime.year == DateTime.now().year &&
-          timeSlot.startTime.month == DateTime.now().month &&
-          timeSlot.startTime.day == DateTime.now().day;
+      return timeSlot.startTime.toDate().year == DateTime.now().year &&
+          timeSlot.startTime.toDate().month == DateTime.now().month &&
+          timeSlot.startTime.toDate().day == DateTime.now().day;
     }).toList();
   }
 
@@ -295,9 +295,9 @@ class _BookingScreenState extends State<BookingScreen> {
         setState(() {
           List<Timeslot> selectedDayTimeSlots = timeslots.where((timeSlot) {
             // Check if the start time of the time slot matches the selected date
-            return timeSlot.startTime.year == selectedDay.year &&
-                timeSlot.startTime.month == selectedDay.month &&
-                timeSlot.startTime.day == selectedDay.day;
+            return timeSlot.startTime.toDate().year == selectedDay.year &&
+                timeSlot.startTime.toDate().month == selectedDay.month &&
+                timeSlot.startTime.toDate().day == selectedDay.day;
           }).toList();
           _selectedDayTimeSlots = selectedDayTimeSlots;
           _currentDay = selectedDay;
