@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telephy/model/users.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/widgets/chat/button_message.dart';
+import 'package:telephy/services/user_service.dart';
 
 class MessagePage extends StatelessWidget {
   MessagePage({Key? key, required this.context}) : super(key: key);
@@ -15,8 +17,11 @@ class MessagePage extends StatelessWidget {
   }
 
   Widget _buildUserList() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('user').snapshots(),
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .snapshots(),
         builder: ((context, snapshot) {
           if (snapshot.hasError) {
             return const Text('error');
@@ -26,34 +31,52 @@ class MessagePage extends StatelessWidget {
             return const Text('loading...');
           }
           return ListView(
-            children: snapshot.data!.docs
+            children: snapshot.data!
+                .get("chat_rooms_id")
                 .map((doc) => _buildUserListItem(doc))
                 .toList(),
           );
         }));
   }
 
-  Widget _buildUserListItem(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+  Widget _buildUserListItem(String chatRoomId) {
+    DocumentSnapshot<Map<String, dynamic>>? docSnap;
+
+    void getDocSnap() async {
+      docSnap = await FirebaseFirestore.instance
+          .collection('chat_rooms')
+          .doc(chatRoomId)
+          .get();
+    }
+
+    getDocSnap();
+
+    final data = docSnap!.data() as Map<String, dynamic>;
+
+    final recieverId =
+        data['user'] == _auth.currentUser!.uid ? data['pys'] : data['user'];
+
+    final Users user = UserService().getUserByUID(recieverId) as Users;
 
     //display all users except current user
-    if (_auth.currentUser!.email != data['email']) {
-      // if (data['email']) {
-      return GestureDetector(
-        child: Text(data['email']),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                        reciverUserEmail: data['email'],
-                        reciverUserID: data['uid'],
-                      )));
-        },
-      );
-    } else {
-      return Text("no data");
-    }
+    // if (data['email']) {
+    return GestureDetector(
+      child: Row(
+        children: [
+          Text(user.email),
+          Text(recieverId),
+        ],
+      ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatScreen(
+                      reciverUserEmail: user.email,
+                      reciverUserID: recieverId,
+                    )));
+      },
+    );
   }
 
   @override
@@ -68,7 +91,5 @@ class MessagePage extends StatelessWidget {
           ToggleButton(),
           Expanded(child: _buildUserList())
         ]));
-
-    // return _buildUserList();
   }
 }
