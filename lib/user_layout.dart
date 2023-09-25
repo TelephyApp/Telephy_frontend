@@ -53,7 +53,6 @@ class _UserLayoutState extends State<UserLayout> {
           height: 55,
           decoration: BoxDecoration(
             color: Config.baseColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black38,
