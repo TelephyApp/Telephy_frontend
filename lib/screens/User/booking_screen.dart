@@ -1,22 +1,20 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:telephy/model/psychologist.dart';
+import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/screens/User/confirmBooking_screen.dart';
+import 'package:telephy/services/psychologist_service.dart';
+import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
+import 'package:telephy/widgets/timeSlot.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({required this.phychologistName, super.key});
-  final String phychologistName;
+  const BookingScreen({required this.psychologist, super.key});
+  final Psychologist psychologist;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
-}
-
-class TimeSlot {
-  const TimeSlot(this.timeString, this.isAvailable);
-  final String timeString;
-  final bool isAvailable;
 }
 
 class _BookingScreenState extends State<BookingScreen> {
@@ -27,16 +25,27 @@ class _BookingScreenState extends State<BookingScreen> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
+  List<Timeslot> _selectedDayTimeSlots = [];
+  List<Timeslot> timeslots = [];
+  Psychologist? psychologist;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllTimeslots();
+    _selectedDayTimeSlots = timeslots.where((timeSlot) {
+      return timeSlot.startTime.year == DateTime.now().year &&
+          timeSlot.startTime.month == DateTime.now().month &&
+          timeSlot.startTime.day == DateTime.now().day;
+    }).toList();
+  }
+
+  void fetchAllTimeslots() async {
+    timeslots = await TimeslotService().getAllTimeSlots();
+  }
 
   @override
   Widget build(BuildContext context) {
-    const List<TimeSlot> timeSlots = [
-      TimeSlot("19.00", true),
-      TimeSlot("20.00", true),
-      TimeSlot("21.00", false),
-      TimeSlot("22.00", true),
-      TimeSlot("23.00", true),
-    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -71,7 +80,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: PsychologistCard(
-                      psychologistName: widget.phychologistName,
+                      psychologistName: widget.psychologist.firstname,
                       workplace: "ลาดบัง",
                       ratePerHour: "4000",
                       // imagePath: "assets/images/erum.png",
@@ -141,7 +150,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                           mainAxisSpacing:
                                               8.0, // Add vertical spacing between items
                                           childAspectRatio: (1 / .4)),
-                                  itemCount: timeSlots.length,
+                                  itemCount: _selectedDayTimeSlots.length,
                                   shrinkWrap: true,
                                   physics:
                                       NeverScrollableScrollPhysics(), // Disable scrolling for the GridView
@@ -150,10 +159,8 @@ class _BookingScreenState extends State<BookingScreen> {
                                       splashColor: Colors.transparent,
                                       onTap: () {
                                         setState(() {
-                                          if (timeSlots[index].isAvailable) {
-                                            _currentIndex = index;
-                                            _timeSelected = true;
-                                          }
+                                          _currentIndex = index;
+                                          _timeSelected = true;
                                         });
                                       },
                                       child: AspectRatio(
@@ -167,23 +174,17 @@ class _BookingScreenState extends State<BookingScreen> {
                                                 ? Config.mainColor1
                                                 : Config.lighterToneColor,
                                             border: Border.all(
-                                              color:
-                                                  !timeSlots[index].isAvailable
-                                                      ? Colors.black26
-                                                      : Config.darkerToneColor,
+                                              color: Colors.black26,
                                               width: 1.0,
                                             ),
                                           ),
                                           child: Text(
-                                            '${timeSlots[index].timeString}',
+                                            '${_selectedDayTimeSlots[index].startTime.toString()}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color:
-                                                  !timeSlots[index].isAvailable
-                                                      ? Colors.black38
-                                                      : _currentIndex == index
-                                                          ? Colors.white
-                                                          : Colors.black,
+                                              color: _currentIndex == index
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             ),
                                           ),
                                         ),
@@ -217,7 +218,17 @@ class _BookingScreenState extends State<BookingScreen> {
                                   ),
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.to(
+                                      () => confirmBookingScreen(
+                                        psychologist: widget.psychologist,
+                                        timeslot: _selectedDayTimeSlots[_currentIndex!],
+                                      ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
                                     shadowColor: Colors.transparent,
@@ -282,6 +293,13 @@ class _BookingScreenState extends State<BookingScreen> {
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
+          List<Timeslot> selectedDayTimeSlots = timeslots.where((timeSlot) {
+            // Check if the start time of the time slot matches the selected date
+            return timeSlot.startTime.year == selectedDay.year &&
+                timeSlot.startTime.month == selectedDay.month &&
+                timeSlot.startTime.day == selectedDay.day;
+          }).toList();
+          _selectedDayTimeSlots = selectedDayTimeSlots;
           _currentDay = selectedDay;
           _focusDay = focusedDay;
           _dateSelected = true;

@@ -65,7 +65,6 @@ class MessagePage extends StatelessWidget {
         color: const Color(0xFFDDDEFC), // Set the background color
         child: Column(children: [
           const SizedBox(height: 50),
-          Text("data"), // Space
           ToggleButton(),
           Expanded(child: _buildUserList())
         ]));

@@ -6,22 +6,41 @@ class Message {
   final String recieverId;
   final String message;
   final Timestamp timestamp;
+  final String type;
+  final String callTime;
 
-  Message(
-      {required this.senderId,
-      required this.senderEmail,
-      required this.recieverId,
-      required this.message,
-      required this.timestamp});
+  Message({
+    required this.senderId,
+    required this.senderEmail,
+    required this.recieverId,
+    required this.message,
+    required this.timestamp,
+    required this.type,
+    required this.callTime,
+  });
 
   //convert to a map
   Map<String, dynamic> toMap() {
     return {
-      'senderId': senderId,
-      'senderEmail': senderEmail,
-      'recieverId': recieverId,
+      'sender_id': senderId,
+      'sender_email': senderEmail,
+      'reciever_id': recieverId,
       'message': message,
       'timestamp': timestamp,
+      'type': type,
+      'call_time': callTime,
     };
+  }
+
+  factory Message.fromMap(Map<String, dynamic> map) {
+    return Message(
+      senderId: map['sender_id'] ?? '',
+      senderEmail: map['sender_email'] ?? '',
+      recieverId: map['reciever_id'] ?? '',
+      message: map['message'] ?? '',
+      timestamp: map['timestamp'] ?? '',
+      type: map['type'] ?? '',
+      callTime: map['call_time'] ?? '',
+    );
   }
 }
