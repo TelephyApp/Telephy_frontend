@@ -8,12 +8,12 @@
     Future<bool> makeCall({required Call call}) async {
       try {
         call.hasDialled = true;
-        Map<String, dynamic> hasDialledMap = call.toMap(call);
+        Map<String, dynamic> hasDialledMap = call.toMap();
 
         call.hasDialled = false;
-        Map<String, dynamic> hasNotDialledMap = call.toMap(call);
+        Map<String, dynamic> hasNotDialledMap = call.toMap();
 
-        await callCollection.doc(call.callerId).set(hasDialledMap);
+        await callCollection.doc(call.callerUId).set(hasDialledMap);
         await callCollection.doc(call.receiverId).set(hasNotDialledMap);
         return true;
       } catch (e) {
@@ -26,7 +26,7 @@
 
       try {
     
-        await callCollection.doc(call.callerId).delete();
+        await callCollection.doc(call.callerUId).delete();
         await callCollection.doc(call.receiverId).delete();
         return true;
       } catch (e) {

@@ -6,7 +6,7 @@ class Call {
   final String receiverName;
   final String receiverPic;
   final String channelId;
-  final bool hasDialled;
+  late bool hasDialled;
 
   Call({
     required this.callerUId,
