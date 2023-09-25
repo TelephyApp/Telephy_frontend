@@ -1,38 +1,40 @@
-  import 'package:cloud_firestore/cloud_firestore.dart';
-  import 'package:telephy/constants/strings.dart';
-  import 'package:telephy/model/call.dart';
+import 'dart:html';
 
-  class CallMethods {
-    final CollectionReference callCollection = FirebaseFirestore.instance.collection(CALL_COLLECTION);
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:telephy/constants/strings.dart';
+import 'package:telephy/model/call.dart';
 
-    Future<bool> makeCall({required Call call}) async {
-      try {
-        call.hasDialled = true;
-        Map<String, dynamic> hasDialledMap = call.toMap();
+class CallMethods {
+  final CollectionReference callCollection =
+      FirebaseFirestore.instance.collection(CALL_COLLECTION);
+  Stream<DocumentSnapshot> callStream({required String uid}) =>
+      callCollection.doc(uid).snapshots();
 
-        call.hasDialled = false;
-        Map<String, dynamic> hasNotDialledMap = call.toMap();
+  Future<bool> makeCall({required Call call}) async {
+    try {
+      call.hasDialled = true;
+      Map<String, dynamic> hasDialledMap = call.toMap();
 
-        await callCollection.doc(call.callerUId).set(hasDialledMap);
-        await callCollection.doc(call.receiverId).set(hasNotDialledMap);
-        return true;
-      } catch (e) {
-        print(e);
-        return false;
-      }
+      call.hasDialled = false;
+      Map<String, dynamic> hasNotDialledMap = call.toMap();
+
+      await callCollection.doc(call.callerUId).set(hasDialledMap);
+      await callCollection.doc(call.receiverId).set(hasNotDialledMap);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
-
-    Future<bool> endCall({required Call call}) async{
-
-      try {
-    
-        await callCollection.doc(call.callerUId).delete();
-        await callCollection.doc(call.receiverId).delete();
-        return true;
-      } catch (e) {
-        print(e);
-        return false;
-      }
-    }
-    
   }
+
+  Future<bool> endCall({required Call call}) async {
+    try {
+      await callCollection.doc(call.callerUId).delete();
+      await callCollection.doc(call.receiverId).delete();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+}
