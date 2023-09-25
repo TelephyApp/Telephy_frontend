@@ -28,7 +28,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
   }
 
   void onSelectedUser(Users users) {
-    //pop-up detail
+    //pop-up detail of user
   }
 
   @override
