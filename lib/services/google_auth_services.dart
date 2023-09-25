@@ -19,6 +19,7 @@ class GoogleAuthService {
         final UserCredential authResult =
             await _auth.signInWithCredential(authCredential);
         final User? user = authResult.user;
+
         if (user != null) {
           return user;
         } else {
