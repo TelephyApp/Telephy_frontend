@@ -15,10 +15,10 @@ class UserService {
       'gender': createdUser.gender,
       'age': createdUser.age,
       'phone': createdUser.phone,
-      'email': user.email,
+      'email': createdUser.birthday,
       'birthday': createdUser.email,
       'medical_condition': createdUser.medicalCondition,
-      'image_path': user.photoURL
+      'image_path': user.photoURL == "" ? "" : "./assets/images/user.png",
     });
   }
 

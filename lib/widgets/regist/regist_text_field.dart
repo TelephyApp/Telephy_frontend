@@ -9,7 +9,8 @@ class RegistTextField extends StatelessWidget {
       required this.tfController,
       this.suffixIcon,
       this.isPassword,
-      this.validators});
+      this.validators,
+      this.onChanged});
 
   final String? Function(String?)? validators;
   final String title;
@@ -18,6 +19,7 @@ class RegistTextField extends StatelessWidget {
   final TextEditingController tfController;
   final TextInputType type;
   final bool? isPassword;
+  final Function(String)? onChanged;
   // final Function(String)? validator;
 
   final boderInputStyle = const OutlineInputBorder(
@@ -62,6 +64,7 @@ class RegistTextField extends StatelessWidget {
           //       )
           //     ]),
           child: TextFormField(
+            onChanged: onChanged,
             validator: validators,
             controller: tfController,
             obscureText: isPassword != null ? true : false,
