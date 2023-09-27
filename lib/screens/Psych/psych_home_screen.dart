@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/users.dart';
 import 'package:telephy/services/user_service.dart';
@@ -17,16 +19,13 @@ class PsychHomeScreen extends StatefulWidget {
 
 class _PsychHomeScreenState extends State<PsychHomeScreen> {
   List<Users> users = [];
-
-  // Psychologist psychologist = Psychologist(
-  //   firstname: 'First',
-  //   lastname: 'Psychologist',
-  // );
+  String? loggedInPsychologistName;
 
   @override
   void initState() {
     super.initState();
     fetchUsersAppointment();
+    getLoggedInPsychologist();
   }
 
   void fetchUsersAppointment() async {
@@ -36,8 +35,18 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       setState(() {
         users.add(user);
       });
-    } else {
-      // null
+    }
+  }
+
+  void getLoggedInPsychologist() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final psychologistEmail = user.email;
+      if (psychologistEmail != null && psychologistEmail.endsWith('@kmitl.ac.th')) {
+        setState(() {
+          loggedInPsychologistName = user.displayName;
+        });
+      }
     }
   }
 
@@ -47,97 +56,99 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Config.baseColor,
-            Config.baseColor,
-            Color.fromRGBO(178, 221, 253, 0.2),
-            Color.fromRGBO(178, 180, 254, 0.2)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Config.baseColor,
+              Config.baseColor,
+              Color.fromRGBO(178, 221, 253, 0.2),
+              Color.fromRGBO(178, 180, 254, 0.2)
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 64,
-          left: 32,
-          right: 32,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'สวัสดีตอนบ่าย!\nDr.barbie',
-                    style: TextStyle(
-                      color: Config.darkerToneColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Icon(
-                    Icons.image,
-                    color: Colors.grey[400],
-                    size: 64,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 30),
-            if (users.isNotEmpty)
-              UpcomingCard(
-                name: '${users[0].firstname} ${users[0].lastname}',
-                detail: 'konnichiwa, watashino namaewa',
-                dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
-              )
-            else
-              Text('get some rest'),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'การนัดหมายทั้งหมด',
-                    style: TextStyle(
-                      color: Config.darkerToneColor,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Icon(Icons.sort),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 20),
-                      DetailTile(
-                        name: "${users[index].firstname}",
-                        detail: "${users[index].runtimeType}",
-                        onclick: () => {onSelectedUser(users[index])},
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 64,
+            left: 32,
+            right: 32,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'สวัสดีตอนบ่าย!\n$loggedInPsychologistName', // Display the psychologist's name
+                      style: TextStyle(
+                        color: Config.darkerToneColor,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(height: 20),
-                    ],
-                  );
-                },
+                    ),
+                    Icon(
+                      Icons.image,
+                      color: Colors.grey[400],
+                      size: 64,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 30),
+              if (users.isNotEmpty)
+                UpcomingCard(
+                  name: '${users[0].firstname} ${users[0].lastname}',
+                  detail: 'konnichiwa, watashino namaewa',
+                  dateTime: '12 ส.ค. 2023, 8:00 - 9:00',
+                )
+              else
+                Text('get some rest'),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'การนัดหมายทั้งหมด',
+                      style: TextStyle(
+                        color: Config.darkerToneColor,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Icon(Icons.sort),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 20),
+                        DetailTile(
+                          name: "${users[index].firstname}",
+                          detail: "${users[index].runtimeType}",
+                          onclick: () => {onSelectedUser(users[index])},
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
