@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'register-google',
+      initialRoute: 'login',
       getPages: AppPages.routes,
     );
   }
