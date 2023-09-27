@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/booking_screen.dart';
 import 'package:telephy/services/timeslot_service.dart';
+import 'package:telephy/services/user_service.dart';
 
 class AppointmentService {
   final CollectionReference appointments =
@@ -21,8 +22,4 @@ class AppointmentService {
     final timeslotService = TimeslotService();
     await timeslotService.deleteTimeslot(timeslot.id);
   }
-
-  
-
-  
 }

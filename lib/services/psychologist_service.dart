@@ -39,24 +39,44 @@ class PsychologistService {
     }).toList();
   }
 
-  Future<Psychologist?> getPsychologistByFullName(String firstName, String lastName) async {
-  try {
-    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-        .collection('psychologists')
-        .where('firstname', isEqualTo: firstName)
-        .where('lastname', isEqualTo: lastName)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      final Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
-      return Psychologist.fromMap(data);
-    } else {
-      // No matching doctor found
+  Future<Psychologist?> getPsychologistByUID(String uid) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> doc = (await psychologists
+          .doc(uid)
+          .get()) as DocumentSnapshot<Map<String, dynamic>>;
+
+      if (doc.exists) {
+        final Map<String, dynamic> data = doc.data()!;
+        return Psychologist.fromMap(data);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist by UID: $error');
       return null;
     }
-  } catch (error) {
-    print('Error getting psychologist: $error');
-    return null;
   }
-}
-  
+
+  Future<Psychologist?> getPsychologistByFullName(
+      String firstName, String lastName) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('psychologists')
+              .where('firstname', isEqualTo: firstName)
+              .where('lastname', isEqualTo: lastName)
+              .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        final Map<String, dynamic> data =
+            querySnapshot.docs.first.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(data);
+      } else {
+        // No matching doctor found
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist: $error');
+      return null;
+    }
+  }
 }
