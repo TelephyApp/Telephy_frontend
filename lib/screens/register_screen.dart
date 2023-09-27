@@ -100,18 +100,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  bool someAsyncFunction() {
-    // Your asynchronous code here
-
-    Future.delayed(Duration(seconds: 2)).then((_) {
-      // Simulating an asynchronous operation
-      bool result = true; // Replace with your actual result
-      print(result);
-    });
-
-    return false; // You can return a default value if needed
-  }
-
   Widget genderDropDown({required controller, required textFieldDecoration}) {
     return DropDownTextField(
       controller: controller,

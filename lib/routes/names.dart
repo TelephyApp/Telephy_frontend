@@ -4,6 +4,7 @@ class AppRoutes {
   static const MAIN_PSYCH = '/main-psych';
   static const SIGN_IN = '/sign_in';
   static const Register = '/register';
+  static const Register_Google = '/register-google';
   // message
   static const Message = '/message';
 
