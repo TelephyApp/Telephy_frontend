@@ -113,7 +113,7 @@ class _UserLayoutState extends State<UserLayout> {
                       color: getIconColor(2),
                     ),
                     onPressed: () {
-                      onTap(1);
+                      onTap(2);
                     },
                   ),
                 ],
