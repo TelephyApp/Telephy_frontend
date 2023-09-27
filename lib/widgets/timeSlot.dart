@@ -20,6 +20,26 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
       (dayIndex) =>
           List.generate(24, (hourIndex) => false)); // Slot tapped state
 
+  DateTime? lastCurrentDate; // Store the last currentDate
+
+  @override
+  void didUpdateWidget(TimeSlotTable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if currentDate has changed
+    if (widget.currentDate != lastCurrentDate) {
+      // Reset the selected slots when the currentDate changes
+      for (var dayIndex = 0; dayIndex < isSlotTapped.length; dayIndex++) {
+        for (var hourIndex = 0;
+            hourIndex < isSlotTapped[dayIndex].length;
+            hourIndex++) {
+          isSlotTapped[dayIndex][hourIndex] = false;
+        }
+      }
+      lastCurrentDate = widget.currentDate;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final nextTwoDays = List.generate(
@@ -200,8 +220,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                 child: Center(
                   child: Icon(
                     isBooking ? Icons.done : Icons.add,
-                    size: 40, 
-                    color: Colors.white, 
+                    size: 40,
+                    color: Colors.white,
                   ),
                 ),
               ),

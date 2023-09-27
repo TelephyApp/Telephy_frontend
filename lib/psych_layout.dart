@@ -4,6 +4,7 @@ import 'package:telephy/pages/message/message_page.dart';
 import 'package:telephy/screens/Psych/psych_home_screen.dart';
 import 'package:telephy/screens/Psych/timesystem_screen.dart';
 import 'package:telephy/utils/config.dart';
+import 'package:telephy/screens/Psych/time_slot_screen.dart';
 
 import 'screens/Psych/psych_profile_screen.dart';
 
@@ -63,7 +64,7 @@ class _PsychLayoutState extends State<PsychLayout> {
         physics: NeverScrollableScrollPhysics(),
         children: [
           PsychHomeScreen(),
-          TimeSlotSystemScreen(),
+          TimeSlotScreen(),
           MessagePage(
             context: context,
           ),

@@ -2,7 +2,7 @@ class Timeslot {
   final String id;
   final String psyId;
   final DateTime startTime;
-
+  
   Timeslot({
     required this.id,
     required this.psyId,
