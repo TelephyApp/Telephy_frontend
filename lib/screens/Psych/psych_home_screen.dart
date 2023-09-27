@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/users.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/user_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/card_appointment/detail_tile.dart';
@@ -20,12 +22,14 @@ class PsychHomeScreen extends StatefulWidget {
 class _PsychHomeScreenState extends State<PsychHomeScreen> {
   List<Users> users = [];
   String? loggedInPsychologistName;
+  late final user;
 
   @override
   void initState() {
     super.initState();
+    user = FirebaseAuth.instance.currentUser;
     fetchUsersAppointment();
-    getLoggedInPsychologist();
+    getLoggedInPsychologist(user.uid);
   }
 
   void fetchUsersAppointment() async {
@@ -38,20 +42,36 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     }
   }
 
-  void getLoggedInPsychologist() async {
-    final user = FirebaseAuth.instance.currentUser;
+  void getLoggedInPsychologist(String uid) async {
     if (user != null) {
-      final psychologistEmail = user.email;
-      if (psychologistEmail != null && psychologistEmail.endsWith('@kmitl.ac.th')) {
+      final psychologistEmail = user!.email;
+      if (psychologistEmail != null &&
+          psychologistEmail.endsWith('@kmitl.ac.th')) {
+        Psychologist? userData =
+            await PsychologistService().getPsychologistByUID(uid);
         setState(() {
-          loggedInPsychologistName = user.displayName;
+          loggedInPsychologistName = userData!.firstname;
         });
       }
+    } else {
+      //back to login page
     }
   }
 
   void onSelectedUser(Users users) {
     //pop-up detail of user
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) => Text('show detail of user'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      backgroundColor: Config.baseColor,
+    );
   }
 
   @override
@@ -86,7 +106,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'สวัสดีตอนบ่าย!\n$loggedInPsychologistName', // Display the psychologist's name
+                      'สวัสดีตอนบ่าย!\n$loggedInPsychologistName',
                       style: TextStyle(
                         color: Config.darkerToneColor,
                         fontSize: 24,
