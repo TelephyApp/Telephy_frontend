@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:telephy/model/psychologist.dart';
+import 'package:telephy/services/psychologist_service.dart';
 
 class GoogleAuthService {
   final _auth = FirebaseAuth.instance;
@@ -21,6 +23,10 @@ class GoogleAuthService {
         final User? user = authResult.user;
 
         if (user != null) {
+          if(user.email!.endsWith("@kmitl.ac.th")){
+            Psychologist psychologist = Psychologist(firstname: "None", lastname: "None", detail: "None", gender: "None", age: 0, phone: "None", hospital: "None", ratePerHours: "ratePerHours");
+            PsychologistService().storePsychData(user, psychologist);
+          }
           return user;
         } else {
           await _auth.signOut();
@@ -33,7 +39,6 @@ class GoogleAuthService {
       throw e;
     }
   }
-
 
   signOut() async {
     await _auth.signOut();

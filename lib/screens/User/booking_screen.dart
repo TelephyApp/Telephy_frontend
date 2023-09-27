@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/confirmBooking_screen.dart';
+import 'package:telephy/services/appointment_service.dart';
+import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
@@ -11,13 +15,14 @@ import 'package:telephy/widgets/psychologist_card.dart';
 import 'package:telephy/widgets/timeSlot.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({required this.psychologist, super.key});
-  final Psychologist psychologist;
+  const BookingScreen({required this.psychologistId, super.key});
+  final String psychologistId;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -27,7 +32,7 @@ class _BookingScreenState extends State<BookingScreen> {
   bool _timeSelected = false;
   List<Timeslot> _selectedDayTimeSlots = [];
   List<Timeslot> timeslots = [];
-  Psychologist? psychologist;
+  Psychologist? psychologist ;
 
   @override
   void initState() {
@@ -42,6 +47,15 @@ class _BookingScreenState extends State<BookingScreen> {
 
   void fetchAllTimeslots() async {
     timeslots = await TimeslotService().getAllTimeSlots();
+  }
+
+  void getPsychologist()async{
+    psychologist = await PsychologistService().getPsychologistByUID(widget.psychologistId);
+  }
+
+  void addAppointmentByTimeslot() async {
+    await AppointmentService().addAppointment(_selectedDayTimeSlots[_currentIndex!],_auth.currentUser?.uid);
+    await ChatService().createChatRoom(widget.psychologistId,_auth.currentUser!.uid);
   }
 
   @override
@@ -80,7 +94,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: PsychologistCard(
-                      psychologistName: widget.psychologist.firstname,
+                      psychologistName: psychologist!.firstname,
                       workplace: "ลาดบัง",
                       ratePerHour: "4000",
                       // imagePath: "assets/images/erum.png",
@@ -218,10 +232,11 @@ class _BookingScreenState extends State<BookingScreen> {
                                   ),
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async{
+                                    addAppointmentByTimeslot();
                                     Get.to(
                                       () => confirmBookingScreen(
-                                        psychologist: widget.psychologist,
+                                        psychologist: psychologist!,
                                         timeslot: _selectedDayTimeSlots[_currentIndex!],
                                       ),
                                       duration:

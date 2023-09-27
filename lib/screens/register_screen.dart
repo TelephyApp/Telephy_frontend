@@ -26,95 +26,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
             setState(() {
               _currentStep--;
             });
-          }
-          else {
+          } else {
             // route back to login screen
             _goToLoginPage(context);
           }
         },
       ),
-      
       body: Stepper(
-        elevation: 0,
-        connectorThickness: 5,
-        connectorColor: const MaterialStatePropertyAll(Color.fromRGBO(210, 172, 255, 1)),
-        type: StepperType.horizontal,
-        currentStep: _currentStep,
-        steps: getSteps(),
-        onStepTapped: (int newStep) {
-          setState(() {
-            _currentStep = newStep;
-          });
-        },
-        onStepContinue: () {
-          if (_currentStep != 2) {
+          elevation: 0,
+          connectorThickness: 5,
+          connectorColor:
+              const MaterialStatePropertyAll(Color.fromRGBO(210, 172, 255, 1)),
+          type: StepperType.horizontal,
+          currentStep: _currentStep,
+          steps: getSteps(),
+          onStepTapped: (int newStep) {
             setState(() {
-              _currentStep++;
+              _currentStep = newStep;
             });
-          }
-        },
-        onStepCancel: () {
-          if (_currentStep != 0) {
-            setState(() {
-              _currentStep--;
-            });
-          }
-          else {
-            // route back to login screen
-            _goToLoginPage(context);
-          }
-        },
-        controlsBuilder: (BuildContext context, ControlsDetails details) {
-          return Center(
-            child: RegistBT(
+          },
+          onStepContinue: () {
+            if (_currentStep != 2) {
+              setState(() {
+                _currentStep++;
+              });
+            }
+          },
+          onStepCancel: () {
+            if (_currentStep != 0) {
+              setState(() {
+                _currentStep--;
+              });
+            } else {
+              // route back to login screen
+              _goToLoginPage(context);
+            }
+          },
+          controlsBuilder: (BuildContext context, ControlsDetails details) {
+            return Center(
+              child: RegistBT(
                 titleBT: _currentStep < 2 ? 'ถัดไป' : 'เสร็จสิ้น',
                 onPressed: () {
                   if (_currentStep != 2) {
                     setState(() {
                       _currentStep++;
                     });
-                  }
-                  else {
+                  } else {
                     // update db and what next i dont know
+                    _goToLoginPage(context);
                   }
                 },
               ),
-          );
-        }
-      ),
+            );
+          }),
     );
   }
 
   List<Step> getSteps() => [
-    Step(
-      isActive: _currentStep == 0,
-      state: _currentStep <= 0 ? StepState.editing : StepState.complete,
-      title: const Text("ลงทะเบียน"), 
-      content: RegisterMainScreen()
-    ),
-    Step(
-      isActive: _currentStep == 1,
-      state: _currentStep <= 1 ? StepState.editing : StepState.complete,
-      title: const Text("ข้อมูลส่วนตัว"), 
-      content: RegisterPrivateScreen()
-    ),
-    Step(
-      isActive: _currentStep == 2,
-      state: StepState.complete,
-      title: const Text("เสร็จสิ้น"), 
-      content:  RegisterFinishScreen(),
-    ),
-
-  ];
-
+        Step(
+            isActive: _currentStep == 0,
+            state: _currentStep <= 0 ? StepState.editing : StepState.complete,
+            title: const Text("ลงทะเบียน"),
+            content: RegisterMainScreen()),
+        Step(
+            isActive: _currentStep == 1,
+            state: _currentStep <= 1 ? StepState.editing : StepState.complete,
+            title: const Text("ข้อมูลส่วนตัว"),
+            content: RegisterPrivateScreen()),
+        Step(
+          isActive: _currentStep == 2,
+          state: StepState.complete,
+          title: const Text("เสร็จสิ้น"),
+          content: RegisterFinishScreen(),
+        ),
+      ];
 
   void _goToLoginPage(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => const LoginPage(),
-    ),
-  );
-}
-
-  
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+    );
+  }
 }

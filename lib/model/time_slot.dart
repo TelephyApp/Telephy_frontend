@@ -27,4 +27,7 @@ class Timeslot {
       startTime: map['start_time'] ?? Timestamp.now(),
     );
   }
+
+
+  List<Timeslot> timeslots = [];
 }
