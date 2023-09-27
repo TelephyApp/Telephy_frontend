@@ -21,6 +21,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
   DateTime? selectedDateTime;
   DateTime? selectedSlotsTime;
   bool selectSlotsTaped = false;
+  List<DateTime>? availableSlots = [];
+
   @override
   void didUpdateWidget(TimeSlotTable oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -43,6 +45,9 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
       3,
       (index) => widget.currentDate.add(Duration(days: index)),
     );
+    availableSlots!.add(DateTime.now()
+        .add(Duration(days: 2))); // เพิ่ม DateTime เริ่มต้นเป็นตัวอย่าง
+    availableSlots!.add(DateTime.now().add(Duration(days: 1, hours: 2)));
 
     final lastThreeDays = nextTwoDays;
 
@@ -147,7 +152,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                     return Row(
                       children: [
                         Expanded(
-                          child: TimeSlot(
+                          child: TimeSlotTab(
                             hour: hour,
                             isBooking: isBooking,
                           ),
@@ -177,6 +182,13 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                                   });
                                 }
                               },
+                              selectedSlotsTime: selectedSlotsTime,
+                              isBooking: isBooking,
+                              setState: (DateTime selectedSlotsTime) {
+                                setState(() {
+                                  this.selectedSlotsTime = selectedSlotsTime;
+                                });
+                              },
                             ),
                           ),
                       ],
@@ -199,11 +211,30 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
               onTap: () {
                 setState(() {
                   isBooking = !isBooking;
+
                   if (isBooking) {
                     selectSlotsTaped = false;
                   }
+
                   if (!isBooking) {
+                    if (selectedSlotsTime != Null) {
+                      final selectedDateTimeString =
+                          DateFormat('yyyy-MM-dd HH:mm')
+                              .format(selectedSlotsTime ?? DateTime.now());
+                      print('Selected Slot: $selectedDateTimeString');
+                    }
+                    isBooking = false;
                     selectSlotsTaped = true;
+                    selectedSlotsTime = null;
+                    for (var dayIndex = 0;
+                        dayIndex < isSlotTapped.length;
+                        dayIndex++) {
+                      for (var hourIndex = 0;
+                          hourIndex < isSlotTapped[dayIndex].length;
+                          hourIndex++) {
+                        isSlotTapped[dayIndex][hourIndex] = false;
+                      }
+                    }
                   }
                 });
               },
@@ -243,11 +274,11 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
   }
 }
 
-class TimeSlot extends StatelessWidget {
+class TimeSlotTab extends StatelessWidget {
   final String hour;
   final bool isBooking;
 
-  const TimeSlot({Key? key, required this.hour, required this.isBooking})
+  const TimeSlotTab({Key? key, required this.hour, required this.isBooking})
       : super(key: key);
 
   @override
@@ -279,6 +310,9 @@ class HourlySlot extends StatelessWidget {
   final String hour;
   final bool isTapped;
   final VoidCallback onTap;
+  final DateTime? selectedSlotsTime; // เพิ่มตัวแปร selectedSlotsTime ที่นี่
+  final bool isBooking;
+  final Function(DateTime) setState; // เพิ่มตัวแปร isBooking ที่นี่
 
   const HourlySlot({
     Key? key,
@@ -286,6 +320,9 @@ class HourlySlot extends StatelessWidget {
     required this.hour,
     required this.isTapped,
     required this.onTap,
+    required this.selectedSlotsTime, // รับค่า selectedSlotsTime ที่นี่
+    required this.isBooking, // รับค่า isBooking ที่นี่
+    required this.setState,
   }) : super(key: key);
 
   @override
@@ -339,7 +376,12 @@ class HourlySlot extends StatelessWidget {
             ),
           )
         : GestureDetector(
-            onTap: onTap, // Use onTap function passed from parent
+            onTap: () {
+              if (isBooking) {
+                setState(currentDateTime);
+              }
+              onTap();
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: isTapped
