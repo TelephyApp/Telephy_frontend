@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:telephy/screens/register_screen.dart';
+import 'package:telephy/services/google_auth_services.dart';
 import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
 
@@ -200,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SquareTile(
-                    onTap: () => AuthService().signInWithGoogle(),
+                    onTap: () => GoogleAuthService().signInWithGoogle(),
                     imagePath: 'assets/images/google.png'),
               ],
             ),

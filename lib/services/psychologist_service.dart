@@ -39,24 +39,61 @@ class PsychologistService {
     }).toList();
   }
 
-  Future<Psychologist?> getPsychologistByFullName(String firstName, String lastName) async {
-  try {
-    final QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
-        .collection('psychologists')
-        .where('firstname', isEqualTo: firstName)
-        .where('lastname', isEqualTo: lastName)
-        .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      final Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
-      return Psychologist.fromMap(data);
-    } else {
-      // No matching doctor found
+  Future<Psychologist?> getPsychologistByFullName(
+      String firstName, String lastName) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('psychologists')
+              .where('firstname', isEqualTo: firstName)
+              .where('lastname', isEqualTo: lastName)
+              .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        final Map<String, dynamic> data =
+            querySnapshot.docs.first.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(data);
+      } else {
+        // No matching doctor found
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist: $error');
       return null;
     }
-  } catch (error) {
-    print('Error getting psychologist: $error');
-    return null;
   }
-}
-  
+
+  Future<Psychologist?> getPsychologistByUID(String uid) async {
+    try {
+      final DocumentSnapshot psyDoc = await psychologists.doc(uid).get();
+
+      if (psyDoc.exists) {
+        final psyData = psyDoc.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(psyData);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      throw e;
+    }
+  }
+
+  Future<String?> getPsychologistUidByObject(Psychologist psychologist) async {
+    try {
+      final querySnapshot = await psychologists
+          .where('firstname', isEqualTo: psychologist.firstname)
+          .where('lastname', isEqualTo: psychologist.lastname)
+          .limit(1) // Limit the query to one result (if multiple matches exist)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.id; // Return the UID of the document
+      } else {
+        return null; // No matching psychologist found
+      }
+    } catch (error) {
+      print('Error getting psychologist UID: $error');
+      return null; // Handle the error gracefully
+    }
+  }
 }

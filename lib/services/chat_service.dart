@@ -52,6 +52,24 @@ class ChatService extends ChangeNotifier {
         .snapshots();
   }
 
-  
+  Future<String> createChatRoom(String psyId, String userId) async {
+  try {
+    final CollectionReference chatRoomsCollection =
+        FirebaseFirestore.instance.collection('chat_rooms');
+
+    final DocumentReference chatRoomDocRef = chatRoomsCollection.doc();
+
+    await chatRoomDocRef.set({
+      'psyId': psyId,
+      'userId': userId,
+    });
+
+    return chatRoomDocRef.id;
+  } catch (error) {
+    print('Error creating chat room: $error');
+    return '';
+  }
+}
+
   
 }

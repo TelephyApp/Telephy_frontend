@@ -30,15 +30,17 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   }
 
   //when click psychologist card 
-  void onSelectedPhy(Psychologist psychologist) {
+  void onSelectedPhy(Psychologist psychologist) async {
+    String? psyId = await PsychologistService().getPsychologistUidByObject(psychologist);
     Get.to(
       () => InfoAppointment(
-        psychologist: psychologist,
+        psychologistId: psyId!,
       ),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

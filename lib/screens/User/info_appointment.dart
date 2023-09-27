@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/screens/User/booking_screen.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 import 'package:get/get.dart';
 
 class InfoAppointment extends StatelessWidget {
-  const InfoAppointment({required this.psychologist, super.key});
-  final Psychologist psychologist;
-
+  const InfoAppointment({required this.psychologistId, super.key});
+  final String psychologistId;
   // if using MVC , move all of this to LoginController
   //-----------------------------
   void onAppoint() {
     Get.to(
       () => BookingScreen(
-        psychologist: psychologist,
+        psychologistId: psychologistId,
       ),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
 
+
+
   void toRegister() {}
   //-----------------------------
 
   @override
   Widget build(BuildContext context) {
+    Psychologist? psychologist;
+    void getPsy() async {
+      psychologist = await PsychologistService().getPsychologistByUID(psychologistId);
+    };
+    getPsy();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.baseColor,
@@ -54,7 +62,7 @@ class InfoAppointment extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 24, right: 24, left: 24),
               child: PsychologistCard(
-                psychologistName: psychologist.firstname,
+                psychologistName: psychologist!.firstname,
                 workplace: 'F',
                 ratePerHour: '350',
                 setBorderCardBottomLeft: false,
