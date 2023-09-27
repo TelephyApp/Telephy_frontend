@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:telephy/widgets/calender.dart';
-import 'package:telephy/widgets/timeSlot.dart';
+import 'package:telephy/widgets/timeSlotTable.dart';
 
 class TimeSlotScreen extends StatefulWidget {
   const TimeSlotScreen({Key? key}) : super(key: key);

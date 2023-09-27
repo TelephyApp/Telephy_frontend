@@ -15,20 +15,17 @@ class TimeSlotTable extends StatefulWidget {
 
 class _TimeSlotTableState extends State<TimeSlotTable> {
   bool isBooking = false; // Added state variable
-  List<List<bool>> isSlotTapped = List.generate(
-      3,
-      (dayIndex) =>
-          List.generate(24, (hourIndex) => false)); // Slot tapped state
-
-  DateTime? lastCurrentDate; // Store the last currentDate
-
+  List<List<bool>> isSlotTapped =
+      List.generate(3, (dayIndex) => List.generate(24, (hourIndex) => false));
+  DateTime? lastCurrentDate;
+  DateTime? selectedDateTime;
+  DateTime? selectedSlotsTime;
+  bool selectSlotsTaped = false;
   @override
   void didUpdateWidget(TimeSlotTable oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if currentDate has changed
     if (widget.currentDate != lastCurrentDate) {
-      // Reset the selected slots when the currentDate changes
       for (var dayIndex = 0; dayIndex < isSlotTapped.length; dayIndex++) {
         for (var hourIndex = 0;
             hourIndex < isSlotTapped[dayIndex].length;
@@ -152,7 +149,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                         Expanded(
                           child: TimeSlot(
                             hour: hour,
-                            isBooking: isBooking, // Pass isBooking state
+                            isBooking: isBooking,
                           ),
                         ),
                         for (var dayIndex = 0;
@@ -162,14 +159,21 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                             child: HourlySlot(
                               day: lastThreeDays[dayIndex],
                               hour: hour,
-                              isTapped: isSlotTapped[dayIndex]
-                                  [hourIndex], // Pass tapped state
+                              isTapped: isSlotTapped[dayIndex][hourIndex],
                               onTap: () {
-                                if (isBooking) {
-                                  // Toggle tapped state for this specific day and hour
+                                if (isBooking && !selectSlotsTaped) {
                                   setState(() {
                                     isSlotTapped[dayIndex][hourIndex] =
                                         !isSlotTapped[dayIndex][hourIndex];
+                                    selectSlotsTaped = true;
+                                  });
+                                } else if (isBooking &&
+                                    selectSlotsTaped &&
+                                    isSlotTapped[dayIndex][hourIndex]) {
+                                  setState(() {
+                                    isSlotTapped[dayIndex][hourIndex] =
+                                        !isSlotTapped[dayIndex][hourIndex];
+                                    selectSlotsTaped = false;
                                   });
                                 }
                               },
@@ -188,13 +192,19 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
         ),
         Positioned(
           bottom: 20,
-          right: 20, // Set the button position to the bottom right
+          right: 20,
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 setState(() {
                   isBooking = !isBooking;
+                  if (isBooking) {
+                    selectSlotsTaped = false;
+                  }
+                  if (!isBooking) {
+                    selectSlotsTaped = true;
+                  }
                 });
               },
               splashColor: Colors.grey.withOpacity(0.5),
@@ -207,7 +217,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                     BoxShadow(
                       color: Color(0x500F1B2D),
                       blurRadius: 10,
-                      offset: Offset(4, 3), // Shadow position
+                      offset: Offset(4, 3),
                     )
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -291,7 +301,6 @@ class HourlySlot extends StatelessWidget {
     String generateTimeRange(int hour) {
       final startHour = hour;
       final endHour = (hour + 1) % 24;
-
       return '${startHour.toString().padLeft(2, '0')}:00-${endHour.toString().padLeft(2, '0')}:00';
     }
 
