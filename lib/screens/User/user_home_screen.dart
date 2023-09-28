@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   //start page with fetching all psychologists
   @override
   void initState() {
-    super.initState();
     fetchAllPsychologists();
+    super.initState();
   }
 
   //fetching all psychologists
@@ -29,9 +30,10 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
     phychologists = await PsychologistService().getAllPsychologists();
   }
 
-  //when click psychologist card 
+  //when click psychologist card
   void onSelectedPhy(Psychologist psychologist) async {
-    String? psyId = await PsychologistService().getPsychologistUidByObject(psychologist);
+    String? psyId =
+        await PsychologistService().getPsychologistUidByObject(psychologist);
     Get.to(
       () => InfoAppointment(
         psychologistId: psyId!,
@@ -40,7 +42,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       curve: Curves.easeInOut,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -116,29 +117,34 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: ListView.builder(
-                  itemCount: phychologists.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        DetailTile(
-                          name: "${phychologists[index].firstname}",
-                          detail: "${phychologists[index].detail}",
-                          onclick: () => {
-                            onSelectedPhy(
-                                phychologists[index])
-                          },
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("psychologists")
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      return ListView.builder(
+                        itemCount: phychologists.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 8,
+                              ),
+                              DetailTile(
+                                name:
+                                    "${phychologists[index].firstname} ${phychologists[index].lastname}",
+                                detail: "${phychologists[index].detail}",
+                                onclick: () =>
+                                    {onSelectedPhy(phychologists[index])},
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
               ),
             ),
             // Container(
