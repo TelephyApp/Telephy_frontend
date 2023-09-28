@@ -5,13 +5,11 @@ import 'package:telephy/model/time_slot.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctor extends StatefulWidget {
-  final List<Timeslot> availableTimeslots;
   final void Function(DateTime) onDaySelected;
 
   const CalendarDoctor({
     Key? key,
     required this.onDaySelected,
-    required this.availableTimeslots,
   }) : super(key: key);
 
   @override
