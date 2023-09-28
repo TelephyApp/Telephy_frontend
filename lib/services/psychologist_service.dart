@@ -79,4 +79,27 @@ class PsychologistService {
       return null;
     }
   }
+
+  Future<String?> getPsychologistUidByObject(Psychologist psychologist) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('psychologists')
+              .where('firstname', isEqualTo: psychologist.firstname)
+              .where('lastname', isEqualTo: psychologist.lastname)
+              .limit(1) // Limit the query to 1 result (assuming unique names)
+              .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Return the UID of the first matching psychologist
+        return querySnapshot.docs.first.id;
+      } else {
+        // No matching psychologist found
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist UID by object: $error');
+      return null;
+    }
+  }
 }
