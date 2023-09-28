@@ -45,9 +45,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
       3,
       (index) => widget.currentDate.add(Duration(days: index)),
     );
-    availableSlots!.add(DateTime.now()
-        .add(Duration(days: 2))); // เพิ่ม DateTime เริ่มต้นเป็นตัวอย่าง
-    availableSlots!.add(DateTime.now().add(Duration(days: 1, hours: 2)));
+    availableSlots!.add(DateTime(2023, 9, 29, 1, 0));
+    availableSlots!.add(DateTime(2023, 9, 30, 12, 0));
 
     final lastThreeDays = nextTwoDays;
 
@@ -75,7 +74,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                 ),
                 child: Container(
                   height: 100,
-                  padding: const EdgeInsets.all(11),
+                  padding: const EdgeInsets.only(
+                      left: 90, right: 11, bottom: 11, top: 11),
                   decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -162,34 +162,34 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                             dayIndex++)
                           Expanded(
                             child: HourlySlot(
-                              day: lastThreeDays[dayIndex],
-                              hour: hour,
-                              isTapped: isSlotTapped[dayIndex][hourIndex],
-                              onTap: () {
-                                if (isBooking && !selectSlotsTaped) {
+                                day: lastThreeDays[dayIndex],
+                                hour: hour,
+                                isTapped: isSlotTapped[dayIndex][hourIndex],
+                                onTap: () {
+                                  if (isBooking && !selectSlotsTaped) {
+                                    setState(() {
+                                      isSlotTapped[dayIndex][hourIndex] =
+                                          !isSlotTapped[dayIndex][hourIndex];
+                                      selectSlotsTaped = true;
+                                    });
+                                  } else if (isBooking &&
+                                      selectSlotsTaped &&
+                                      isSlotTapped[dayIndex][hourIndex]) {
+                                    setState(() {
+                                      isSlotTapped[dayIndex][hourIndex] =
+                                          !isSlotTapped[dayIndex][hourIndex];
+                                      selectSlotsTaped = false;
+                                    });
+                                  }
+                                },
+                                selectedSlotsTime: selectedSlotsTime,
+                                isBooking: isBooking,
+                                setState: (DateTime selectedSlotsTime) {
                                   setState(() {
-                                    isSlotTapped[dayIndex][hourIndex] =
-                                        !isSlotTapped[dayIndex][hourIndex];
-                                    selectSlotsTaped = true;
+                                    this.selectedSlotsTime = selectedSlotsTime;
                                   });
-                                } else if (isBooking &&
-                                    selectSlotsTaped &&
-                                    isSlotTapped[dayIndex][hourIndex]) {
-                                  setState(() {
-                                    isSlotTapped[dayIndex][hourIndex] =
-                                        !isSlotTapped[dayIndex][hourIndex];
-                                    selectSlotsTaped = false;
-                                  });
-                                }
-                              },
-                              selectedSlotsTime: selectedSlotsTime,
-                              isBooking: isBooking,
-                              setState: (DateTime selectedSlotsTime) {
-                                setState(() {
-                                  this.selectedSlotsTime = selectedSlotsTime;
-                                });
-                              },
-                            ),
+                                },
+                                availableSlots: availableSlots),
                           ),
                       ],
                     );
@@ -312,18 +312,20 @@ class HourlySlot extends StatelessWidget {
   final VoidCallback onTap;
   final DateTime? selectedSlotsTime; // เพิ่มตัวแปร selectedSlotsTime ที่นี่
   final bool isBooking;
-  final Function(DateTime) setState; // เพิ่มตัวแปร isBooking ที่นี่
+  final Function(DateTime) setState;
+  final List<DateTime>? availableSlots; // เพิ่มตัวแปร isBooking ที่นี่
 
-  const HourlySlot({
-    Key? key,
-    required this.day,
-    required this.hour,
-    required this.isTapped,
-    required this.onTap,
-    required this.selectedSlotsTime, // รับค่า selectedSlotsTime ที่นี่
-    required this.isBooking, // รับค่า isBooking ที่นี่
-    required this.setState,
-  }) : super(key: key);
+  const HourlySlot(
+      {Key? key,
+      required this.day,
+      required this.hour,
+      required this.isTapped,
+      required this.onTap,
+      required this.selectedSlotsTime, // รับค่า selectedSlotsTime ที่นี่
+      required this.isBooking, // รับค่า isBooking ที่นี่
+      required this.setState,
+      required this.availableSlots})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -344,7 +346,8 @@ class HourlySlot extends StatelessWidget {
     String timeRange = generateTimeRange(int.parse(hour));
 
     final bool isPastDay = currentDateTime.isBefore(currentTime);
-
+    bool isInAvailableSlots =
+        availableSlots != null && availableSlots!.contains(currentDateTime);
     return isPastDay
         ? Container(
             decoration: BoxDecoration(
@@ -377,16 +380,66 @@ class HourlySlot extends StatelessWidget {
           )
         : GestureDetector(
             onTap: () {
-              if (isBooking) {
-                setState(currentDateTime);
+              if (isInAvailableSlots && isBooking) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('ยกเลิกการเปิดจองเวลา'),
+                      content: Text(
+                          '\t\t\t\tหากยกเลิกแล้วผู้ใช้จะไม่สามารถนัดหมายในช่วงเวลาที่ทำการยกเลิกได้'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('ปิด'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  const Color(0xFFE4DAD1)),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 251, 108, 76))),
+                          child: Text('ยกเลิก'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                if (isBooking) {
+                  setState(currentDateTime);
+                }
+                onTap();
               }
-              onTap();
             },
             child: Container(
               decoration: BoxDecoration(
+                gradient: isInAvailableSlots
+                    ? LinearGradient(
+                        colors: [
+                            Color(0xFF86D2FC),
+                            Color(0xFF86D2FC),
+                            Color(0xFF868CFD)
+                          ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter)
+                    : LinearGradient(
+                        colors: [
+                            Color.fromARGB(110, 254, 254, 254),
+                            Color.fromARGB(159, 134, 211, 252)
+                          ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter),
                 color: isTapped
                     ? const Color.fromRGBO(178, 221, 253, 1)
-                    : const Color.fromARGB(0, 209, 172, 255),
+                    : (isInAvailableSlots
+                        ? const Color(0xFF868CFD)
+                        : Color.fromARGB(0, 113, 0, 252)),
                 border: Border.all(
                   color: isTapped
                       ? const Color(0xFFE4DAD1)
