@@ -15,8 +15,8 @@ class UserService {
       'gender': createdUser.gender,
       'age': createdUser.age,
       'phone': createdUser.phone,
-      'email': createdUser.birthday,
-      'birthday': createdUser.email,
+      'email': createdUser.email,
+      'birthday': createdUser.birthday,
       'medical_condition': createdUser.medicalCondition,
       'image_path': user.photoURL == "" ? "" : "./assets/images/user.png",
     });
@@ -56,5 +56,43 @@ class UserService {
     QuerySnapshot onlineUsersSnapshot =
         await usersRef.where('online', isEqualTo: true).get();
     return onlineUsersSnapshot.docs;
+  }
+
+  Future<String> getGoogleSignInEmail() async {
+    // Get the current user.
+    final user = FirebaseAuth.instance.currentUser;
+
+    // Get the provider data of the current user.
+    final providerData = user!.providerData;
+
+    // Find the provider data for the Google sign-in provider.
+    final googleProviderData = providerData
+        .firstWhere((provider) => provider.providerId == 'google.com');
+
+    // Get the email from the provider data.
+    final email = googleProviderData.email!;
+    return email;
+  }
+
+  Future<String> getLoggedInProvider() async {
+    // Get the current user.
+    final user = FirebaseAuth.instance.currentUser!;
+
+    // Get the provider data of the current user.
+    final providerData = user.providerData;
+
+    // Find the provider data for the Google sign-in provider or the email provider.
+    final provider = providerData.firstWhere((provider) =>
+        provider.providerId == 'google.com' ||
+        provider.providerId == 'password');
+
+    // Check the providerId property of the provider data to see if it is google.com or password.
+    if (provider.providerId == 'google.com') {
+      return 'Google';
+    } else if (provider.providerId == 'password') {
+      return 'Email';
+    } else {
+      return 'Unknown';
+    }
   }
 }
