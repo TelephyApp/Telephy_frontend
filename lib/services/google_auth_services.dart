@@ -35,7 +35,8 @@ class GoogleAuthService {
         final User? user = authResult.user;
 
         if (user != null) {
-          if ((user.email ?? "").endsWith("@kmitl.ac.th")) {
+          if ((user.email ?? "").endsWith("@kmitl.ac.th") &&
+              (await PsychologistService().checkEmailExist())) {
             await createPsychologist(user);
           }
           return user;
