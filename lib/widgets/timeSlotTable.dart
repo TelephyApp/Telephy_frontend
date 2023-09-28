@@ -6,23 +6,26 @@ class TimeSlotTable extends StatefulWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
+  final List<DateTime> availableSlots;
 
-  const TimeSlotTable({Key? key, required this.currentDate}) : super(key: key);
+  const TimeSlotTable({
+    Key? key,
+    required this.currentDate,
+    required this.availableSlots,
+  }) : super(key: key);
 
   @override
   _TimeSlotTableState createState() => _TimeSlotTableState();
 }
 
 class _TimeSlotTableState extends State<TimeSlotTable> {
-  bool isBooking = false; // Added state variable
+  bool isBooking = false;
   List<List<bool>> isSlotTapped =
       List.generate(3, (dayIndex) => List.generate(24, (hourIndex) => false));
   DateTime? lastCurrentDate;
   DateTime? selectedDateTime;
   DateTime? selectedSlotsTime;
   bool selectSlotsTaped = false;
-  List<DateTime>? availableSlots = [];
-
   @override
   void didUpdateWidget(TimeSlotTable oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -45,8 +48,6 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
       3,
       (index) => widget.currentDate.add(Duration(days: index)),
     );
-    availableSlots!.add(DateTime(2023, 9, 29, 1, 0));
-    availableSlots!.add(DateTime(2023, 9, 30, 12, 0));
 
     final lastThreeDays = nextTwoDays;
 
@@ -189,7 +190,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                                     this.selectedSlotsTime = selectedSlotsTime;
                                   });
                                 },
-                                availableSlots: availableSlots),
+                                availableSlots: widget.availableSlots),
                           ),
                       ],
                     );
@@ -310,19 +311,18 @@ class HourlySlot extends StatelessWidget {
   final String hour;
   final bool isTapped;
   final VoidCallback onTap;
-  final DateTime? selectedSlotsTime; // เพิ่มตัวแปร selectedSlotsTime ที่นี่
+  final DateTime? selectedSlotsTime;
   final bool isBooking;
   final Function(DateTime) setState;
-  final List<DateTime>? availableSlots; // เพิ่มตัวแปร isBooking ที่นี่
-
+  final List<DateTime>? availableSlots;
   const HourlySlot(
       {Key? key,
       required this.day,
       required this.hour,
       required this.isTapped,
       required this.onTap,
-      required this.selectedSlotsTime, // รับค่า selectedSlotsTime ที่นี่
-      required this.isBooking, // รับค่า isBooking ที่นี่
+      required this.selectedSlotsTime,
+      required this.isBooking,
       required this.setState,
       required this.availableSlots})
       : super(key: key);
@@ -391,12 +391,7 @@ class HourlySlot extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('ปิด'),
-                        ),
-                        TextButton(
-                          onPressed: () {
+                            availableSlots!.remove(currentDateTime);
                             Navigator.of(context).pop();
                           },
                           style: ButtonStyle(
@@ -406,6 +401,16 @@ class HourlySlot extends StatelessWidget {
                                   Color.fromARGB(255, 251, 108, 76))),
                           child: Text('ยกเลิก'),
                         ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                const Color(0xFFB2B4FE)),
+                          ),
+                          child: Text('ปิด'),
+                        )
                       ],
                     );
                   },
@@ -472,12 +477,4 @@ class HourlySlot extends StatelessWidget {
             ),
           );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: TimeSlotTable(currentDate: DateTime.now()),
-    ),
-  ));
 }
