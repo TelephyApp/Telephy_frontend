@@ -39,6 +39,24 @@ class PsychologistService {
     }).toList();
   }
 
+  Future<Psychologist?> getPsychologistByUID(String uid) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> doc = (await psychologists
+          .doc(uid)
+          .get()) as DocumentSnapshot<Map<String, dynamic>>;
+
+      if (doc.exists) {
+        final Map<String, dynamic> data = doc.data()!;
+        return Psychologist.fromMap(data);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist by UID: $error');
+      return null;
+    }
+  }
+
   Future<Psychologist?> getPsychologistByFullName(
       String firstName, String lastName) async {
     try {
@@ -59,41 +77,6 @@ class PsychologistService {
     } catch (error) {
       print('Error getting psychologist: $error');
       return null;
-    }
-  }
-
-  Future<Psychologist?> getPsychologistByUID(String uid) async {
-    try {
-      final DocumentSnapshot psyDoc = await psychologists.doc(uid).get();
-
-      if (psyDoc.exists) {
-        final psyData = psyDoc.data() as Map<String, dynamic>;
-        return Psychologist.fromMap(psyData);
-      } else {
-        return null; // User not found
-      }
-    } catch (e) {
-      print('Error fetching user: $e');
-      throw e;
-    }
-  }
-
-  Future<String?> getPsychologistUidByObject(Psychologist psychologist) async {
-    try {
-      final querySnapshot = await psychologists
-          .where('firstname', isEqualTo: psychologist.firstname)
-          .where('lastname', isEqualTo: psychologist.lastname)
-          .limit(1) // Limit the query to one result (if multiple matches exist)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs.first.id; // Return the UID of the document
-      } else {
-        return null; // No matching psychologist found
-      }
-    } catch (error) {
-      print('Error getting psychologist UID: $error');
-      return null; // Handle the error gracefully
     }
   }
 }

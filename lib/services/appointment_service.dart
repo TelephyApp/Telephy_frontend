@@ -5,6 +5,7 @@ import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/booking_screen.dart';
 import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
+import 'package:telephy/services/user_service.dart';
 
 class AppointmentService {
   final CollectionReference appointments =
