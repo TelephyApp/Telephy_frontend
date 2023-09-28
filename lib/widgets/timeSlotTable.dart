@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
-
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/widgets/hourlyTimeSlot.dart';
 
@@ -10,10 +9,12 @@ class TimeSlotTable extends StatefulWidget {
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
   final List<Timeslot> availableTimeslots;
+  final Function(List<Timeslot>) setTimeslotsState;
   const TimeSlotTable(
       {Key? key,
       required this.currentDate,
-      required this.availableTimeslots})
+      required this.availableTimeslots,
+      required this.setTimeslotsState})
       : super(key: key);
 
   @override
@@ -223,6 +224,11 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
 
                   if (!isBooking) {
                     if (selectedSlotsTime != Null) {
+                      widget.availableTimeslots!.add(Timeslot(
+                          id: "101",
+                          psyId: "aot",
+                          startTime: selectedSlotsTime!));
+                      widget.setTimeslotsState(widget.availableTimeslots);
                       final selectedDateTimeString =
                           DateFormat('yyyy-MM-dd HH:mm')
                               .format(selectedSlotsTime ?? DateTime.now());
