@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
+import 'package:telephy/screens/register_google.dart';
 import 'package:telephy/screens/register_screen.dart';
 import '../screens/auth_screen.dart';
 
@@ -26,6 +27,10 @@ class AppPages {
     GetPage(
       name: '/register',
       page: () => const RegisterScreen(),
+    ),
+    GetPage(
+      name: '/register-google',
+      page: () => const RegistGoogle(),
     ),
     GetPage(
       name: '/login',

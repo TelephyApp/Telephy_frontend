@@ -26,12 +26,31 @@ class _PsychLayoutState extends State<PsychLayout> {
   void onTap(int page) {
     setState(() {
       currentPage = page;
-      _pageController.animateToPage(
-        page,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
+      _pageController.jumpToPage(page);
+      // _pageController.animateToPage(
+      //   page,
+      //   duration: const Duration(milliseconds: 500),
+      //   curve: Curves.easeInOut,
+      // );
     });
+  }
+
+  final List<IconData> _outlineIcons = [
+    Icons.home_outlined,
+    FontAwesomeIcons.calendar,
+    FontAwesomeIcons.comment,
+    FontAwesomeIcons.user,
+  ];
+
+  final List<IconData> _filledIcons = [
+    Icons.home,
+    FontAwesomeIcons.solidCalendar,
+    FontAwesomeIcons.solidComment,
+    FontAwesomeIcons.solidUser,
+  ];
+
+  Color getIconColor(int index) {
+    return currentPage == index ? Config.mainColor1 : Config.lighterToneColor;
   }
 
   @override
@@ -40,6 +59,7 @@ class _PsychLayoutState extends State<PsychLayout> {
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           PsychHomeScreen(),
           TimeSlotScreen(),
@@ -63,46 +83,47 @@ class _PsychLayoutState extends State<PsychLayout> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(30.0),
+          ),
           child: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 6.0,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.home,
-                      color: Config.mainColor1,
+                    icon: Icon(
+                      currentPage == 0 ? _filledIcons[0] : _outlineIcons[0],
+                      color: getIconColor(0),
+                      size: 32,
                     ),
                     onPressed: () {
                       onTap(0);
                     },
                   ),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.calendar,
-                      color: Config.mainColor1,
+                    icon: FaIcon(
+                      currentPage == 1 ? _filledIcons[1] : _outlineIcons[1],
+                      color: getIconColor(1),
                     ),
                     onPressed: () {
                       onTap(1);
                     },
                   ),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.comment,
-                      color: Config.mainColor1,
+                    icon: FaIcon(
+                      currentPage == 2 ? _filledIcons[2] : _outlineIcons[2],
+                      color: getIconColor(2),
                     ),
                     onPressed: () {
                       onTap(2);
                     },
                   ),
                   IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.user,
-                      color: Config.mainColor1,
+                    icon: FaIcon(
+                      currentPage == 3 ? _filledIcons[3] : _outlineIcons[3],
+                      color: getIconColor(3),
                     ),
                     onPressed: () {
                       onTap(3);
