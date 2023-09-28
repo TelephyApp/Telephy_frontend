@@ -30,16 +30,23 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                child: CalendarDoctor(onDaySelected: (day) {
-                  setState(() {
-                    selectedDay = day;
-                  });
-                }),
+                child: CalendarDoctor(
+                    onDaySelected: (day) {
+                      setState(() {
+                        selectedDay = day;
+                      });
+                    },
+                    availableTimeslots: availableTimeslots),
               ),
               Expanded(
                 child: TimeSlotTable(
                     currentDate: selectedDay,
-                    availableTimeslots: availableTimeslots),
+                    availableTimeslots: availableTimeslots,
+                    setTimeslotsState: (availableTimeslots) {
+                      setState(() {
+                        this.availableTimeslots = availableTimeslots;
+                      });
+                    }),
               ),
             ],
           ),

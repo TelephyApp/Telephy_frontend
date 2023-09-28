@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
-
 import 'package:telephy/model/time_slot.dart';
 
 class HourlySlot extends StatelessWidget {
@@ -93,8 +92,8 @@ class HourlySlot extends StatelessWidget {
                             availableTimeslots.removeWhere((timeslot) =>
                                 timeslot.startTime
                                     .isAtSameMomentAs(currentDateTime));
-
                             Navigator.of(context).pop();
+
                           },
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
