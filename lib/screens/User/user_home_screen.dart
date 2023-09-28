@@ -21,12 +21,12 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   //start page with fetching all psychologists
   @override
   void initState() {
-    fetchAllPsychologists();
     super.initState();
+    // fetchAllPsychologists();
   }
 
   //fetching all psychologists
-  void fetchAllPsychologists() async {
+  Future<void> fetchAllPsychologists() async {
     phychologists = await PsychologistService().getAllPsychologists();
   }
 
@@ -117,34 +117,45 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection("psychologists")
-                        .snapshots(),
+                child: FutureBuilder(
+                    future: fetchAllPsychologists(),
                     builder: (context, snapshot) {
-                      
-                      return ListView.builder(
-                        itemCount: phychologists.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: 8,
-                              ),
-                              DetailTile(
-                                name:
-                                    "${phychologists[index].firstname} ${phychologists[index].lastname}",
-                                detail: "${phychologists[index].detail}",
-                                onclick: () =>
-                                    {onSelectedPhy(phychologists[index])},
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      return StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("psychologists")
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                itemCount: phychologists.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      DetailTile(
+                                        name:
+                                            "${phychologists[index].firstname} ${phychologists[index].lastname}",
+                                        detail:
+                                            "${phychologists[index].detail}",
+                                        onclick: () => {
+                                          onSelectedPhy(phychologists[index])
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          });
                     }),
               ),
             ),

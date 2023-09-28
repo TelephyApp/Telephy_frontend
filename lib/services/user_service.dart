@@ -46,7 +46,6 @@ class UserService {
       }
     } catch (e) {
       print('Error fetching user: $e');
-      throw e;
     }
   }
 
