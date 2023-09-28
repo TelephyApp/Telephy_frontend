@@ -27,10 +27,11 @@ class _InfoAppointmentState extends State<InfoAppointment> {
     );
   }
 
-  void getPsy() async {
-      psychologist =
-          await PsychologistService().getPsychologistByUID(widget.psychologistId);
-    }
+  Future<void> getPsy() async {
+    psychologist =
+        await PsychologistService().getPsychologistByUID(widget.psychologistId);
+  }
+
   //-----------------------------
   @override
   Widget build(BuildContext context) {
