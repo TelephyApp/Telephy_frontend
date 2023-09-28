@@ -223,7 +223,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                   }
 
                   if (!isBooking) {
-                    if (selectedSlotsTime != Null) {
+                    if (selectedSlotsTime != null) {
                       widget.availableTimeslots!.add(Timeslot(
                           id: "101",
                           psyId: "aot",

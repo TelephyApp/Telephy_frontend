@@ -15,7 +15,7 @@ class TimeSlotScreen extends StatefulWidget {
 class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
   List<Timeslot> availableTimeslots = [
-    Timeslot(id: "101", psyId: "aot", startTime: DateTime(2023, 9, 29, 1, 0)),
+    Timeslot(id: "101", psyId: "aot", startTime: DateTime(2023, 9, 29, 7, 0)),
     Timeslot(id: "102", psyId: "Miss", startTime: DateTime(2023, 9, 30, 2, 0)),
     Timeslot(id: "103", psyId: "Nep", startTime: DateTime(2023, 10, 1, 5, 0)),
     Timeslot(id: "104", psyId: "Jem", startTime: DateTime(2023, 10, 1, 2, 0))
@@ -31,12 +31,12 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
             children: [
               Container(
                 child: CalendarDoctor(
-                    onDaySelected: (day) {
-                      setState(() {
-                        selectedDay = day;
-                      });
-                    },
-                    availableTimeslots: availableTimeslots),
+                  onDaySelected: (day) {
+                    setState(() {
+                      selectedDay = day;
+                    });
+                  },
+                ),
               ),
               Expanded(
                 child: TimeSlotTable(
