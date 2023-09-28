@@ -39,7 +39,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          if (!isEmailExist) {
+          if (!isEmailExist && !(user?.email ?? "").endsWith("@kmitl.ac.th")) {
             return RegistGoogle();
           }
           
