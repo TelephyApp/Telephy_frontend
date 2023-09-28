@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephy/psych_layout.dart';
 import 'package:telephy/screens/login_screen.dart';
+import 'package:telephy/screens/register_google.dart';
+import 'package:telephy/screens/select_user_screen.dart';
 import 'package:telephy/services/user_service.dart';
 import 'package:telephy/user_layout.dart';
 
@@ -13,26 +15,27 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  bool isEmailExist = false;
-  void checkEmailExist() async{
-    isEmailExist = await UserService().doesEmailExist(FirebaseAuth.instance.currentUser!.email!);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if(snapshot.hasData && snapshot.data!.email!.endsWith("@kmitl.ac.th")){
-            return PsychLayout();
+          // if(snapshot.)
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
-          else if (snapshot.hasData && isEmailExist) {
-            return UserLayout();
-          }
-          else if(snapshot.hasData && !isEmailExist){
-            return 
-          }
-           else {
+          if (snapshot.hasData) {
+            return SelectUserScreen();
+          } else {
             return LoginPage();
           }
         },
