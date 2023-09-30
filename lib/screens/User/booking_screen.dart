@@ -8,7 +8,7 @@ import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
-import 'package:telephy/widgets/timeSlot.dart';
+import 'package:telephy/widgets/timeSlotTable.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({required this.psychologist, super.key});
