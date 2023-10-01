@@ -11,6 +11,7 @@ class Users {
   final String phone;
   final String? medicalCondition;
   final String? imagePath;
+  final List<String>? chatRoomsId;
 
   Users({
     required this.username,
@@ -22,7 +23,8 @@ class Users {
     required this.phone,
     required this.birthday,
     this.medicalCondition,
-    this.imagePath = './assets/imges/user.png',
+    this.imagePath = 'assets/images/user.png',
+    this.chatRoomsId,
   });
 
   //convert to a map
@@ -38,6 +40,7 @@ class Users {
       'birthday': birthday,
       'medical_condition': medicalCondition,
       'image_path': imagePath,
+      'chat_rooms_id': chatRoomsId
     };
   }
 
@@ -54,6 +57,7 @@ class Users {
           map['birthday'] ?? DateFormat('dd/mm/yyyy').format(DateTime.now()),
       medicalCondition: map['medical_condition'] ?? '',
       imagePath: map['image_path'] ?? '',
+      chatRoomsId: map['chat_rooms_id'] ?? [],
     );
   }
 }
