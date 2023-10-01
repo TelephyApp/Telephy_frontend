@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
@@ -51,7 +52,8 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void fetchAllTimeslots() async {
-    timeslots = await TimeslotService().getAllTimeSlots();
+    timeslots =
+        await TimeslotService().getAllTimeSlotsByPsyId(widget.psychologistId);
   }
 
   void getPsychologist() async {
@@ -60,10 +62,11 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void addAppointmentByTimeslot() async {
-    await AppointmentService().addAppointment(
-        _selectedDayTimeSlots[_currentIndex!], _auth.currentUser?.uid);
-    await ChatService()
-        .createChatRoom(widget.psychologistId, _auth.currentUser!.uid);
+    await AppointmentService()
+        .addAppointment(
+            _selectedDayTimeSlots[_currentIndex!], _auth.currentUser?.uid)
+        .then((value) => ChatService()
+            .createChatRoom(widget.psychologistId, _auth.currentUser!.uid));
   }
 
   @override
@@ -239,7 +242,11 @@ class _BookingScreenState extends State<BookingScreen> {
                                                                 ),
                                                               ),
                                                               child: Text(
-                                                                '${_selectedDayTimeSlots[index].startTime.toString()}',
+                                                                DateFormat('Hm').format(
+                                                                    _selectedDayTimeSlots[
+                                                                            index]
+                                                                        .startTime
+                                                                        .toDate()),
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
@@ -7,7 +8,8 @@ import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
 class confirmBookingScreen extends StatefulWidget {
-  const confirmBookingScreen({required this.psychologist,required this.timeslot,super.key});
+  const confirmBookingScreen(
+      {required this.psychologist, required this.timeslot, super.key});
   final Psychologist psychologist;
   final Timeslot timeslot;
   @override
@@ -25,15 +27,19 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            PsychologistCard(
-              psychologistName: '${widget.psychologist.firstname} ${widget.psychologist.lastname}',
-              workplace: widget.psychologist.hospital,
-              ratePerHour: widget.psychologist.ratePerHours,
-              setBorderCardBottomLeft: false,
-              setBorderCardBottomRight: false,
+            Container(
+              margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+              child: PsychologistCard(
+                psychologistName:
+                    '${widget.psychologist.firstname} ${widget.psychologist.lastname}',
+                workplace: widget.psychologist.hospital,
+                ratePerHour: widget.psychologist.ratePerHours,
+                setBorderCardBottomLeft: false,
+                setBorderCardBottomRight: false,
+              ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 24, right: 24),
+              margin: EdgeInsets.only(left: 12, right: 12),
               height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -89,7 +95,8 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    widget.timeslot.startTime.toString(),
+                                    DateFormat('Hm').format(
+                                        widget.timeslot.startTime.toDate()),
                                     style: TextStyle(
                                       fontSize: 16,
                                       // fontWeight: FontWeight.bold,
