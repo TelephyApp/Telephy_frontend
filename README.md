@@ -1,4 +1,4 @@
-## telephyfrontend
+# telephyfrontend
 
 # How to Setup
 
@@ -13,56 +13,82 @@ https://github.com/TelephyApp/Telephy_frontend.git
 
 **Step 2:**
 
-Go to project root and execute the following command in console to get the required dependencies:
+Go to the project root and execute the following command in the console to get the required dependencies:
 
 ```
 flutter pub get
 ```
 
-# Githup Workflow
-**First of all, Never ever dev on main branch!!**
 
-**Work on  branch**
-1. create new branch for your new feature
-   ```
-   git branch <branch_name>
-   ```
-3. checkout into your branch 
-   ```
-   git checkout <branch_name>
-   ```
-5. dev with fire!
+# GitHub Workflow
 
-**Add and Commit**
-1. Add you change file
+**1. Never Develop on the Main Branch!**
+
+**2. Create a New Feature Branch**
+
+- Create a new branch for your new feature:
+   ```bash
+   git checkout -b <branch_name>
    ```
+   Replace `<branch_name>` with a descriptive name for your feature.
+
+**3. Develop Your Feature**
+
+- Make your changes and commit them as needed. Use meaningful commit messages:
+   ```bash
    git add -A
-   ```
-   this means adding all changed files.
-3. Commit
-   ```
-   git commit -m "<comments_here_must_have>"
+   git commit -m "Your meaningful commit message here"
    ```
 
-**Push and Pull** <br/>
+**4. Stay Updated with the Main Branch**
 
-Before pushing your commit into Github, I would highly recommend you to pull main branch into your branch first
-to reduce conflict when merging into main, then solve the conflict in your branch before pushing into main branch
+- Before pushing your changes, it's essential to keep your feature branch up-to-date with the main branch. This helps prevent conflicts when merging.
+   ```bash
+   # Ensure you are on your feature branch
+   git checkout <branch_name>
 
-1. make sure you are now in your branch <br/>
-2. then fetch main branch <br/>
-   ```
+   # Fetch the latest changes from the main branch
    git fetch origin main
+
+   # Merge the latest changes from the main branch into your feature branch
+   git merge origin/main
    ```
-4. pull main into your branch <br/>
+
+   If there are conflicts, resolve them in your feature branch. After resolving conflicts, add and commit the changes.
+
+**5. Push Your Feature Branch**
+
+- Once you've resolved conflicts (if any), push your feature branch to GitHub:
+   ```bash
+   git push origin <branch_name>
    ```
-   git pull origin main
+
+**6. Create a Pull Request**
+
+- Go to the GitHub repository's page and click on "Pull Request."
+- Compare your feature branch to the main branch.
+- Provide a descriptive title and details for your pull request. Include any relevant context and information for reviewers.
+- Reviewers will assess your changes and may request additional modifications.
+- Make further commits and push changes if needed based on the feedback.
+
+**7. Merge Your Pull Request**
+
+- After your pull request is approved, merge it into the main branch.
+- You can either merge it directly on GitHub or use the command line:
+   ```bash
+   # Ensure you are on your feature branch
+   git checkout <branch_name>
+
+   # Merge your feature branch into the main branch
+   git merge origin/main
+
+   # Push the merged changes to the main branch
+   git push origin main
    ```
-6. this might cause conflict, solve it! <br/>
-7. then add and commit your conflict solved <br/>
-8. then push your branch into main 
+
+**8. Delete Your Feature Branch**
+
+- After your pull request is merged and your feature is complete, you can delete your feature branch to keep the repository clean:
+   ```bash
+   git branch -d <branch_name>
    ```
-   git push
-   ```
-10. go to GitHub Page and click Pull Request <br/>
-11. Done, wait for DevOps(fair) to merge it! <br/>
