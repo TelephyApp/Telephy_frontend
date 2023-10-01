@@ -7,7 +7,7 @@ class Psychologist {
   final String phone;
   final String hospital;
   final String ratePerHours;
-  final String imagePath;
+  final String? imagePath;
 
   Psychologist({
     required this.firstname,
@@ -18,7 +18,7 @@ class Psychologist {
     required this.phone,
     required this.hospital,
     required this.ratePerHours,
-    required this.imagePath,
+    this.imagePath = 'assets/images/psy.png',
   });
 
   //convert to a map
