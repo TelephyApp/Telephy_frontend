@@ -1,7 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/widgets/calender.dart';
 import 'package:telephy/widgets/timeSlotTable.dart';
 
@@ -14,12 +16,11 @@ class TimeSlotScreen extends StatefulWidget {
 
 class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
-  List<Timeslot> availableTimeslots = [
-    Timeslot(id: "101", psyId: "aot", startTime: DateTime(2023, 9, 29, 7, 0)),
-    Timeslot(id: "102", psyId: "Miss", startTime: DateTime(2023, 9, 30, 2, 0)),
-    Timeslot(id: "103", psyId: "Nep", startTime: DateTime(2023, 10, 1, 5, 0)),
-    Timeslot(id: "104", psyId: "Jem", startTime: DateTime(2023, 10, 1, 2, 0))
-  ];
+  List<Timeslot> availableTimeslots = [];
+
+  Future<void> fetchAllTimeslot() async {
+    availableTimeslots = await TimeslotService().getAllTimeSlots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +40,30 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                 ),
               ),
               Expanded(
-                child: TimeSlotTable(
-                    currentDate: selectedDay,
-                    availableTimeslots: availableTimeslots,
-                    setTimeslotsState: (availableTimeslots) {
-                      setState(() {
-                        this.availableTimeslots = availableTimeslots;
-                      });
+                child: FutureBuilder(
+                    future: fetchAllTimeslot(),
+                    builder: (context, snapshot) {
+                      return StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('timeslots')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return TimeSlotTable(
+                                  currentDate: selectedDay,
+                                availableTimeslots: availableTimeslots!,
+                                  setTimeslotsState: (availableTimeslots) {
+                                    setState(() {
+                                      this.availableTimeslots =
+                                          availableTimeslots;
+                                    });
+                                  });
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          });
                     }),
               ),
             ],

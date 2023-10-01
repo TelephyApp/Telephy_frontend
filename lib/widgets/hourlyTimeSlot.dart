@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
@@ -44,8 +45,8 @@ class HourlySlot extends StatelessWidget {
 
     final bool isPastDay = currentDateTime.isBefore(currentTime);
     bool isInAvailableSlots = availableTimeslots != null &&
-        availableTimeslots!.any(
-            (timeslot) => timeslot.startTime.isAtSameMomentAs(currentDateTime));
+        availableTimeslots.any((timeslot) =>
+            timeslot.startTime.toDate().isAtSameMomentAs(currentDateTime));
     return isPastDay
         ? Container(
             decoration: BoxDecoration(
@@ -91,9 +92,9 @@ class HourlySlot extends StatelessWidget {
                           onPressed: () {
                             availableTimeslots.removeWhere((timeslot) =>
                                 timeslot.startTime
+                                    .toDate()
                                     .isAtSameMomentAs(currentDateTime));
                             Navigator.of(context).pop();
-
                           },
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
