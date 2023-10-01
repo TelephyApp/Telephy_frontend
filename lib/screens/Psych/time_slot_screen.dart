@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/services/timeslot_service.dart';
@@ -19,7 +20,8 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
   List<Timeslot> availableTimeslots = [];
 
   Future<void> fetchAllTimeslot() async {
-    availableTimeslots = await TimeslotService().getAllTimeSlots();
+    availableTimeslots = await TimeslotService()
+        .getAllTimeSlotsByPsyId(FirebaseAuth.instance.currentUser!.uid);
   }
 
   @override
@@ -49,15 +51,20 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
+                              // return ListView.builder(
+                              //     itemCount: availableTimeslots.length,
+                              //     itemBuilder: ((context, index) {
+                              //       return ListTile(
+                              //         title: Text(availableTimeslots[index]
+                              //             .startTime
+                              //             .toDate()
+                              //             .toString()),
+                              //       );
+                              //     }));
                               return TimeSlotTable(
                                   currentDate: selectedDay,
-                                availableTimeslots: availableTimeslots!,
-                                  setTimeslotsState: (availableTimeslots) {
-                                    setState(() {
-                                      this.availableTimeslots =
-                                          availableTimeslots;
-                                    });
-                                  });
+                                  availableTimeslots: availableTimeslots,
+                                  setTimeslotsState: (availableTimeslots) {});
                             } else {
                               return Center(
                                 child: CircularProgressIndicator(),
