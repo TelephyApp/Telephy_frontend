@@ -7,7 +7,7 @@ class UserService {
   final CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
-  Future<void> storeUserData(User user,Users createdUser) async {
+  Future<void> storeUserData(User user, Users createdUser) async {
     await users.doc(user.uid).set({
       'firstname': createdUser.firstname,
       'lastname': createdUser.lastname,
@@ -15,11 +15,10 @@ class UserService {
       'gender': createdUser.gender,
       'age': createdUser.age,
       'phone': createdUser.phone,
-      'email': user.email,
-      'birthday': createdUser.email,
+      'email': createdUser.email,
+      'birthday': createdUser.birthday,
       'medical_condition': createdUser.medicalCondition,
-      'image_path': user.photoURL
-
+      'image_path': user.photoURL == "" ? "" : "./assets/images/user.png",
     });
   }
 
@@ -34,7 +33,7 @@ class UserService {
       return false;
     }
   }
-  
+
   Future<Users?> getUserByUID(String uid) async {
     try {
       final DocumentSnapshot userDoc = await users.doc(uid).get();
@@ -47,7 +46,6 @@ class UserService {
       }
     } catch (e) {
       print('Error fetching user: $e');
-      throw e;
     }
   }
 
@@ -57,5 +55,43 @@ class UserService {
     QuerySnapshot onlineUsersSnapshot =
         await usersRef.where('online', isEqualTo: true).get();
     return onlineUsersSnapshot.docs;
+  }
+
+  Future<String> getGoogleSignInEmail() async {
+    // Get the current user.
+    final user = FirebaseAuth.instance.currentUser;
+
+    // Get the provider data of the current user.
+    final providerData = user!.providerData;
+
+    // Find the provider data for the Google sign-in provider.
+    final googleProviderData = providerData
+        .firstWhere((provider) => provider.providerId == 'google.com');
+
+    // Get the email from the provider data.
+    final email = googleProviderData.email!;
+    return email;
+  }
+
+  Future<String> getLoggedInProvider() async {
+    // Get the current user.
+    final user = FirebaseAuth.instance.currentUser!;
+
+    // Get the provider data of the current user.
+    final providerData = user.providerData;
+
+    // Find the provider data for the Google sign-in provider or the email provider.
+    final provider = providerData.firstWhere((provider) =>
+        provider.providerId == 'google.com' ||
+        provider.providerId == 'password');
+
+    // Check the providerId property of the provider data to see if it is google.com or password.
+    if (provider.providerId == 'google.com') {
+      return 'Google';
+    } else if (provider.providerId == 'password') {
+      return 'Email';
+    } else {
+      return 'Unknown';
+    }
   }
 }

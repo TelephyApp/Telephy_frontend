@@ -1,14 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:telephy/model/time_slot.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctor extends StatefulWidget {
-  final void Function(DateTime)
-      onDaySelected; 
+  final void Function(DateTime) onDaySelected;
 
-  const CalendarDoctor({Key? key, required this.onDaySelected})
-      : super(key: key);
+  const CalendarDoctor({
+    Key? key,
+    required this.onDaySelected,
+  }) : super(key: key);
 
   @override
   State<CalendarDoctor> createState() => _CalendarDoctorState();
@@ -16,7 +18,7 @@ class CalendarDoctor extends StatefulWidget {
 
 class _CalendarDoctorState extends State<CalendarDoctor> {
   DateTime today = DateTime.now();
-  bool showCalendar = false; // Track whether to show the calendar
+  bool showCalendar = false;
   DateTime selectedDay = DateTime.now();
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -35,7 +37,6 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
   Widget Content() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,5 +211,3 @@ class _CalendarDoctorState extends State<CalendarDoctor> {
     );
   }
 }
-
-

@@ -1,24 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Chat {
-  final String psy_uid;
-  final String user_uid;
+  final String id;
+  final String doctorId;
+  final String userId;
+  final Timestamp createdAt; // Firestore timestamp
+  final bool isEnable;
 
-  Chat({
-    required this.psy_uid,
-    required this.user_uid,
-  });
+  Chat(
+      {required this.id,
+      required this.doctorId,
+      required this.userId,
+      required this.createdAt,
+      this.isEnable = false});
 
-  //convert to a map
-  Map<String, dynamic> toMap() {
-    return {
-      'psy_uid': psy_uid,
-      'user_uid': user_uid,
-    };
+  factory Chat.fromMap(String id, Map<String, dynamic> data) {
+    return Chat(
+      id: id,
+      doctorId: data['doctorId'] ?? '',
+      userId: data['userId'] ?? '',
+      createdAt: data['createdAt'] ?? Timestamp.now(),
+      isEnable: data['is_enable'] ?? false,
+    );
   }
 
-  factory Chat.fromMap(Map<String, dynamic> map) {
-    return Chat(
-      psy_uid: map['psy_uid'] ?? '',
-      user_uid: map['user_uid'] ?? '',
-    );
+  Map<String, dynamic> toMap() {
+    return {
+      'doctorId': doctorId,
+      'userId': userId,
+      'createdAt': createdAt,
+      'is_enable': isEnable,
+    };
   }
 }
