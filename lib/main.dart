@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
         ),
       ),
-      initialRoute: 'main-psych',
+      initialRoute: 'login',
       getPages: AppPages.routes,
     );
   }
