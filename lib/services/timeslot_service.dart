@@ -26,7 +26,7 @@ class TimeslotService {
       return Timeslot(
         id: doc.id,
         psyId: data['psy_id'],
-        startTime: (data['start_time'] as Timestamp).toDate(),
+        startTime: (data['start_time'] as Timestamp),
       );
     }).toList();
   }

@@ -1,24 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
+import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/widgets/hourlyTimeSlot.dart';
 
 class TimeSlotTable extends StatefulWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
-
-  const TimeSlotTable({Key? key, required this.currentDate}) : super(key: key);
+  final List<Timeslot> availableTimeslots;
+  final Function(List<Timeslot>) setTimeslotsState;
+  const TimeSlotTable(
+      {Key? key,
+      required this.currentDate,
+      required this.availableTimeslots,
+      required this.setTimeslotsState})
+      : super(key: key);
 
   @override
   _TimeSlotTableState createState() => _TimeSlotTableState();
 }
 
 class _TimeSlotTableState extends State<TimeSlotTable> {
-  bool isBooking = false; // Added state variable
-  List<List<bool>> isSlotTapped = List.generate(
-      3,
-      (dayIndex) =>
-          List.generate(24, (hourIndex) => false)); // Slot tapped state
+  bool isBooking = false;
+  List<List<bool>> isSlotTapped =
+      List.generate(3, (dayIndex) => List.generate(24, (hourIndex) => false));
+  DateTime? lastCurrentDate;
+  DateTime? selectedDateTime;
+  DateTime? selectedSlotsTime;
+  bool selectSlotsTaped = false;
+
+  @override
+  void didUpdateWidget(TimeSlotTable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.currentDate != lastCurrentDate) {
+      for (var dayIndex = 0; dayIndex < isSlotTapped.length; dayIndex++) {
+        for (var hourIndex = 0;
+            hourIndex < isSlotTapped[dayIndex].length;
+            hourIndex++) {
+          isSlotTapped[dayIndex][hourIndex] = false;
+        }
+      }
+      lastCurrentDate = widget.currentDate;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +80,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                 ),
                 child: Container(
                   height: 100,
-                  padding: const EdgeInsets.all(11),
+                  padding: const EdgeInsets.only(
+                      left: 90, right: 11, bottom: 11, top: 11),
                   decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -130,9 +158,9 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                     return Row(
                       children: [
                         Expanded(
-                          child: TimeSlot(
+                          child: TimeSlotTab(
                             hour: hour,
-                            isBooking: isBooking, // Pass isBooking state
+                            isBooking: isBooking,
                           ),
                         ),
                         for (var dayIndex = 0;
@@ -142,17 +170,32 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                             child: HourlySlot(
                               day: lastThreeDays[dayIndex],
                               hour: hour,
-                              isTapped: isSlotTapped[dayIndex]
-                                  [hourIndex], // Pass tapped state
+                              isTapped: isSlotTapped[dayIndex][hourIndex],
                               onTap: () {
-                                if (isBooking) {
-                                  // Toggle tapped state for this specific day and hour
+                                if (isBooking && !selectSlotsTaped) {
                                   setState(() {
                                     isSlotTapped[dayIndex][hourIndex] =
                                         !isSlotTapped[dayIndex][hourIndex];
+                                    selectSlotsTaped = true;
+                                  });
+                                } else if (isBooking &&
+                                    selectSlotsTaped &&
+                                    isSlotTapped[dayIndex][hourIndex]) {
+                                  setState(() {
+                                    isSlotTapped[dayIndex][hourIndex] =
+                                        !isSlotTapped[dayIndex][hourIndex];
+                                    selectSlotsTaped = false;
                                   });
                                 }
                               },
+                              selectedSlotsTime: selectedSlotsTime,
+                              isBooking: isBooking,
+                              setState: (DateTime selectedSlotsTime) {
+                                setState(() {
+                                  this.selectedSlotsTime = selectedSlotsTime;
+                                });
+                              },
+                              availableTimeslots: widget.availableTimeslots,
                             ),
                           ),
                       ],
@@ -168,13 +211,44 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
         ),
         Positioned(
           bottom: 20,
-          right: 20, // Set the button position to the bottom right
+          right: 20,
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 setState(() {
                   isBooking = !isBooking;
+
+                  if (isBooking) {
+                    selectSlotsTaped = false;
+                  }
+
+                  if (!isBooking) {
+                    if (selectedSlotsTime != null) {
+                      widget.availableTimeslots!.add(Timeslot(
+                          id: "101",
+                          psyId: "aot",
+                          startTime: Timestamp.fromDate(
+                              selectedSlotsTime ?? DateTime.now())));
+                      widget.setTimeslotsState(widget.availableTimeslots);
+                      final selectedDateTimeString =
+                          DateFormat('yyyy-MM-dd HH:mm')
+                              .format(selectedSlotsTime ?? DateTime.now());
+                      print('Selected Slot: $selectedDateTimeString');
+                    }
+                    isBooking = false;
+                    selectSlotsTaped = true;
+                    selectedSlotsTime = null;
+                    for (var dayIndex = 0;
+                        dayIndex < isSlotTapped.length;
+                        dayIndex++) {
+                      for (var hourIndex = 0;
+                          hourIndex < isSlotTapped[dayIndex].length;
+                          hourIndex++) {
+                        isSlotTapped[dayIndex][hourIndex] = false;
+                      }
+                    }
+                  }
                 });
               },
               splashColor: Colors.grey.withOpacity(0.5),
@@ -187,7 +261,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                     BoxShadow(
                       color: Color(0x500F1B2D),
                       blurRadius: 10,
-                      offset: Offset(4, 3), // Shadow position
+                      offset: Offset(4, 3),
                     )
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -200,8 +274,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                 child: Center(
                   child: Icon(
                     isBooking ? Icons.done : Icons.add,
-                    size: 40, 
-                    color: Colors.white, 
+                    size: 40,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -213,11 +287,11 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
   }
 }
 
-class TimeSlot extends StatelessWidget {
+class TimeSlotTab extends StatelessWidget {
   final String hour;
   final bool isBooking;
 
-  const TimeSlot({Key? key, required this.hour, required this.isBooking})
+  const TimeSlotTab({Key? key, required this.hour, required this.isBooking})
       : super(key: key);
 
   @override
@@ -242,118 +316,4 @@ class TimeSlot extends StatelessWidget {
       ),
     );
   }
-}
-
-class HourlySlot extends StatelessWidget {
-  final DateTime day;
-  final String hour;
-  final bool isTapped;
-  final VoidCallback onTap;
-
-  const HourlySlot({
-    Key? key,
-    required this.day,
-    required this.hour,
-    required this.isTapped,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final DateTime currentTime = DateTime.now();
-    final DateTime currentDateTime = DateTime(
-      day.year,
-      day.month,
-      day.day,
-      int.parse(hour),
-    );
-
-    String generateTimeRange(int hour) {
-      final startHour = hour;
-      final endHour = (hour + 1) % 24;
-
-      return '${startHour.toString().padLeft(2, '0')}:00-${endHour.toString().padLeft(2, '0')}:00';
-    }
-
-    String timeRange = generateTimeRange(int.parse(hour));
-
-    final bool isPastDay = currentDateTime.isBefore(currentTime);
-
-    return isPastDay
-        ? Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFDDDEFC),
-              border: Border.all(
-                color: const Color(0xFFD2ACFF),
-                width: 0.5,
-              ),
-            ),
-            child: const Column(
-              children: [
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  '',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12,
-                  ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-              ],
-            ),
-          )
-        : GestureDetector(
-            onTap: onTap, // Use onTap function passed from parent
-            child: Container(
-              decoration: BoxDecoration(
-                color: isTapped
-                    ? const Color.fromRGBO(178, 221, 253, 1)
-                    : const Color.fromARGB(0, 209, 172, 255),
-                border: Border.all(
-                  color: isTapped
-                      ? const Color(0xFFE4DAD1)
-                      : const Color(0xFFD2ACFF),
-                  width: 0.5,
-                ),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Text(
-                    isTapped
-                        ? '${DateFormat('EEE').format(day)} $timeRange'
-                        : " ",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 12,
-                    ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                ],
-              ),
-            ),
-          );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: TimeSlotTable(currentDate: DateTime.now()),
-    ),
-  ));
 }

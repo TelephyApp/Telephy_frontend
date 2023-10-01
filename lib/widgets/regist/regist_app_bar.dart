@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 
 class RegisterAppBar extends StatelessWidget implements PreferredSizeWidget {
-  
   const RegisterAppBar({
-    super.key, 
-    required this.title, 
-    required this.onPressed,
+    super.key,
+    required this.title,
+    this.onPressed,
   });
 
   final String title;
-  final VoidCallback onPressed;
-  
+  final VoidCallback? onPressed;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color.fromRGBO(124, 129, 255, 1), Color.fromRGBO(174, 178, 253, 1), Color.fromRGBO(215, 216, 255, 0)]),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromRGBO(124, 129, 255, 1),
+                Color.fromRGBO(174, 178, 253, 1),
+                Color.fromRGBO(215, 216, 255, 0)
+              ]),
         ),
       ),
       elevation: 0,
@@ -31,12 +34,12 @@ class RegisterAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: Text(
-        title, 
+        title,
         style: const TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.w400,
-          ),
         ),
+      ),
     );
   }
 

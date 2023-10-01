@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/utils/config.dart';
