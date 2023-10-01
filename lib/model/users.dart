@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Users {
   final String username;
   final String firstname;
@@ -5,10 +7,11 @@ class Users {
   final String email;
   final String gender;
   final int age;
-  final DateTime birthday;
+  final String birthday;
   final String phone;
-  final String medicalCondition;
-  final String imagePath;
+  final String? medicalCondition;
+  final String? imagePath;
+  final List<String>? chatRoomsId;
 
   Users({
     required this.username,
@@ -19,8 +22,9 @@ class Users {
     required this.age,
     required this.phone,
     required this.birthday,
-    required this.medicalCondition,
-    required this.imagePath,
+    this.medicalCondition,
+    this.imagePath = 'assets/images/user.png',
+    this.chatRoomsId,
   });
 
   //convert to a map
@@ -36,6 +40,7 @@ class Users {
       'birthday': birthday,
       'medical_condition': medicalCondition,
       'image_path': imagePath,
+      'chat_rooms_id': chatRoomsId
     };
   }
 
@@ -48,9 +53,11 @@ class Users {
       gender: map['gender'] ?? '',
       age: map['age'] ?? 0,
       phone: map['phone'] ?? '',
-      birthday: map['birthday'] ?? DateTime.now(),
+      birthday:
+          map['birthday'] ?? DateFormat('dd/mm/yyyy').format(DateTime.now()),
       medicalCondition: map['medical_condition'] ?? '',
       imagePath: map['image_path'] ?? '',
+      chatRoomsId: map['chat_rooms_id'] ?? [],
     );
   }
 }
