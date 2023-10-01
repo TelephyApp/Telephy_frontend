@@ -20,7 +20,8 @@ class GoogleAuthService {
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
+          await _googleSignIn.signIn().catchError((onError) => print(onError));
+      if (googleSignInAccount == null) return null;
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
@@ -45,8 +46,6 @@ class GoogleAuthService {
           await _googleSignIn.signOut();
           return null;
         }
-      } else {
-        return null; // Sign-in was canceled
       }
     } catch (e) {
       print(e); // Handle other platform exceptions appropriately
