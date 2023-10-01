@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Timeslot {
   final String id;
   final String psyId;
-  final DateTime startTime;
-  
+  final Timestamp startTime;
+
   Timeslot({
     required this.id,
     required this.psyId,
@@ -22,7 +24,10 @@ class Timeslot {
     return Timeslot(
       id: map['id'] ?? '',
       psyId: map['psy_id'] ?? '',
-      startTime: map['start_time'] ?? DateTime.now(),
+      startTime: map['start_time'] ?? Timestamp.now(),
     );
   }
+
+
+  List<Timeslot> timeslots = [];
 }
