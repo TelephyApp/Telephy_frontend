@@ -18,6 +18,7 @@ class InfoAppointment extends StatefulWidget {
 class _InfoAppointmentState extends State<InfoAppointment> {
   // if using MVC , move all of this to LoginController
   Psychologist? psychologist;
+  
   void onAppoint() {
     Get.to(
       () => BookingScreen(
