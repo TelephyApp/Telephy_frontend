@@ -40,7 +40,7 @@ class MessagePage extends StatelessWidget {
     if (_auth.currentUser!.email != data['email']) {
       // if (data['email']) {
       return GestureDetector(
-        child: Text(data['email']),
+        child: Text("data['email']"),
         onTap: () {
           Navigator.push(
               context,
