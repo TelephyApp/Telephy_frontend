@@ -41,12 +41,17 @@ class MessagePage extends StatelessWidget {
 
   Widget _buildUserListItem(String chatRoomId) {
     DocumentSnapshot<Map<String, dynamic>>? docSnap;
+    Users? user;
 
     void getDocSnap() async {
       docSnap = await FirebaseFirestore.instance
           .collection('chat_rooms')
           .doc(chatRoomId)
           .get();
+    }
+
+    void getUser(String uid) async {
+      user = await UserService().getUserByUID(uid);
     }
 
     getDocSnap();
@@ -56,14 +61,14 @@ class MessagePage extends StatelessWidget {
     final recieverId =
         data['user'] == _auth.currentUser!.uid ? data['pys'] : data['user'];
 
-    final Users user = UserService().getUserByUID(recieverId) as Users;
+    getUser(recieverId);
 
     //display all users except current user
     // if (data['email']) {
     return GestureDetector(
       child: Row(
         children: [
-          Text(user.email),
+          Text(user!.email),
           Text(recieverId),
         ],
       ),
@@ -72,7 +77,7 @@ class MessagePage extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatScreen(
-                      reciverUserEmail: user.email,
+                      reciverUserEmail: user!.email,
                       reciverUserID: recieverId,
                     )));
       },
