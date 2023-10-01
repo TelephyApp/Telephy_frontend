@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/utils/config.dart';
@@ -227,7 +228,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                       widget.availableTimeslots!.add(Timeslot(
                           id: "101",
                           psyId: "aot",
-                          startTime: selectedSlotsTime!));
+                          startTime: Timestamp.fromDate(
+                              selectedSlotsTime ?? DateTime.now())));
                       widget.setTimeslotsState(widget.availableTimeslots);
                       final selectedDateTimeString =
                           DateFormat('yyyy-MM-dd HH:mm')
