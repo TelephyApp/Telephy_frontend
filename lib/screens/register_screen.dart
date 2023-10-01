@@ -32,8 +32,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //firebase
   final _userService = UserService();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  late final Users userData;
-
   //var to check does email existed
   String? emailError;
 
@@ -482,7 +480,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       365)
                                   .floor();
 
-                          userData = Users(
+                          var userData = Users(
                               username: username.text,
                               firstname: firstName.text,
                               lastname: lastName.text,
