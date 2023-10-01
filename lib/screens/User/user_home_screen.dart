@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -21,19 +22,21 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   void initState() {
     super.initState();
-    fetchAllPsychologists();
+    // fetchAllPsychologists();
   }
 
   //fetching all psychologists
-  void fetchAllPsychologists() async {
+  Future<void> fetchAllPsychologists() async {
     phychologists = await PsychologistService().getAllPsychologists();
   }
 
-  //when click psychologist card 
-  void onSelectedPhy(Psychologist psychologist) {
+  //when click psychologist card
+  void onSelectedPhy(Psychologist psychologist) async {
+    String? psyId =
+        await PsychologistService().getPsychologistUidByObject(psychologist);
     Get.to(
       () => InfoAppointment(
-        psychologist: psychologist,
+        psychologistId: psyId!,
       ),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -114,29 +117,46 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: ListView.builder(
-                  itemCount: phychologists.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        DetailTile(
-                          name: "${phychologists[index].firstname}",
-                          detail: "${phychologists[index].detail}",
-                          onclick: () => {
-                            onSelectedPhy(
-                                phychologists[index])
-                          },
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                child: FutureBuilder(
+                    future: fetchAllPsychologists(),
+                    builder: (context, snapshot) {
+                      return StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("psychologists")
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                itemCount: phychologists.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      DetailTile(
+                                        name:
+                                            "${phychologists[index].firstname} ${phychologists[index].lastname}",
+                                        detail:
+                                            "${phychologists[index].detail}",
+                                        onclick: () => {
+                                          onSelectedPhy(phychologists[index])
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          });
+                    }),
               ),
             ),
             // Container(

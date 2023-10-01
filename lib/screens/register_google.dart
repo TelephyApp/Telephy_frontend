@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +26,6 @@ class RegistGoogleState extends State<RegistGoogle> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   late final Users userData;
-
   //controllers
   final _username = TextEditingController();
   final _firstName = TextEditingController();
@@ -33,21 +34,6 @@ class RegistGoogleState extends State<RegistGoogle> {
   final _phoneNumber = TextEditingController();
   final _gender = SingleValueDropDownController();
   final _medicalConditional = TextEditingController();
-
-  get phoneNum => null;
-
-  @override
-  void dispose() {
-    _username.dispose();
-    _firstName.dispose();
-    _lastName.dispose();
-    _birthDate.dispose();
-    _gender.dispose();
-    phoneNum.dispose();
-    _medicalConditional.dispose();
-
-    super.dispose();
-  }
 
   final inputBorder = const OutlineInputBorder(
     borderSide: BorderSide(
@@ -94,7 +80,8 @@ class RegistGoogleState extends State<RegistGoogle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const RegisterAppBar(title: "ประวัติส่วน"),
+      appBar: RegisterAppBar(
+          title: "ประวัติส่วน", onPressed: FirebaseAuth.instance.signOut),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
@@ -304,43 +291,44 @@ class RegistGoogleState extends State<RegistGoogle> {
                 ),
                 Center(
                   child: RegistBT(
-                      titleBT: "เสร็จสิ้น",
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          try {
-                            User? user = FirebaseAuth.instance.currentUser;
-
-                            if (user == null) {
-                              Get.offNamed("login");
-                            }
-
+                    titleBT: "เสร็จสิ้น",
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        try {
+                          final user = FirebaseAuth.instance.currentUser;
+                          if (user != null && user.email != null) {
                             DateTime birthday =
-                                DateFormat("dd/mm/yyyy").parse(_birthDate.text);
+                                DateFormat("dd/MM/yyyy").parse(_birthDate.text);
                             int age =
                                 ((DateTime.now().difference(birthday).inDays) /
                                         365)
                                     .floor();
-
+                            String userEmail =
+                                await UserService().getGoogleSignInEmail();
                             userData = Users(
                                 username: _username.text,
                                 firstname: _firstName.text,
                                 lastname: _lastName.text,
-                                email: user!.email!,
+                                email: userEmail,
                                 gender: _gender.dropDownValue!.value,
                                 age: age,
                                 phone: _phoneNumber.text,
                                 birthday: _birthDate.text,
                                 imagePath: "");
 
-                            UserService().storeUserData(user, userData);
-
-                            dispose();
+                            await UserService().storeUserData(user, userData);
                             Get.offNamed('/main-user');
-                          } on FirebaseAuthException catch (e) {
-                            print(e.message);
+                          } else {
+                            // Handle the case where user or user.email is null
+                            // You can show an error message or take appropriate action.
+                            print("User or email is null");
                           }
+                        } on FirebaseAuthException catch (e) {
+                          print(e.message);
                         }
-                      }),
+                      }
+                    },
+                  ),
                 )
               ],
             ),

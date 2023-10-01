@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/users.dart';
+import 'package:telephy/services/user_service.dart';
 
 class PsychologistService {
   final CollectionReference psychologists =
@@ -78,5 +79,39 @@ class PsychologistService {
       print('Error getting psychologist: $error');
       return null;
     }
+  }
+
+  Future<String?> getPsychologistUidByObject(Psychologist psychologist) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('psychologists')
+              .where('firstname', isEqualTo: psychologist.firstname)
+              .where('lastname', isEqualTo: psychologist.lastname)
+              .limit(1) // Limit the query to 1 result (assuming unique names)
+              .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Return the UID of the first matching psychologist
+        return querySnapshot.docs.first.id;
+      } else {
+        // No matching psychologist found
+        return null;
+      }
+    } catch (error) {
+      print('Error getting psychologist UID by object: $error');
+      return null;
+    }
+  }
+
+  Future<bool> checkEmailExist() async {
+    String provider = await UserService().getLoggedInProvider();
+    String? email;
+    if (provider == "Google") {
+      email = await UserService().getGoogleSignInEmail();
+    } else {
+      email = FirebaseAuth.instance.currentUser?.email;
+    }
+    return await UserService().doesEmailExist(email!);
   }
 }
