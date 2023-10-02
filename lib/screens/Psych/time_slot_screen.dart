@@ -19,9 +19,16 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
   List<Timeslot> availableTimeslots = [];
 
+  @override
+  void initState() {
+    super
+        .initState(); // Fetch available timeslots once when the widget is initialized.
+  }
+
   Future<void> fetchAllTimeslot() async {
     availableTimeslots = await TimeslotService()
         .getAllTimeSlotsByPsyId(FirebaseAuth.instance.currentUser!.uid);
+    await FirebaseAuth.instance.currentUser;
   }
 
   @override
@@ -42,37 +49,32 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                 ),
               ),
               Expanded(
-                child: FutureBuilder(
-                    future: fetchAllTimeslot(),
-                    builder: (context, snapshot) {
-                      return StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('timeslots')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              // return ListView.builder(
-                              //     itemCount: availableTimeslots.length,
-                              //     itemBuilder: ((context, index) {
-                              //       return ListTile(
-                              //         title: Text(availableTimeslots[index]
-                              //             .startTime
-                              //             .toDate()
-                              //             .toString()),
-                              //       );
-                              //     }));
-                              return TimeSlotTable(
-                                  currentDate: selectedDay,
-                                  availableTimeslots: availableTimeslots,
-                                  setTimeslotsState: (availableTimeslots) {});
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          });
-                    }),
-              ),
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("timeslots")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return FutureBuilder(
+                            future: fetchAllTimeslot(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return TimeSlotTable(
+                                    currentDate: selectedDay,
+                                    availableTimeslots: availableTimeslots!,
+                                    setTimeslotsState: (availableTimeslots) {
+                                      setState(() {
+                                        availableTimeslots =
+                                            this.availableTimeslots!;
+                                      });
+                                    });
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            });
+                      })),
             ],
           ),
         ),
