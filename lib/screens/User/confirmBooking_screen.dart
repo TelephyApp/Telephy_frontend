@@ -141,6 +141,19 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                       ),
                     ),
                   ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    FaIcon(FontAwesomeIcons.heartCircleCheck),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "การนัดหมายของคุณเสร็จสิ้นเรียบร้อยแล้ว",
+                      style: TextStyle(
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]),
                 ],
               ),
             )
