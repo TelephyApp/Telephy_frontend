@@ -500,7 +500,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             User user = userCredential.user!;
                             await _userService.storeUserData(user, userData);
 
-                            dispose();
+                            // dispose();
                             Get.offNamed('/main-user');
                           } on FirebaseAuthException catch (e) {
                             // print(e.code);
