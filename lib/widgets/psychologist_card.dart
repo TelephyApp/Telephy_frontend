@@ -59,56 +59,59 @@ class PsychologistCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 8,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "$psychologistName",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+            Container(
+              width: 200,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "$psychologistName",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.locationCrosshairs,
-                        size: 17,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('$workplace'),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.stethoscope,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('$ratePerHour บาท / 1 ชั่วโมง'),
-                    ],
-                  ),
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.locationCrosshairs,
+                          size: 17,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('$workplace'),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.stethoscope,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('$ratePerHour บาท / 1 ชั่วโมง'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: Colors.white),
               child: ClipRRect(

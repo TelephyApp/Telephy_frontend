@@ -53,23 +53,24 @@ class ChatService extends ChangeNotifier {
   }
 
   Future<String> createChatRoom(String psyId, String userId) async {
-  try {
-    final CollectionReference chatRoomsCollection =
-        FirebaseFirestore.instance.collection('chat_rooms');
+    try {
+      final CollectionReference chatRoomsCollection =
+          FirebaseFirestore.instance.collection('chat_rooms');
+      List<String> ids = [userId, psyId];
+      ids.sort();
+      String chatRoomId = ids.join("_");
+      final DocumentReference chatRoomDocRef =
+          chatRoomsCollection.doc(chatRoomId);
 
-    final DocumentReference chatRoomDocRef = chatRoomsCollection.doc();
+      await chatRoomDocRef.set({
+        'psyId': psyId,
+        'userId': userId,
+      });
 
-    await chatRoomDocRef.set({
-      'psyId': psyId,
-      'userId': userId,
-    });
-
-    return chatRoomDocRef.id;
-  } catch (error) {
-    print('Error creating chat room: $error');
-    return '';
+      return chatRoomDocRef.id;
+    } catch (error) {
+      print('Error creating chat room: $error');
+      return '';
+    }
   }
-}
-
-  
 }
