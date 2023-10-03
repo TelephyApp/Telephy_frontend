@@ -30,7 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
     //only send message if there is not Empty
     if (_messageController.text.isNotEmpty) {
       await _chatService.sendMessage(
-          widget.reciverUserID, _messageController.text);
+          widget.reciverUserID,widget.reciverUserEmail, _messageController.text);
 
       //clear text controller after sending message
       _messageController.clear();
@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     //align the message to the right if the sender is the current user
     bool isCurrentUser =
-        (data['senderId'] == _firebaseAuth.currentUser!.uid) ? true : false;
+        (data['sender_id'] == _firebaseAuth.currentUser!.uid) ? true : false;
 
     DateTime datetime = data['timestamp'].toDate();
 
@@ -152,7 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Text(
-              isCurrentUser ? data['senderEmail'] : data['recieverEmail'],
+              isCurrentUser ? data['sender_email'] : data['reciever_email'],
               style: Config.smallFont,
             ),
           ),
