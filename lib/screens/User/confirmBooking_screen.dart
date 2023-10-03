@@ -142,11 +142,11 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                     ),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    FaIcon(FontAwesomeIcons.heartCircleCheck),
                     SizedBox(
-                      width: 10,
+                      width: 50,
                     ),
-                    //รอใส่รูปปุ่มกลับหน้าโฮม 
+                    FaIcon(FontAwesomeIcons.heartCircleCheck),
+                    //รอใส่รูปปุ่มกลับหน้าโฮม
                   ]),
                 ],
               ),
