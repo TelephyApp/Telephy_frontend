@@ -8,7 +8,7 @@ class TimeslotService {
   final CollectionReference timeslots =
       FirebaseFirestore.instance.collection('timeslots');
 
-  void addDataToFirestore(String psyId, DateTime startTime) async {
+  void addDataToFirestore(String psyId, Timestamp startTime) async {
     // Define the data you want to add
     final data = {
       'psy_id': psyId,
@@ -48,5 +48,20 @@ class TimeslotService {
 
   Future<void> deleteTimeslot(String timeslotId) async {
     await timeslots.doc(timeslotId).delete();
+  }
+
+  Future<String?> getDocIdByTimestampAndPsyId(
+      String psyId, Timestamp startTime) async {
+    final querySnapshot = await timeslots
+        .where('psy_id', isEqualTo: psyId)
+        .where('start_time', isEqualTo: startTime)
+        .get(); // Query Firestore to filter by 'psy_id' and 'start_time'
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final doc = querySnapshot.docs.first;
+      return doc.id; // Return the document ID
+    } else {
+      return null; // No matching document found
+    }
   }
 }

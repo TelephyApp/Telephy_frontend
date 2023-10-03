@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/widgets/hourlyTimeSlot.dart';
@@ -9,7 +11,7 @@ class TimeSlotTable extends StatefulWidget {
   final int numberOfHours = 24;
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
-  final List<Timeslot> availableTimeslots;
+  final List<Timeslot>? availableTimeslots;
   final Function(List<Timeslot>) setTimeslotsState;
   const TimeSlotTable(
       {Key? key,
@@ -195,7 +197,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                                   this.selectedSlotsTime = selectedSlotsTime;
                                 });
                               },
-                              availableTimeslots: widget.availableTimeslots,
+                              availableTimeslots: widget.availableTimeslots!,
                             ),
                           ),
                       ],
@@ -225,12 +227,11 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
 
                   if (!isBooking) {
                     if (selectedSlotsTime != null) {
-                      widget.availableTimeslots!.add(Timeslot(
-                          id: "101",
-                          psyId: "aot",
-                          startTime: Timestamp.fromDate(
-                              selectedSlotsTime ?? DateTime.now())));
-                      widget.setTimeslotsState(widget.availableTimeslots);
+                      TimeslotService().addDataToFirestore(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          Timestamp.fromDate(
+                              selectedSlotsTime ?? DateTime.now()));
+                      widget.setTimeslotsState(widget.availableTimeslots!);
                       final selectedDateTimeString =
                           DateFormat('yyyy-MM-dd HH:mm')
                               .format(selectedSlotsTime ?? DateTime.now());
