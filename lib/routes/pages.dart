@@ -20,11 +20,6 @@ class AppPages {
       page: () => const PsychLayout(),
     ),
     GetPage(
-      name: '/chat',
-      page: () => ChatScreen(
-          reciverUserEmail: "asdjhkdujksa", reciverUserID: "dsadhjkaskd"),
-    ),
-    GetPage(
       name: '/register',
       page: () => const RegisterScreen(),
     ),
