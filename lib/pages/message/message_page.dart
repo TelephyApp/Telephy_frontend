@@ -2,11 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telephy/model/users.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
-import 'package:telephy/services/message_service.dart';
 import 'package:telephy/widgets/chat/button_message.dart';
-import 'package:telephy/services/user_service.dart';
 import 'package:telephy/widgets/chatHistory/chat_history_card.dart';
 
 class MessagePage extends StatelessWidget {
@@ -82,7 +79,7 @@ class MessagePage extends StatelessWidget {
               recieverName = chatRoomData['psyName'];
             } else {
               recieverId = chatRoomData['userId'];
-              recieverName = chatRoomData['userEmail'];
+              recieverName = chatRoomData['userName'];
             }
 
             return Column(
@@ -95,7 +92,7 @@ class MessagePage extends StatelessWidget {
                         timeLastMessage: "haha",
                         username: recieverName),
                     onTap: () => Get.to(() => ChatScreen(
-                          reciverUserEmail: recieverName,
+                          reciverUserName: recieverName,
                           reciverUserID: recieverId,
                         )))
               ],
