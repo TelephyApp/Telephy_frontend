@@ -10,6 +10,7 @@ import 'package:telephy/model/users.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/user_service.dart';
 import 'package:telephy/videocall_module/call_method.dart';
+import 'package:telephy/videocall_module/videocall_screen_final.dart';
 
 import 'package:telephy/videocall_module/videocall_screen_test.dart';
 
@@ -18,14 +19,14 @@ class CallUtils {
   static dial({required User from, required String to, context}) async {
     // Users users = GetStateUpdaterMixin;
 
-    Psychologist? currentUer = await PsychologistService().getPsyByUID(from.uid);
+    Psychologist? currentUer =
+        await PsychologistService().getPsyByUID(from.uid);
     Users? toUser = await UserService().getUserByUID(to);
-    
+
     Call call = Call(
       callerUId: from.uid,
       callerName: currentUer!.firstname,
       callerPic: currentUer.imagePath,
-
       receiverId: to,
       receiverName: toUser!.username,
       receiverPic: toUser.imagePath,
@@ -41,7 +42,8 @@ class CallUtils {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CallScreen(call: call),
+            builder: (context) => VideoCallScreen(call: call),
+            // CallScreen(call: call),
           ));
     }
   }
