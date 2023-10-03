@@ -18,7 +18,7 @@ class InfoAppointment extends StatefulWidget {
 class _InfoAppointmentState extends State<InfoAppointment> {
   // if using MVC , move all of this to LoginController
   Psychologist? psychologist;
-  
+
   void onAppoint() {
     Get.to(
       () => BookingScreen(
@@ -78,8 +78,8 @@ class _InfoAppointmentState extends State<InfoAppointment> {
                             child: PsychologistCard(
                               psychologistName:
                                   "${psychologist?.firstname ?? ""} ${psychologist?.lastname ?? ""}",
-                              workplace: 'F',
-                              ratePerHour: '350',
+                              workplace: psychologist?.hospital ?? "",
+                              ratePerHour: psychologist?.ratePerHours ?? "",
                               setBorderCardBottomLeft: false,
                               setBorderCardBottomRight: false,
                             ),
