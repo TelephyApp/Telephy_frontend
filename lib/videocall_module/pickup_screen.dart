@@ -10,6 +10,7 @@ import 'package:telephy/routes/pages.dart';
 import 'package:telephy/videocall_module/call_method.dart';
 
 import 'package:telephy/videocall_module/videocall_screen.dart';
+import 'package:telephy/videocall_module/videocall_screen_final.dart';
 import 'package:telephy/videocall_module/videocall_screen_test.dart';
 
 class PickupScreen extends StatelessWidget {
@@ -130,7 +131,14 @@ class PickupScreen extends StatelessWidget {
                                     iconSize: 40,
                                     color: Colors.white,
                                     icon: FaIcon(FontAwesomeIcons.phone),
-                                    onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => CallScreen(call : call)))
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            // CallScreen(call: call),
+                                            VideoCallScreen(call: call),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
