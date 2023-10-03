@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/model/time_slot.dart';
 
@@ -46,7 +48,9 @@ class HourlySlot extends StatelessWidget {
     final bool isPastDay = currentDateTime.isBefore(currentTime);
     bool isInAvailableSlots = availableTimeslots != null &&
         availableTimeslots.any((timeslot) =>
-            timeslot.startTime.toDate().isAtSameMomentAs(currentDateTime));
+            timeslot.startTime.toDate().day == currentDateTime.day) &&
+        availableTimeslots.any((timeslot) =>
+            timeslot.startTime.toDate().hour == currentDateTime.hour);
     return isPastDay
         ? Container(
             decoration: BoxDecoration(
@@ -89,11 +93,14 @@ class HourlySlot extends StatelessWidget {
                           '\t\t\t\tหากยกเลิกแล้วผู้ใช้จะไม่สามารถนัดหมายในช่วงเวลาที่ทำการยกเลิกได้'),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            availableTimeslots.removeWhere((timeslot) =>
-                                timeslot.startTime
-                                    .toDate()
-                                    .isAtSameMomentAs(currentDateTime));
+                          onPressed: () async {
+                            String? timeslotId = await TimeslotService()
+                                .getDocIdByTimestampAndPsyId(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    Timestamp.fromDate(currentDateTime));
+                            if (timeslotId != null) {
+                              TimeslotService().deleteTimeslot(timeslotId);
+                            }
                             Navigator.of(context).pop();
                           },
                           style: ButtonStyle(
