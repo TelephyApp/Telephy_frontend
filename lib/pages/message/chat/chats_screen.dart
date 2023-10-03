@@ -8,9 +8,9 @@ import 'package:telephy/utils/config.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
-      {super.key, required this.reciverUserEmail, required this.reciverUserID});
+      {super.key, required this.reciverUserName, required this.reciverUserID});
 
-  final String reciverUserEmail;
+  final String reciverUserName;
   final String reciverUserID;
 
   @override
@@ -42,7 +42,14 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Config.backgroundColor,
       appBar: AppBar(
-        title: Text(widget.reciverUserEmail),
+        title: Text(widget.reciverUserName),
+        actions: [
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(Icons.phone),
+            padding: EdgeInsets.only(right: 40.0),
+          ),
+        ],
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -107,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     //align the message to the right if the sender is the current user
     bool isCurrentUser =
-        (data['senderId'] == _firebaseAuth.currentUser!.uid) ? true : false;
+        (data['sender_id'] == _firebaseAuth.currentUser!.uid) ? true : false;
 
     DateTime datetime = data['timestamp'].toDate();
 
@@ -149,13 +156,6 @@ class _ChatScreenState extends State<ChatScreen> {
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Text(
-              isCurrentUser ? data['senderEmail'] : data['recieverEmail'],
-              style: Config.smallFont,
-            ),
-          ),
           SizedBox(
             height: 2,
           ),
