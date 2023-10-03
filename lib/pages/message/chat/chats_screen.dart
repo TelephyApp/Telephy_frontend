@@ -8,9 +8,9 @@ import 'package:telephy/utils/config.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
-      {super.key, required this.reciverUserEmail, required this.reciverUserID});
+      {super.key, required this.reciverUserName, required this.reciverUserID});
 
-  final String reciverUserEmail;
+  final String reciverUserName;
   final String reciverUserID;
 
   @override
@@ -30,7 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
     //only send message if there is not Empty
     if (_messageController.text.isNotEmpty) {
       await _chatService.sendMessage(
-          widget.reciverUserID,widget.reciverUserEmail, _messageController.text);
+          widget.reciverUserID, _messageController.text);
 
       //clear text controller after sending message
       _messageController.clear();
@@ -42,7 +42,14 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Config.backgroundColor,
       appBar: AppBar(
-        title: Text(widget.reciverUserEmail),
+        title: Text(widget.reciverUserName),
+        actions: [
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(Icons.phone),
+            padding: EdgeInsets.only(right: 40.0),
+          ),
+        ],
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -149,13 +156,6 @@ class _ChatScreenState extends State<ChatScreen> {
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Text(
-              isCurrentUser ? data['sender_email'] : data['reciever_email'],
-              style: Config.smallFont,
-            ),
-          ),
           SizedBox(
             height: 2,
           ),
