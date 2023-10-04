@@ -131,8 +131,8 @@ class _BookingScreenState extends State<BookingScreen> {
                                         top: Radius.circular(20),
                                       ),
                                       image: DecorationImage(
-                                        image:
-                                            AssetImage("assets/images/bg.jpeg"),
+                                        image: AssetImage(
+                                            "assets/images/homeuser_bg.png"),
                                         fit: BoxFit.fitWidth,
                                         alignment: Alignment.center,
                                         opacity: 0.4,
