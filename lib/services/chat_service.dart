@@ -13,8 +13,7 @@ class ChatService extends ChangeNotifier {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   //send message
-  Future<void> sendMessage(
-      String recieverId, String message) async {
+  Future<void> sendMessage(String recieverId, String message) async {
     //get current user info
     final String currentUserId = _firebaseAuth.currentUser!.uid;
     final Timestamp timestamp = Timestamp.now();
@@ -55,25 +54,53 @@ class ChatService extends ChangeNotifier {
         .snapshots();
   }
 
-  Future<String> createChatRoom(
-      String psyId, String userId) async {
+  Future<String> createChatRoom(String psyId, String userId) async {
     try {
       final CollectionReference chatRoomsCollection =
           FirebaseFirestore.instance.collection('chat_rooms');
+
+      final CollectionReference userCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      final CollectionReference psyCollection =
+          FirebaseFirestore.instance.collection('psychologists');
+
       List<String> ids = [userId, psyId];
       ids.sort();
       String chatRoomId = ids.join("_");
       final DocumentReference chatRoomDocRef =
           chatRoomsCollection.doc(chatRoomId);
-      Psychologist? psy = await PsychologistService().getPsychologistByUID(psyId);
+
+      Psychologist? psy =
+          await PsychologistService().getPsychologistByUID(psyId);
       Users? users = await UserService().getUserByUID(userId);
 
-      await chatRoomDocRef.set({
-        'psyId': psyId,
-        'userId': userId,
-        'psyName': '${psy?.firstname} ${psy?.lastname}',
-        'userName': '${users?.firstname} ${users?.lastname}',
-      });
+      // add chat_room_id
+      final userchatRoomsId = users!.chatRoomsId;
+      final psychatRoomsId = psy!.chatRoomsId;
+
+      if (!userchatRoomsId!.contains(chatRoomId)) {
+        userchatRoomsId.add(chatRoomId);
+        await userCollection
+            .doc(userId)
+            .update({'chat_rooms_id': userchatRoomsId});
+      }
+      if (!psychatRoomsId!.contains(chatRoomId)) {
+        psychatRoomsId.add(chatRoomId);
+        await psyCollection
+            .doc(psyId)
+            .update({'chat_rooms_id': psychatRoomsId});
+      }
+
+      //create chatrooms
+      if (await chatRoomDocRef.snapshots().isEmpty) {
+        await chatRoomDocRef.set({
+          'psyId': psyId,
+          'userId': userId,
+          'psyName': '${psy.firstname} ${psy.lastname}',
+          'userName': '${users.firstname} ${users.lastname}',
+        });
+      }
 
       return chatRoomDocRef.id;
     } catch (error) {

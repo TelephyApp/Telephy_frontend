@@ -42,12 +42,10 @@ class PsychologistService {
 
   Future<Psychologist?> getPsychologistByUID(String uid) async {
     try {
-      final DocumentSnapshot<Map<String, dynamic>> doc = (await psychologists
-          .doc(uid)
-          .get()) as DocumentSnapshot<Map<String, dynamic>>;
+      final DocumentSnapshot doc = await psychologists.doc(uid).get();
 
       if (doc.exists) {
-        final Map<String, dynamic> data = doc.data()!;
+        final data = doc.data()! as Map<String, dynamic>;
         return Psychologist.fromMap(data);
       } else {
         return null;
