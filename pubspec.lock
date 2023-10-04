@@ -13,10 +13,26 @@ packages:
     dependency: "direct main"
     description:
       name: agora_rtc_engine
-      sha256: c1379d78722b3f49f3691c72664b55e094bdf384059125a7bb601bd7217928f6
+      sha256: "2b9ea091c9123be01e9289167e0bcdd91aa7d8fdc24c94e23f1629c3a6e5391a"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.1"
+    version: "6.2.2"
+  agora_rtm:
+    dependency: transitive
+    description:
+      name: agora_rtm
+      sha256: f53057125845494048e19ee6b8826fcee88937512d4c206d47a74345914e9a04
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.8"
+  agora_uikit:
+    dependency: "direct main"
+    description:
+      name: agora_uikit
+      sha256: a91ead0cae475b691eec9272ce1f789f2c2cacdfee2dcbdf90563dca2a099143
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.7"
   animated_notch_bottom_bar:
     dependency: "direct main"
     description:
@@ -137,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  ffi:
+    dependency: transitive
+    description:
+      name: ffi
+      sha256: "7bf0adc28a23d395f19f3f1eb21dd7cfd1dd9f8e1c50051c069122e6853bc878"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -214,6 +238,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_easyloading:
+    dependency: "direct main"
+    description:
+      name: flutter_easyloading
+      sha256: ba21a3c883544e582f9cc455a4a0907556714e1e9cf0eababfcb600da191d17c
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.5"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -222,6 +254,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_spinkit:
+    dependency: transitive
+    description:
+      name: flutter_spinkit
+      sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -344,6 +384,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.1"
+  iris_method_channel:
+    dependency: transitive
+    description:
+      name: iris_method_channel
+      sha256: "195a3224b26a6eb60dadd96d04da9f013a00541adac60cc8fdc9dbb104e581db"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   js:
     dependency: transitive
     description:
@@ -420,18 +468,18 @@ packages:
     dependency: "direct main"
     description:
       name: permission_handler
-      sha256: "63e5216aae014a72fe9579ccd027323395ce7a98271d9defa9d57320d001af81"
+      sha256: ad65ba9af42a3d067203641de3fd9f547ded1410bad3b84400c2b4899faede70
       url: "https://pub.dev"
     source: hosted
-    version: "10.4.3"
+    version: "11.0.0"
   permission_handler_android:
     dependency: transitive
     description:
       name: permission_handler_android
-      sha256: d74e77a5ecd38649905db0a7d05ef16bed42ff263b9efb73ed794317c5764ec3
+      sha256: ace7d15a3d1a4a0b91c041d01e5405df221edb9de9116525efc773c74e6fc790
       url: "https://pub.dev"
     source: hosted
-    version: "10.3.4"
+    version: "11.0.5"
   permission_handler_apple:
     dependency: transitive
     description:
@@ -444,10 +492,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
-      sha256: "7c6b1500385dd1d2ca61bb89e2488ca178e274a69144d26bbd65e33eae7c02a9"
+      sha256: f2343e9fa9c22ae4fd92d4732755bfe452214e7189afcc097380950cf567b4b2
       url: "https://pub.dev"
     source: hosted
-    version: "3.11.3"
+    version: "3.11.5"
   permission_handler_windows:
     dependency: transitive
     description:

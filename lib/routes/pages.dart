@@ -3,6 +3,9 @@ import 'package:telephy/pages/message/chat/chats_screen.dart';
 import 'package:telephy/psych_layout.dart';
 import 'package:telephy/screens/register_google.dart';
 import 'package:telephy/screens/register_screen.dart';
+
+import 'package:telephy/videocall_module/videocall_screen.dart';
+import 'package:telephy/videocall_module/videocall_screen_test.dart';
 import '../screens/auth_screen.dart';
 
 import 'package:telephy/user_layout.dart';
@@ -35,5 +38,6 @@ class AppPages {
       name: '/chatHistory',
       page: () => const ChatHistory(),
     ),
+    
   ];
 }
