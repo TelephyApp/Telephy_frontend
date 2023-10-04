@@ -5,7 +5,7 @@ class Call {
   final String receiverId;
   final String receiverName;
   final String? receiverPic;
-  final String channelId;
+  final String? channelId;
   late bool hasDialled;
 
   Call({
