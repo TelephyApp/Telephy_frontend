@@ -8,6 +8,8 @@ import 'package:telephy/services/user_service.dart';
 class PsychologistService {
   final CollectionReference psychologists =
       FirebaseFirestore.instance.collection('psychologists');
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
 
   Future<void> storePsychData(User user, Psychologist psych) async {
     await psychologists.doc(user.uid).set({
@@ -113,5 +115,22 @@ class PsychologistService {
       email = FirebaseAuth.instance.currentUser?.email;
     }
     return await UserService().doesEmailExist(email!);
+  }
+
+  Future<bool> doesPsychologistExistByUid(String uid) async {
+    try {
+      final DocumentSnapshot doc = await psychologists.doc(uid).get();
+      return doc.exists;
+    } catch (error) {
+      print('Error checking psychologist existence by UID: $error');
+      return false;
+    }
+  }
+
+  Future<bool> isPsychologist(String uid) async {
+    final psyQuery = await psychologists.doc(uid).get();
+    final userQuery = await users.doc(uid).get();
+
+    return psyQuery.exists && !userQuery.exists;
   }
 }
