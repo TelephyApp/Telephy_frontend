@@ -60,7 +60,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
     );
 
     final lastThreeDays = nextTwoDays;
-    print(widget.appoinmentTimesSlots?[0].startTime);
+    print(widget.appoinmentTimesSlots!.length);
     return Stack(
       children: [
         Container(
