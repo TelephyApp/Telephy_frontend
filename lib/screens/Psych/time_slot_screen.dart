@@ -3,6 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/widgets/calender.dart';
@@ -18,7 +20,16 @@ class TimeSlotScreen extends StatefulWidget {
 class _TimeSlotScreenState extends State<TimeSlotScreen> {
   DateTime selectedDay = DateTime.now();
   List<Timeslot> availableTimeslots = [];
-
+  List<Appointment> appoinmentTimesSlots = [
+    Appointment(
+        userUid: "001",
+        psyUid: "1234",
+        startTime: Timestamp.fromDate(DateTime(2023, 10, 4, 13, 0, 0))),
+    Appointment(
+        userUid: "001",
+        psyUid: "1234",
+        startTime: Timestamp.fromDate(DateTime(2023, 10, 6, 17, 0, 0)))
+  ];
   @override
   void initState() {
     super
@@ -62,6 +73,7 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                                 return TimeSlotTable(
                                     currentDate: selectedDay,
                                     availableTimeslots: availableTimeslots!,
+                                    appoinmentTimesSlots: appoinmentTimesSlots,
                                     setTimeslotsState: (availableTimeslots) {
                                       setState(() {
                                         availableTimeslots =

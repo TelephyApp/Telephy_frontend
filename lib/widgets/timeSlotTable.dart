@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/model/time_slot.dart';
@@ -12,12 +13,14 @@ class TimeSlotTable extends StatefulWidget {
   final int numberOfDaysToShow = 3;
   final DateTime currentDate;
   final List<Timeslot>? availableTimeslots;
+  final List<Appointment>? appoinmentTimesSlots;
   final Function(List<Timeslot>) setTimeslotsState;
   const TimeSlotTable(
       {Key? key,
       required this.currentDate,
       required this.availableTimeslots,
-      required this.setTimeslotsState})
+      required this.setTimeslotsState,
+      required this.appoinmentTimesSlots})
       : super(key: key);
 
   @override
@@ -57,7 +60,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
     );
 
     final lastThreeDays = nextTwoDays;
-
+    print(widget.appoinmentTimesSlots?[0].startTime);
     return Stack(
       children: [
         Container(
@@ -198,6 +201,8 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                                 });
                               },
                               availableTimeslots: widget.availableTimeslots!,
+                              appoinmentTimesSlots:
+                                  widget.appoinmentTimesSlots!,
                             ),
                           ),
                       ],
