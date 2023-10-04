@@ -46,12 +46,12 @@ class _BookingScreenState extends State<BookingScreen> {
           timeSlot.startTime.toDate().day == DateTime.now().day;
     }).toList();
     fetchPsy();
+    fetchTimeslots();
   }
 
   Future<void> fetchPsy() async {
     psychologist =
         await PsychologistService().getPsychologistByUID(widget.psychologistId);
-    fetchTimeslots();
   }
 
   Future<void> fetchTimeslots() async {
@@ -93,10 +93,13 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: FutureBuilder(
-          future: fetchPsy(),
+      body: StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('psychologist')
+              .doc(widget.psychologistId)
+              .snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.waiting) {
+            if (snapshot.hasData) {
               return CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
@@ -207,6 +210,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                                               .transparent,
                                                           onTap: () {
                                                             setState(() {
+                                                              fetchPsy();
                                                               _currentIndex =
                                                                   index;
                                                               _timeSelected =
@@ -381,6 +385,7 @@ class _BookingScreenState extends State<BookingScreen> {
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
+          fetchPsy();
           List<Timeslot> selectedDayTimeSlots = timeslots.where((timeSlot) {
             // Check if the start time of the time slot matches the selected date
             return timeSlot.startTime.toDate().year == selectedDay.year &&
