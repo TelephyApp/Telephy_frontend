@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/utils/call_utilities.dart';
 import 'package:telephy/utils/config.dart';
+import 'package:telephy/videocall_module/videocall_screen_final.dart';
 
 
 class ChatScreen extends StatefulWidget {
@@ -47,7 +48,18 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text(widget.reciverUserName),
         actions: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const VideoCallScreen(),
+              ),
+            );
+          },
+            // onPressed: () =>
+            //     CallUtils.dial(
+            //       from: _firebaseAuth.currentUser!, 
+            //       to: widget.reciverUserID),
             icon: Icon(Icons.phone),
             padding: EdgeInsets.only(right: 40.0),
           ),
@@ -201,14 +213,7 @@ class _ChatScreenState extends State<ChatScreen> {
             icon: SvgPicture.asset('assets/images/carbon_send-filled.svg'),
             iconSize: 20),
 
-        //videocall
-        IconButton(
-            onPressed: () =>
-                CallUtils.dial(
-                  from: _firebaseAuth.currentUser!, 
-                  to: widget.reciverUserID),
-            icon: SvgPicture.asset('assets/images/carbon_send-filled.svg'),
-            iconSize: 20),
+       
       ],
     );
   }

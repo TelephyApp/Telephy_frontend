@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:telephy/model/call.dart';
 
 class VideoCallScreen extends StatefulWidget {
-  const VideoCallScreen({super.key, required this.call});
-  final Call call;
+  const VideoCallScreen({super.key});
+  // final Call call;
 
   @override
   State<VideoCallScreen> createState() => _VideoCallScreenState();
@@ -16,6 +16,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     agoraConnectionData: AgoraConnectionData(
       appId: '0a79f34a1c954382aa7ae740ca76af20',
       channelName: "test channel",
+      
+      
     ),
   );
 
