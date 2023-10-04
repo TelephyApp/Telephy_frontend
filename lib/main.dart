@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:telephy/routes/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
 import 'package:telephy/utils/config.dart';
 
 void main() async {

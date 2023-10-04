@@ -27,9 +27,6 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
   @override
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.currentUser;
-    fetchUsersAppointment();
-    getLoggedInPsychologist(user.uid);
   }
 
   void fetchUsersAppointment() async {
