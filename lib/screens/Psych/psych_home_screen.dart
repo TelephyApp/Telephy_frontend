@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/users.dart';
 import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
+import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/services/user_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/card_appointment/detail_tile.dart';
@@ -35,6 +37,8 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
 
   Future<void> fetchAppoint() async {
     await fetchPsy();
+    await AppointmentService().deleteAppointmentsWithPassedTime();
+    await TimeslotService().deleteTimeslotsWithPassedTime();
     appointments = await AppointmentService()
         .getAppointmentsByPsyUid(FirebaseAuth.instance.currentUser!.uid);
     appointments.sort((a, b) => a.startTime.compareTo(b.startTime));
@@ -69,7 +73,8 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     upcomCard = UpcomingCard(
       name: '${upcominguser!.firstname} ${upcominguser.lastname}',
       detail: 'konnichiwa, watashino namaewa',
-      dateTime: appointment.startTime.toDate().toString(),
+      dateTime:
+          DateFormat('yyyy-MM-dd HH:mm').format(appointment.startTime.toDate()),
     );
   }
 
