@@ -51,12 +51,79 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
         .getPsychologistByUID(FirebaseAuth.instance.currentUser!.uid);
   }
 
-  void onSelectedUser(Users users) {
+  void showUserDetail(Users users) {
     //pop-up detail of user
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (_) => Text('show detail of user'),
+      builder: (_) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 40,
+            horizontal: 30,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'New Transaction',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Config.darkerToneColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close_rounded,
+                      color: Config.darkerToneColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              SizedBox(
+                height: 60,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: GestureDetector(
+                  onTap: () {
+                    try {
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Config.accentColor1,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Text(
+                      'SAVE',
+                      style: TextStyle(
+                        color: Config.backgroundColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -82,9 +149,10 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     for (int i = 0; i < appointmentList.length; i++) {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
       var detailTile = DetailTile(
-          name: "${users!.firstname} ${users.lastname}",
-          detail: "detail",
-          onclick: (() => onSelectedUser(users)));
+        name: "${users!.firstname} ${users.lastname}",
+        detail: "detail",
+        onclick: (() => showUserDetail(users)),
+      );
       detailTiles.add(detailTile);
     }
   }
