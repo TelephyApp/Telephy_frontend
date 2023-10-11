@@ -42,11 +42,12 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     appointments = await AppointmentService()
         .getAppointmentsByPsyUid(FirebaseAuth.instance.currentUser!.uid);
     appointments.sort((a, b) => a.startTime.compareTo(b.startTime));
-    if (appointments.isNotEmpty) {
-      await getUpcomingCard(appointments[0]);
+    if (appointments.isNotEmpty) await getUpcomingCard(appointments[0]);
+    List<Appointment> sublist = [];
+    if (appointments.length > 1) {
+      sublist = appointments.sublist(1);
     }
-    await getDetailTile(
-        appointments.length > 1 ? appointments.sublist(1) : appointments);
+    await getDetailTile(sublist);
   }
 
   Future<void> fetchPsy() async {
@@ -149,15 +150,16 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
   }
 
   Future<void> getDetailTile(List<Appointment> appointmentList) async {
+    List<DetailTile> detailList = [];
     for (int i = 0; i < appointmentList.length; i++) {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
-      var detailTile = DetailTile(
-        name: "${users!.firstname} ${users.lastname}",
-        detail: 'detail',
-        onclick: (() => showUserDetail(users)),
-      );
-      detailTiles.add(detailTile);
+      DetailTile detailTile = DetailTile(
+          name: "${users!.firstname} ${users.lastname}",
+          detail: "detail",
+          onclick: (() => showUserDetail(users)));
+      detailList.add(detailTile);
     }
+    detailTiles = detailList;
   }
 
   @override
@@ -247,7 +249,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                               ),
                               Expanded(
                                 child: ListView.builder(
-                                  itemCount: appointments.length,
+                                  itemCount: detailTiles.length,
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
