@@ -37,7 +37,7 @@ class GoogleAuthService {
 
         if (user != null) {
           if ((user.email ?? "").endsWith("@kmitl.ac.th") &&
-              (await PsychologistService().checkEmailExist())) {
+              !(await PsychologistService().checkEmailExist())) {
             await createPsychologist(user);
           }
           return user;
