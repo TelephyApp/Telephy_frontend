@@ -9,6 +9,7 @@ import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/confirmBooking_screen.dart';
+import 'package:telephy/screens/User/payment_screen.dart';
 import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
@@ -53,7 +54,6 @@ class _BookingScreenState extends State<BookingScreen> {
     psychologist =
         await PsychologistService().getPsychologistByUID(widget.psychologistId);
     fetchTimeslots();
-
   }
 
   Future<void> fetchTimeslots() async {
@@ -135,7 +135,6 @@ class _BookingScreenState extends State<BookingScreen> {
                                       image: DecorationImage(
                                         image: AssetImage(
                                             "assets/images/homeuser_bg.png"),
-
                                         fit: BoxFit.fitWidth,
                                         alignment: Alignment.center,
                                         opacity: 0.4,
@@ -299,7 +298,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                               : () async {
                                                   addAppointmentByTimeslot();
                                                   Get.to(
-                                                    () => confirmBookingScreen(
+                                                    () => paymentScreen(
                                                       psychologist:
                                                           psychologist!,
                                                       timeslot:
