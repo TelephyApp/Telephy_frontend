@@ -55,8 +55,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
         .getPsychologistByUID(FirebaseAuth.instance.currentUser!.uid);
   }
 
-  void showUserDetail(Users users) {
-    //pop-up detail of user
+  Future<void> showUserDetail(Users users) async {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -143,10 +142,13 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
         await UserService().getUserByUID(appointment.userUid);
     upcomCard = UpcomingCard(
       name: '${upcominguser!.firstname} ${upcominguser.lastname}',
-      detail: 'konnichiwa, watashino namaewa',
-      dateTime: DateFormat('yyyy-MM-dd HH:mm').format(
+      detail: upcominguser.medicalCondition != ''
+          ? '${upcominguser.medicalCondition}'
+          : 'N/A',
+      dateTime: DateFormat('dd MMM yyyy, HH:mm').format(
         appointment.startTime.toDate(),
       ),
+      onclick: (() => showUserDetail(upcominguser)),
     );
   }
 
@@ -155,10 +157,11 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     for (int i = 0; i < appointmentList.length; i++) {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
       DetailTile detailTile = DetailTile(
-          name: "${users!.firstname} ${users.lastname}",
-          detail: DateFormat('yyyy-MM-dd HH:mm')
-              .format(appointmentList[i].startTime.toDate()),
-          onclick: (() => showUserDetail(users)));
+        name: "${users!.firstname} ${users.lastname}",
+        detail: DateFormat('dd MMM yyyy, HH:mm')
+            .format(appointmentList[i].startTime.toDate()),
+        onclick: (() => showUserDetail(users)),
+      );
       detailList.add(detailTile);
     }
     detailTiles = detailList;
