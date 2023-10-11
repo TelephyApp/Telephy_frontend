@@ -46,12 +46,14 @@ class _BookingScreenState extends State<BookingScreen> {
           timeSlot.startTime.toDate().day == DateTime.now().day;
     }).toList();
     fetchPsy();
+    fetchTimeslots();
   }
 
   Future<void> fetchPsy() async {
     psychologist =
         await PsychologistService().getPsychologistByUID(widget.psychologistId);
     fetchTimeslots();
+
   }
 
   Future<void> fetchTimeslots() async {
@@ -133,6 +135,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                       image: DecorationImage(
                                         image: AssetImage(
                                             "assets/images/homeuser_bg.png"),
+
                                         fit: BoxFit.fitWidth,
                                         alignment: Alignment.center,
                                         opacity: 0.4,
@@ -381,6 +384,7 @@ class _BookingScreenState extends State<BookingScreen> {
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
+          fetchPsy();
           List<Timeslot> selectedDayTimeSlots = timeslots.where((timeSlot) {
             // Check if the start time of the time slot matches the selected date
             return timeSlot.startTime.toDate().year == selectedDay.year &&

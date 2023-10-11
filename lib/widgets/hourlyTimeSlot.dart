@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/model/time_slot.dart';
@@ -15,17 +16,19 @@ class HourlySlot extends StatelessWidget {
   final bool isBooking;
   final Function(DateTime) setState;
   final List<Timeslot> availableTimeslots;
-  const HourlySlot({
-    Key? key,
-    required this.day,
-    required this.hour,
-    required this.isTapped,
-    required this.onTap,
-    required this.selectedSlotsTime,
-    required this.isBooking,
-    required this.setState,
-    required this.availableTimeslots,
-  }) : super(key: key);
+  final List<Appointment> appoinmentTimesSlots;
+  const HourlySlot(
+      {Key? key,
+      required this.day,
+      required this.hour,
+      required this.isTapped,
+      required this.onTap,
+      required this.selectedSlotsTime,
+      required this.isBooking,
+      required this.setState,
+      required this.availableTimeslots,
+      required this.appoinmentTimesSlots})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,11 @@ class HourlySlot extends StatelessWidget {
             timeslot.startTime.toDate().day == currentDateTime.day) &&
         availableTimeslots.any((timeslot) =>
             timeslot.startTime.toDate().hour == currentDateTime.hour);
+    bool isInAppointmentSlots = appoinmentTimesSlots != null &&
+        appoinmentTimesSlots.any((timeslot) =>
+            timeslot.startTime.toDate().day == currentDateTime.day &&
+            timeslot.startTime.toDate().hour == currentDateTime.hour);
+
     return isPastDay
         ? Container(
             decoration: BoxDecoration(
@@ -125,10 +133,13 @@ class HourlySlot extends StatelessWidget {
                   },
                 );
               } else {
-                if (isBooking) {
-                  setState(currentDateTime);
+                if (!isInAppointmentSlots) {
+                  if (isBooking) {
+                    setState(currentDateTime);
+                  }
+
+                  onTap();
                 }
-                onTap();
               }
             },
             child: Container(
@@ -142,18 +153,28 @@ class HourlySlot extends StatelessWidget {
                           ],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter)
-                    : LinearGradient(
-                        colors: [
-                            Color.fromARGB(110, 254, 254, 254),
-                            Color.fromARGB(159, 134, 211, 252)
-                          ],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter),
+                    : isInAppointmentSlots
+                        ? LinearGradient(
+                            colors: [
+                                Color(0xFFCCADF9),
+                                Color.fromARGB(159, 134, 211, 252)
+                              ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter)
+                        : (LinearGradient(
+                            colors: [
+                                Color.fromARGB(110, 254, 254, 254),
+                                Color.fromARGB(159, 134, 211, 252)
+                              ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter)),
                 color: isTapped
                     ? const Color.fromRGBO(178, 221, 253, 1)
                     : (isInAvailableSlots
                         ? const Color(0xFF868CFD)
-                        : Color.fromARGB(0, 113, 0, 252)),
+                        : (isInAppointmentSlots
+                            ? Color.fromARGB(255, 115, 0, 255)
+                            : Color.fromARGB(0, 113, 0, 252))),
                 border: Border.all(
                   color: isTapped
                       ? const Color(0xFFE4DAD1)

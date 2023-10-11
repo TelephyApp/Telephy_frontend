@@ -8,6 +8,7 @@ class Psychologist {
   final String hospital;
   final String ratePerHours;
   final String? imagePath;
+  final List? chatRoomsId;
 
   Psychologist({
     required this.firstname,
@@ -19,6 +20,7 @@ class Psychologist {
     required this.hospital,
     required this.ratePerHours,
     this.imagePath = 'assets/images/psy.png',
+    this.chatRoomsId,
   });
 
   //convert to a map
@@ -33,6 +35,7 @@ class Psychologist {
       'hospital': hospital,
       'rate_per_hours': ratePerHours,
       'image_path': imagePath,
+      'chat_rooms_id': chatRoomsId
     };
   }
 
@@ -47,6 +50,7 @@ class Psychologist {
       hospital: map['hospital'] ?? '',
       ratePerHours: map['rate_per_hours'] ?? '',
       imagePath: map['image_path'] ?? '',
+      chatRoomsId: map['chat_rooms_id'] ?? [],
     );
   }
 }
