@@ -11,6 +11,7 @@ import 'package:telephy/services/user_service.dart';
 class AppointmentService {
   final CollectionReference appointments =
       FirebaseFirestore.instance.collection('appointments');
+  
 
   Future<void> addAppointment(Timeslot timeslot, String? userId) async {
     final data = {
@@ -39,5 +40,21 @@ class AppointmentService {
         startTime: data['start_time'] as Timestamp,
       );
     }).toList();
+  }
+
+  Future<void> deleteAppointmentsWithPassedTime() async {
+    final now = Timestamp.now(); // Get the current timestamp
+    final querySnapshot = await appointments
+        .where('start_time', isLessThan: now)
+        .get(); // Query Firestore to get appointments with startTime less than the current time
+
+    final batch = FirebaseFirestore.instance.batch();
+
+    querySnapshot.docs.forEach((doc) {
+      batch.delete(
+          doc.reference); // Add each appointment to the batch for deletion
+    });
+
+    await batch.commit(); // Commit the batch to delete the appointments
   }
 }
