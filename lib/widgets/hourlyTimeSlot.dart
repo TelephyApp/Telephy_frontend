@@ -51,9 +51,9 @@ class HourlySlot extends StatelessWidget {
     final bool isPastDay = currentDateTime.isBefore(currentTime);
     bool isInAvailableSlots = availableTimeslots != null &&
         availableTimeslots.any((timeslot) =>
-            timeslot.startTime.toDate().day == currentDateTime.day) &&
-        availableTimeslots.any((timeslot) =>
+            timeslot.startTime.toDate().day == currentDateTime.day &&
             timeslot.startTime.toDate().hour == currentDateTime.hour);
+
     bool isInAppointmentSlots = appoinmentTimesSlots != null &&
         appoinmentTimesSlots.any((timeslot) =>
             timeslot.startTime.toDate().day == currentDateTime.day &&
