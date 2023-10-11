@@ -11,7 +11,7 @@ class Users {
   final String phone;
   final String? medicalCondition;
   final String? imagePath;
-  final List<String>? chatRoomsId;
+  final List? chatRoomsId;
 
   Users({
     required this.username,

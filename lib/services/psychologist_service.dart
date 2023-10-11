@@ -25,6 +25,22 @@ class PsychologistService {
     });
   }
 
+  Future<Psychologist?> getPsyByUID(String uid) async {
+    try {
+      final DocumentSnapshot psyDoc = await psychologists.doc(uid).get();
+
+      if (psyDoc.exists) {
+        final userData = psyDoc.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(userData);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      throw e;
+    }
+  }
+
   Future<List<Psychologist>> getAllPsychologists() async {
     final querySnapshot = await psychologists.get();
     return querySnapshot.docs.map((doc) {
@@ -44,12 +60,10 @@ class PsychologistService {
 
   Future<Psychologist?> getPsychologistByUID(String uid) async {
     try {
-      final DocumentSnapshot<Map<String, dynamic>> doc = (await psychologists
-          .doc(uid)
-          .get()) as DocumentSnapshot<Map<String, dynamic>>;
+      final DocumentSnapshot doc = await psychologists.doc(uid).get();
 
       if (doc.exists) {
-        final Map<String, dynamic> data = doc.data()!;
+        final data = doc.data()! as Map<String, dynamic>;
         return Psychologist.fromMap(data);
       } else {
         return null;
