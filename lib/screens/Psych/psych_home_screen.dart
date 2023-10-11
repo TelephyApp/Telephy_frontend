@@ -42,8 +42,11 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     appointments = await AppointmentService()
         .getAppointmentsByPsyUid(FirebaseAuth.instance.currentUser!.uid);
     appointments.sort((a, b) => a.startTime.compareTo(b.startTime));
-    if (appointments.isNotEmpty) await getUpcomingCard(appointments[0]);
-    await getDetailTile(appointments);
+    if (appointments.isNotEmpty) {
+      await getUpcomingCard(appointments[0]);
+    }
+    await getDetailTile(
+        appointments.length > 1 ? appointments.sublist(1) : appointments);
   }
 
   Future<void> fetchPsy() async {
@@ -71,7 +74,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      'New Transaction',
+                      'Information',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Config.darkerToneColor,
@@ -150,7 +153,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
       var detailTile = DetailTile(
         name: "${users!.firstname} ${users.lastname}",
-        detail: "detail",
+        detail: 'detail',
         onclick: (() => showUserDetail(users)),
       );
       detailTiles.add(detailTile);
@@ -248,7 +251,6 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                                   itemBuilder: (context, index) {
                                     return Column(
                                       children: [
-                                        SizedBox(height: 20),
                                         detailTiles[index],
                                         SizedBox(height: 20),
                                       ],
