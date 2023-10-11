@@ -16,8 +16,6 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     agoraConnectionData: AgoraConnectionData(
       appId: '0a79f34a1c954382aa7ae740ca76af20',
       channelName: "test channel",
-      
-      
     ),
   );
 
