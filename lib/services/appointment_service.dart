@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/booking_screen.dart';
 import 'package:telephy/services/chat_service.dart';
@@ -24,5 +25,19 @@ class AppointmentService {
     final timeslotService = TimeslotService();
     await timeslotService.deleteTimeslot(timeslot.id);
   }
-  
+
+  Future<List<Appointment>> getAppointmentsByPsyUid(String psyId) async {
+    final querySnapshot = await appointments
+        .where('psy_uid', isEqualTo: psyId)
+        .get(); // Query Firestore to filter by 'psy_id'
+
+    return querySnapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return Appointment(
+        userUid: data['user_uid'],
+        psyUid: data['psy_uid'],
+        startTime: data['start_time'] as Timestamp,
+      );
+    }).toList();
+  }
 }

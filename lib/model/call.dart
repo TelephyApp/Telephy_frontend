@@ -1,12 +1,12 @@
 class Call {
   final String callerUId;
   final String callerName;
-  final String callerPic;
+  final String? callerPic;
   final String receiverId;
   final String receiverName;
-  final String receiverPic;
-  final String channelId;
-  final bool hasDialled;
+  final String? receiverPic;
+  final String? channelId;
+  late bool hasDialled;
 
   Call({
     required this.callerUId,
