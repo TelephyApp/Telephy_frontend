@@ -20,10 +20,10 @@ class GoogleAuthService {
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn().catchError((onError) => print(onError));
-      if (googleSignInAccount == null) return null;
+          await _googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
+        print(googleSignInAccount.email);
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
         final AuthCredential authCredential = GoogleAuthProvider.credential(
@@ -37,7 +37,8 @@ class GoogleAuthService {
 
         if (user != null) {
           if ((user.email ?? "").endsWith("@kmitl.ac.th") &&
-              !(await PsychologistService().checkEmailExist())) {
+              !(await PsychologistService()
+                  .doesPsychologistExistByUid(user.uid))) {
             await createPsychologist(user);
           }
           return user;
@@ -46,6 +47,8 @@ class GoogleAuthService {
           await _googleSignIn.signOut();
           return null;
         }
+      } else {
+        return null; // Sign-in was canceled
       }
     } catch (e) {
       print(e); // Handle other platform exceptions appropriately

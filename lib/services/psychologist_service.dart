@@ -8,6 +8,8 @@ import 'package:telephy/services/user_service.dart';
 class PsychologistService {
   final CollectionReference psychologists =
       FirebaseFirestore.instance.collection('psychologists');
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
 
   Future<void> storePsychData(User user, Psychologist psych) async {
     await psychologists.doc(user.uid).set({
@@ -21,6 +23,22 @@ class PsychologistService {
       'rate_per_hours': psych.ratePerHours,
       'image_path': psych.imagePath,
     });
+  }
+
+  Future<Psychologist?> getPsyByUID(String uid) async {
+    try {
+      final DocumentSnapshot psyDoc = await psychologists.doc(uid).get();
+
+      if (psyDoc.exists) {
+        final userData = psyDoc.data() as Map<String, dynamic>;
+        return Psychologist.fromMap(userData);
+      } else {
+        return null; // User not found
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+      throw e;
+    }
   }
 
   Future<List<Psychologist>> getAllPsychologists() async {
@@ -42,12 +60,10 @@ class PsychologistService {
 
   Future<Psychologist?> getPsychologistByUID(String uid) async {
     try {
-      final DocumentSnapshot<Map<String, dynamic>> doc = (await psychologists
-          .doc(uid)
-          .get()) as DocumentSnapshot<Map<String, dynamic>>;
+      final DocumentSnapshot doc = await psychologists.doc(uid).get();
 
       if (doc.exists) {
-        final Map<String, dynamic> data = doc.data()!;
+        final data = doc.data()! as Map<String, dynamic>;
         return Psychologist.fromMap(data);
       } else {
         return null;
@@ -113,5 +129,22 @@ class PsychologistService {
       email = FirebaseAuth.instance.currentUser?.email;
     }
     return await UserService().doesEmailExist(email!);
+  }
+
+  Future<bool> doesPsychologistExistByUid(String uid) async {
+    try {
+      final DocumentSnapshot doc = await psychologists.doc(uid).get();
+      return doc.exists;
+    } catch (error) {
+      print('Error checking psychologist existence by UID: $error');
+      return false;
+    }
+  }
+
+  Future<bool> isPsychologist(String uid) async {
+    final psyQuery = await psychologists.doc(uid).get();
+    final userQuery = await users.doc(uid).get();
+
+    return psyQuery.exists && !userQuery.exists;
   }
 }
