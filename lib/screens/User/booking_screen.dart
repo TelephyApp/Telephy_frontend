@@ -52,6 +52,8 @@ class _BookingScreenState extends State<BookingScreen> {
   Future<void> fetchPsy() async {
     psychologist =
         await PsychologistService().getPsychologistByUID(widget.psychologistId);
+    fetchTimeslots();
+
   }
 
   Future<void> fetchTimeslots() async {
@@ -93,13 +95,10 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('psychologist')
-              .doc(widget.psychologistId)
-              .snapshots(),
+      body: FutureBuilder(
+          future: fetchPsy(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.waiting) {
               return CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
@@ -134,8 +133,9 @@ class _BookingScreenState extends State<BookingScreen> {
                                         top: Radius.circular(20),
                                       ),
                                       image: DecorationImage(
-                                        image:
-                                            AssetImage("assets/images/bg.jpeg"),
+                                        image: AssetImage(
+                                            "assets/images/homeuser_bg.png"),
+
                                         fit: BoxFit.fitWidth,
                                         alignment: Alignment.center,
                                         opacity: 0.4,
@@ -210,7 +210,6 @@ class _BookingScreenState extends State<BookingScreen> {
                                                               .transparent,
                                                           onTap: () {
                                                             setState(() {
-                                                              fetchPsy();
                                                               _currentIndex =
                                                                   index;
                                                               _timeSelected =
