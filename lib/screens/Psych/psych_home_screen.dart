@@ -144,8 +144,9 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     upcomCard = UpcomingCard(
       name: '${upcominguser!.firstname} ${upcominguser.lastname}',
       detail: 'konnichiwa, watashino namaewa',
-      dateTime:
-          DateFormat('yyyy-MM-dd HH:mm').format(appointment.startTime.toDate()),
+      dateTime: DateFormat('yyyy-MM-dd HH:mm').format(
+        appointment.startTime.toDate(),
+      ),
     );
   }
 
@@ -155,7 +156,8 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
       DetailTile detailTile = DetailTile(
           name: "${users!.firstname} ${users.lastname}",
-          detail: "detail",
+          detail: DateFormat('yyyy-MM-dd HH:mm')
+              .format(appointmentList[i].startTime.toDate()),
           onclick: (() => showUserDetail(users)));
       detailList.add(detailTile);
     }
