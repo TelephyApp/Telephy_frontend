@@ -3,20 +3,34 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telephy/pages/message/chat/chats_screen.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/widgets/chat/button_message.dart';
+import 'package:telephy/widgets/chatHistory/chat_history_card.dart';
+
+bool isPsy = false;
 
 class MessagePage extends StatelessWidget {
   MessagePage({Key? key, required this.context}) : super(key: key);
   final BuildContext context;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  final CollectionReference psyCollection =
+      FirebaseFirestore.instance.collection('psychologists');
+  final CollectionReference chatRoomsCollection =
+      FirebaseFirestore.instance.collection('chat_rooms');
 
   void handleBack() {
     Get.toNamed("/main");
   }
 
-  Widget _buildUserList() {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('user').snapshots(),
+  Future<void> isPys() async {
+    isPsy = await PsychologistService().isPsychologist(_auth.currentUser!.uid);
+  }
+
+  Widget _buildUserList(Stream<DocumentSnapshot<Object?>> stream) {
+    return StreamBuilder(
+        stream: stream,
         builder: ((context, snapshot) {
           if (snapshot.hasError) {
             return const Text('error');
@@ -26,34 +40,66 @@ class MessagePage extends StatelessWidget {
             return const Text('loading...');
           }
           return ListView(
-            children: snapshot.data!.docs
-                .map((doc) => _buildUserListItem(doc))
+            children: snapshot.data!.get("chat_rooms_id")
+                .map<Widget>((doc) => _buildUserListItem(doc))
                 .toList(),
           );
         }));
   }
 
-  Widget _buildUserListItem(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
-    //display all users except current user
-    if (_auth.currentUser!.email != data['email']) {
-      // if (data['email']) {
-      return GestureDetector(
-        child: Text("data['email']"),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                        reciverUserEmail: data['email'],
-                        reciverUserID: data['uid'],
-                      )));
-        },
-      );
-    } else {
-      return Text("no data");
+  Widget _buildUserListItem(String chatRoomId) {
+    Future<DocumentSnapshot?> getChatRoomData(String chatRoomId) async {
+      try {
+        // Get the chat room document in the 'chat_rooms' collection
+        return chatRoomsCollection.doc(chatRoomId).get();
+      } catch (e) {
+        print('Error getting chat room data: $e');
+      }
+      return null;
     }
+
+    return FutureBuilder<DocumentSnapshot?>(
+        // Access the chat room data using chatRoomSnapshot.data.data()
+        future: getChatRoomData(chatRoomId),
+        builder: (context, chatRoomSnapshot) {
+          if (chatRoomSnapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (chatRoomSnapshot.hasError) {
+            return Text('Error: ${chatRoomSnapshot.error}');
+          } else if (!chatRoomSnapshot.hasData) {
+            return const Text('Chat room data not found');
+          } else {
+            // Access the chat room data using chatRoomSnapshot.data.data()
+            Map<String, dynamic> chatRoomData =
+                chatRoomSnapshot.data!.data() as Map<String, dynamic>;
+            String recieverId;
+            String recieverName;
+
+            if (chatRoomData['userId'] == _auth.currentUser!.uid) {
+              recieverId = chatRoomData['psyId'];
+              recieverName = chatRoomData['psyName'];
+            } else {
+              recieverId = chatRoomData['userId'];
+              recieverName = chatRoomData['userName'];
+            }
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    child: ChatCard(
+                        lastMessage: "dasdas",
+                        numberUnseenMessage: 4,
+                        timeLastMessage: "haha",
+                        username: recieverName),
+                    onTap: () => Get.to(() => ChatScreen(
+                          reciverUserName: recieverName,
+                          reciverUserID: recieverId,
+                        )))
+              ],
+            );
+          }
+        });
   }
 
   @override
@@ -66,9 +112,24 @@ class MessagePage extends StatelessWidget {
         child: Column(children: [
           const SizedBox(height: 50),
           ToggleButton(),
-          Expanded(child: _buildUserList())
+          Expanded(
+              child: FutureBuilder(
+            future: isPys(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (isPsy) {
+                return _buildUserList(
+                    psyCollection.doc(_auth.currentUser!.uid).snapshots());
+              } else {
+                return _buildUserList(
+                    userCollection.doc(_auth.currentUser!.uid).snapshots());
+              }
+            },
+          ))
         ]));
-
-    // return _buildUserList();
   }
 }

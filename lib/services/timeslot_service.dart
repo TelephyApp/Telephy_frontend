@@ -64,4 +64,20 @@ class TimeslotService {
       return null; // No matching document found
     }
   }
+
+  Future<void> deleteTimeslotsWithPassedTime() async {
+    final now = Timestamp.now(); // Get the current timestamp
+    final querySnapshot = await timeslots
+        .where('start_time', isLessThan: now)
+        .get(); // Query Firestore to get timeslots with startTime less than the current time
+
+    final batch = FirebaseFirestore.instance.batch();
+
+    querySnapshot.docs.forEach((doc) {
+      batch
+          .delete(doc.reference); // Add each timeslot to the batch for deletion
+    });
+
+    await batch.commit(); // Commit the batch to delete the timeslots
+  }
 }
