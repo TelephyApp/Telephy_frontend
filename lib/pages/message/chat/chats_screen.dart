@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/services/chat_service.dart';
-import 'package:telephy/utils/call_utilities.dart';
 import 'package:telephy/utils/config.dart';
-import 'package:telephy/videocall_module/videocall_screen_final.dart';
+import 'package:telephy/videocall_module/videocall_screen.dart';
 
 
 class ChatScreen extends StatefulWidget {
