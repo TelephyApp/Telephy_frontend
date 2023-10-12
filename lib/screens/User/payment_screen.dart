@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -8,21 +9,25 @@ import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/confirmBooking_screen.dart';
 import 'package:telephy/screens/User/home_screen.dart';
 import 'package:telephy/screens/User/user_home_screen.dart';
+import 'package:telephy/services/appointment_service.dart';
+import 'package:telephy/services/chat_service.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
-class paymentScreen extends StatefulWidget {
-  const paymentScreen(
+class PaymentScreen extends StatefulWidget {
+  const PaymentScreen(
       {required this.psychologist, required this.timeslot, super.key});
   final Psychologist psychologist;
   final Timeslot timeslot;
 
   @override
-  State<paymentScreen> createState() => _paymentScreenState();
+  State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _paymentScreenState extends State<paymentScreen> {
-  void onBackHome() {
+class _PaymentScreenState extends State<PaymentScreen> {
+  void toConfirmBooking() {
+    addAppointmentByTimeslot();
     Get.to(
       () => confirmBookingScreen(
           psychologist: widget.psychologist, timeslot: widget.timeslot),
@@ -31,14 +36,38 @@ class _paymentScreenState extends State<paymentScreen> {
     );
   }
 
-  @override
-  int? _currentIndex;
+  void addAppointmentByTimeslot() async {
+    var psyId = await PsychologistService()
+        .getPsychologistUidByObject(widget.psychologist);
+    await AppointmentService()
+        .addAppointment(widget.timeslot, FirebaseAuth.instance.currentUser?.uid)
+        .then((value) => ChatService()
+            .createChatRoom(psyId!, FirebaseAuth.instance.currentUser!.uid));
+  }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.baseColor,
         elevation: 4,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Config.darkerToneColor,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: Text(
+          'ชำระเงิน',
+          style: TextStyle(
+            color: Config.darkerToneColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -52,6 +81,7 @@ class _paymentScreenState extends State<paymentScreen> {
                 ratePerHour: widget.psychologist.ratePerHours,
                 setBorderCardBottomLeft: false,
                 setBorderCardBottomRight: false,
+                backgroundImage: "assets/images/homeuser_bg.png",
               ),
             ),
             Container(
@@ -167,7 +197,7 @@ class _paymentScreenState extends State<paymentScreen> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: ElevatedButton(
-                      onPressed: onBackHome,
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
@@ -212,7 +242,7 @@ class _paymentScreenState extends State<paymentScreen> {
                     ),
                   ),
                   child: ElevatedButton(
-                    onPressed: onBackHome,
+                    onPressed: toConfirmBooking,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,
