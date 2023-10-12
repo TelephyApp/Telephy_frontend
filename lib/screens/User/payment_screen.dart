@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -16,8 +17,12 @@ import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen(
-      {required this.psychologist, required this.timeslot, super.key});
+  const PaymentScreen({
+    required this.psychologist,
+    required this.timeslot,
+    super.key,
+  });
+
   final Psychologist psychologist;
   final Timeslot timeslot;
 
@@ -50,7 +55,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.baseColor,
-        elevation: 4,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -86,7 +90,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             Container(
               margin: EdgeInsets.only(left: 12, right: 12),
-              height: 400,
+              height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
@@ -145,7 +149,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         widget.timeslot.startTime.toDate()),
                                     style: TextStyle(
                                       fontSize: 16,
-                                      // fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -159,22 +162,193 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 12),
+              height: 210,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Config.lighterToneColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 32,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ชื่อบัญชี',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'Telephy Co., Ltd.',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ธนาคาร',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'กรุงไทย',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            final String textToCopy = '086-0-72063-2';
+                            Clipboard.setData(ClipboardData(text: textToCopy));
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'เลขที่บัญชี',
+                                style: TextStyle(
+                                  color: Config.darkerToneColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.copy,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          '086-0-72063-2',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ),
-            Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 30,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'ยอดชำระ',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        '฿ 350.00',
+                        style: TextStyle(
+                          color: Config.darkerToneColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'VAT (7%)',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        '฿ 24.50',
+                        style: TextStyle(
+                          color: Config.darkerToneColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'ยอดชำระเงินทั้งหมด',
+                        style: TextStyle(
+                          color: Config.darkerToneColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '฿ 374.50',
+                        style: new TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          foreground: Paint()
+                            ..shader = LinearGradient(
+                              begin: Alignment.bottomLeft,
+                              end: Alignment.topRight,
+                              colors: [
+                                Config.accentColor2,
+                                Config.mainColor2,
+                              ],
+                            ).createShader(
+                              Rect.fromLTWH(0, 0, 200, 70),
+                            ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   height: 44.0,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2.0,
-                        blurRadius: 4.0,
-                        offset: Offset(0, 2),
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1.0,
+                        blurRadius: 3.0,
+                        offset: Offset(0, 1),
                       ),
                     ],
                     borderRadius: BorderRadius.circular(50),
@@ -187,7 +361,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ],
                     ),
                     border: Border.all(
-                      width: 2.5,
+                      width: 2,
                       color: Colors.transparent,
                     ),
                   ),
@@ -205,30 +379,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ),
                       child: Text(
                         'อัปโหลด',
-                        style: TextStyle(color: Colors.black),
-                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                SizedBox(height: 10),
                 Container(
                   height: 44.0,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2.0,
-                        blurRadius: 4.0,
-                        offset: Offset(0, 2),
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1.0,
+                        blurRadius: 3.0,
+                        offset: Offset(0, 1),
                       ),
                     ],
                     borderRadius: BorderRadius.circular(50),
@@ -250,8 +419,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     child: Text(
                       'ยืนยันการชำระเงิน',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
