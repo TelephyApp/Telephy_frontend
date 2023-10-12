@@ -135,7 +135,13 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                     ),
-                  )
+                  ),
+                  Text(
+                    "${users.username}",
+                    style: TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 20),
