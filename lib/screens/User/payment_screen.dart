@@ -1,15 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/confirmBooking_screen.dart';
-import 'package:telephy/screens/User/home_screen.dart';
-import 'package:telephy/screens/User/user_home_screen.dart';
 import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
@@ -52,6 +48,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double ratePerHour = double.parse(widget.psychologist.ratePerHours);
+    double vatAmount = (ratePerHour * 0.07);
+    double totalAmount = ratePerHour + vatAmount;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Config.baseColor,
@@ -252,6 +252,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: 85,
+                      height: 85,
+                      child: Image.asset('assets/images/payment-qrcode.png'),
                     )
                   ],
                 ),
@@ -275,7 +281,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ),
                       Text(
-                        '฿ 350.00',
+                        '฿ ${ratePerHour.toStringAsFixed(2)}',
                         style: TextStyle(
                           color: Config.darkerToneColor,
                           fontSize: 16,
@@ -294,7 +300,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ),
                       Text(
-                        '฿ 24.50',
+                        '฿ ${vatAmount.toStringAsFixed(2)}',
                         style: TextStyle(
                           color: Config.darkerToneColor,
                           fontSize: 16,
@@ -314,7 +320,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ),
                       Text(
-                        '฿ 374.50',
+                        '฿ ${totalAmount.toStringAsFixed(2)}',
                         style: new TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
@@ -378,7 +384,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         disabledBackgroundColor: Colors.transparent,
                       ),
                       child: Text(
-                        'อัปโหลด',
+                        'อัปโหลดสลิป',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
