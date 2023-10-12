@@ -5,28 +5,27 @@ import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/screens/User/confirmBooking_screen.dart';
 import 'package:telephy/screens/User/home_screen.dart';
 import 'package:telephy/screens/User/user_home_screen.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
-class confirmBookingScreen extends StatefulWidget {
-  const confirmBookingScreen({
-    required this.psychologist,
-    required this.timeslot,
-    super.key,
-  });
+class paymentScreen extends StatefulWidget {
+  const paymentScreen(
+      {required this.psychologist, required this.timeslot, super.key});
   final Psychologist psychologist;
   final Timeslot timeslot;
 
   @override
-  State<confirmBookingScreen> createState() => _confirmBookingScreenState();
+  State<paymentScreen> createState() => _paymentScreenState();
 }
 
-class _confirmBookingScreenState extends State<confirmBookingScreen> {
+class _paymentScreenState extends State<paymentScreen> {
   void onBackHome() {
     Get.to(
-      () => UserHomeScreen(),
+      () => confirmBookingScreen(
+          psychologist: widget.psychologist, timeslot: widget.timeslot),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
@@ -57,7 +56,7 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
             ),
             Container(
               margin: EdgeInsets.only(left: 12, right: 12),
-              height: 90,
+              height: 400,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
@@ -130,81 +129,104 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(top: 50),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Image.asset(
-                    'assets/images/successBooking.png',
-                    // height: 200,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    FaIcon(FontAwesomeIcons.heartCircleCheck),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "การนัดหมายของคุณเสร็จสิ้นเรียบร้อยแล้ว",
-                      style: TextStyle(
-                        fontSize: 16,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 44.0,
-                        width: 230,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2.0,
-                              blurRadius: 4.0,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: [
-                              Config.accentColor2,
-                              Config.mainColor2,
-                            ],
-                          ),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: onBackHome,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            disabledBackgroundColor: Colors.transparent,
-                          ),
-                          child: Text(
-                            'กลับสู่หน้าหลัก',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 44.0,
+                  width: 350,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2.0,
+                        blurRadius: 4.0,
+                        offset: Offset(0, 2),
                       ),
                     ],
+                    borderRadius: BorderRadius.circular(50),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Config.accentColor2,
+                        Config.mainColor2,
+                      ],
+                    ),
+                    border: Border.all(
+                      width: 2.5,
+                      color: Colors.transparent,
+                    ),
                   ),
-                ],
-              ),
-            )
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: onBackHome,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        disabledBackgroundColor: Colors.transparent,
+                      ),
+                      child: Text(
+                        'อัปโหลด',
+                        style: TextStyle(color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 44.0,
+                  width: 350,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2.0,
+                        blurRadius: 4.0,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(50),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Config.accentColor2,
+                        Config.mainColor2,
+                      ],
+                    ),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: onBackHome,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      disabledBackgroundColor: Colors.transparent,
+                    ),
+                    child: Text(
+                      'ยืนยันการชำระเงิน',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
