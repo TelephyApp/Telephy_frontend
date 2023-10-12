@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
@@ -55,12 +52,42 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
         .getPsychologistByUID(FirebaseAuth.instance.currentUser!.uid);
   }
 
-  Future<void> showUserDetail(Users users) async {
+  Future<void> getUpcomingCard(Appointment appointment) async {
+    final Users? upcominguser =
+        await UserService().getUserByUID(appointment.userUid);
+    upcomCard = UpcomingCard(
+      name: '${upcominguser!.firstname} ${upcominguser.lastname}',
+      detail: upcominguser.medicalCondition != ''
+          ? '${upcominguser.medicalCondition}'
+          : 'N/A',
+      dateTime: DateFormat('dd MMM yyyy, HH:mm').format(
+        appointment.startTime.toDate(),
+      ),
+      onclick: (() => showUserDetail(upcominguser)),
+    );
+  }
+
+  Future<void> getDetailTile(List<Appointment> appointmentList) async {
+    List<DetailTile> detailList = [];
+    for (int i = 0; i < appointmentList.length; i++) {
+      var users = await UserService().getUserByUID(appointmentList[i].userUid);
+      DetailTile detailTile = DetailTile(
+        name: "${users!.firstname} ${users.lastname}",
+        detail: DateFormat('dd MMM yyyy, HH:mm')
+            .format(appointmentList[i].startTime.toDate()),
+        onclick: (() => showUserDetail(users)),
+      );
+      detailList.add(detailTile);
+    }
+    detailTiles = detailList;
+  }
+
+  void showUserDetail(Users users) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (_) => Container(
-        height: MediaQuery.of(context).size.height * 0.85,
+        height: MediaQuery.of(_).size.height * 0.85,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 40,
@@ -95,9 +122,29 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                 ],
               ),
               SizedBox(height: 30),
+              Row(
+                children: [
+                  Icon(
+                    Icons.image,
+                    size: 50,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "${users.firstname} ${users.lastname}",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+              Column(
+                children: [],
+              ),
               SizedBox(
                 height: 60,
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(_).size.width * 0.9,
                 child: GestureDetector(
                   onTap: () {
                     try {
@@ -135,36 +182,6 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       ),
       backgroundColor: Config.baseColor,
     );
-  }
-
-  Future<void> getUpcomingCard(Appointment appointment) async {
-    final Users? upcominguser =
-        await UserService().getUserByUID(appointment.userUid);
-    upcomCard = UpcomingCard(
-      name: '${upcominguser!.firstname} ${upcominguser.lastname}',
-      detail: upcominguser.medicalCondition != ''
-          ? '${upcominguser.medicalCondition}'
-          : 'N/A',
-      dateTime: DateFormat('dd MMM yyyy, HH:mm').format(
-        appointment.startTime.toDate(),
-      ),
-      onclick: (() => showUserDetail(upcominguser)),
-    );
-  }
-
-  Future<void> getDetailTile(List<Appointment> appointmentList) async {
-    List<DetailTile> detailList = [];
-    for (int i = 0; i < appointmentList.length; i++) {
-      var users = await UserService().getUserByUID(appointmentList[i].userUid);
-      DetailTile detailTile = DetailTile(
-        name: "${users!.firstname} ${users.lastname}",
-        detail: DateFormat('dd MMM yyyy, HH:mm')
-            .format(appointmentList[i].startTime.toDate()),
-        onclick: (() => showUserDetail(users)),
-      );
-      detailList.add(detailTile);
-    }
-    detailTiles = detailList;
   }
 
   @override
