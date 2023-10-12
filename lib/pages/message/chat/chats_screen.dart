@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:telephy/model/appointment.dart';
+import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/chat_service.dart';
+import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/call_utilities.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/videocall_module/videocall_screen_final.dart';
-
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
@@ -24,9 +26,25 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final CollectionReference appointmentCol =
+      FirebaseFirestore.instance.collection('appointments');
+  bool isPsy = true;
+  bool enable = true;
+  Duration timeDiff = Duration();
 
   void handleBack() {
     Navigator.pop(context);
+  }
+
+  Duration handleTime(DateTime date) {
+    DateTime now = DateTime.now();
+    Duration timeDifference = now.difference(date);
+    return timeDifference;
+  }
+
+  Future<void> isPys() async {
+    isPsy = await PsychologistService()
+        .isPsychologist(_firebaseAuth.currentUser!.uid);
   }
 
   void sendMessage() async {
@@ -43,59 +61,92 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Config.backgroundColor,
-      appBar: AppBar(
-        title: Text(widget.reciverUserName),
-        actions: [
-          IconButton(
-            onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const VideoCallScreen(),
-              ),
-            );
-          },
-            // onPressed: () =>
-            //     CallUtils.dial(
-            //       from: _firebaseAuth.currentUser!, 
-            //       to: widget.reciverUserID),
-            icon: Icon(Icons.phone),
-            padding: EdgeInsets.only(right: 40.0),
-          ),
-        ],
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFFCCADF9),
-                Color(0xFF86D1FC),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            //message
-            Expanded(child: _buildMessageList()),
-
-            //user input
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-                child: _buildMessageInput(),
-              ),
+        backgroundColor: Config.backgroundColor,
+        appBar: AppBar(
+          title: Text(widget.reciverUserName),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const VideoCallScreen(),
+                  ),
+                );
+              },
+              // onPressed: () =>
+              //     CallUtils.dial(
+              //       from: _firebaseAuth.currentUser!,
+              //       to: widget.reciverUserID),
+              icon: const Icon(Icons.phone),
+              padding: const EdgeInsets.only(right: 40.0),
             ),
           ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFCCADF9),
+                  Color(0xFF86D1FC),
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
-    );
+        body: SafeArea(
+            child: FutureBuilder(
+                future: isPys(),
+                builder: (context, snapshot) {
+                  return FutureBuilder(
+                      future: isPsy
+                          ? AppointmentService().getLastestAppointments(
+                              _firebaseAuth.currentUser!.uid,
+                              widget.reciverUserID)
+                          : AppointmentService().getLastestAppointments(
+                              widget.reciverUserID,
+                              _firebaseAuth.currentUser!.uid),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (!snapshot.hasData) {
+                          isPsy ? enable = true : enable = false;
+                        } else {
+                          Appointment data = snapshot.data!;
+                          timeDiff = handleTime(data.startTime.toDate());
+                          (timeDiff.inSeconds <= 3600 && timeDiff.inSeconds > 0)
+                              ? enable = true
+                              : enable = false;
+                        }
+                        return Column(
+                          children: [
+                            Text('minutes $enable ${snapshot.hasData}'),
+                            Offstage(
+                              offstage: !(enable && snapshot.hasData),
+                              child: Text(
+                                '${60 - timeDiff.inMinutes} minutes $enable $isPsy',
+                                style: Config.normalFont,
+                              ),
+                            ),
+                            //message
+                            Expanded(child: _buildMessageList()),
+
+                            //user input
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 10, top: 10),
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.white,
+                                  child: _buildMessageInput()),
+                            ),
+                          ],
+                        );
+                      });
+                })));
   }
 
   //build message list
@@ -112,7 +163,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
 
         return ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           reverse: true,
           children: snapshot.data!.docs
               .map((document) => _buildMessageItem(document))
@@ -170,7 +221,7 @@ class _ChatScreenState extends State<ChatScreen> {
         crossAxisAlignment:
             isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 2,
           ),
           Row(
@@ -179,7 +230,7 @@ class _ChatScreenState extends State<ChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [chatBubble, timeStamp],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
         ],
@@ -194,16 +245,26 @@ class _ChatScreenState extends State<ChatScreen> {
         //text field
         Expanded(
           child: TextField(
-            style: TextStyle(decorationThickness: 0),
+            enabled: enable,
+            style: const TextStyle(decorationThickness: 0),
             controller: _messageController,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              hintText: "พิมพ์ข้อความ...",
-              hintStyle: TextStyle(color: Colors.black54),
-            ),
+            decoration: enable
+                ? const InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    hintText: "พิมพ์ข้อความ...",
+                    hintStyle: TextStyle(color: Colors.black54),
+                  )
+                : const InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    hintText: "นอกเวลาปรึกษา...",
+                    hintStyle: TextStyle(color: Colors.black54),
+                  ),
           ),
         ),
 
@@ -212,8 +273,6 @@ class _ChatScreenState extends State<ChatScreen> {
             onPressed: sendMessage,
             icon: SvgPicture.asset('assets/images/carbon_send-filled.svg'),
             iconSize: 20),
-
-       
       ],
     );
   }
