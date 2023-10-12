@@ -53,7 +53,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               height: 300,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/bg-home-user.png"),
+                      image: AssetImage("assets/images/homeuser_bg.png"),
                       fit: BoxFit.cover)),
               padding: EdgeInsets.all(16),
               child: Column(

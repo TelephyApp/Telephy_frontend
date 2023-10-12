@@ -7,7 +7,6 @@ import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/videocall_module/videocall_screen.dart';
 import 'package:telephy/videocall_module/videocall_screen_test.dart';
 import '../screens/auth_screen.dart';
-
 import 'package:telephy/user_layout.dart';
 
 import 'package:telephy/screens/chat_history_screen.dart';
