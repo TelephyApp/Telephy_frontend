@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
+import 'package:telephy/screens/User/home_screen.dart';
+import 'package:telephy/screens/User/user_home_screen.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
 class confirmBookingScreen extends StatefulWidget {
-  const confirmBookingScreen(
-      {required this.psychologist, required this.timeslot, super.key});
+  const confirmBookingScreen({
+    required this.psychologist,
+    required this.timeslot,
+    super.key,
+  });
   final Psychologist psychologist;
   final Timeslot timeslot;
+
   @override
   State<confirmBookingScreen> createState() => _confirmBookingScreenState();
 }
 
 class _confirmBookingScreenState extends State<confirmBookingScreen> {
+  void onBackHome() {
+    Get.to(
+      () => UserHomeScreen(),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
+  int? _currentIndex;
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -141,6 +158,50 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                       ),
                     ),
                   ]),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 44.0,
+                        width: 230,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2.0,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(50),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                              Config.accentColor2,
+                              Config.mainColor2,
+                            ],
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: onBackHome,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            disabledBackgroundColor: Colors.transparent,
+                          ),
+                          child: Text(
+                            'กลับสู่หน้าหลัก',
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             )

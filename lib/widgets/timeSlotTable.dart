@@ -61,6 +61,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
 
     final lastThreeDays = nextTwoDays;
     print(widget.appoinmentTimesSlots!.length);
+
     return Stack(
       children: [
         Container(
@@ -190,6 +191,7 @@ class _TimeSlotTableState extends State<TimeSlotTable> {
                                     isSlotTapped[dayIndex][hourIndex] =
                                         !isSlotTapped[dayIndex][hourIndex];
                                     selectSlotsTaped = false;
+                                    this.selectedSlotsTime = null;
                                   });
                                 }
                               },
