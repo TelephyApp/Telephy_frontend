@@ -28,7 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  agora_uikit: ^1.3.4
+  # agora_uikit: ^1.3.4
+  agora_uikit:
+    git: 
+      url: https://github.com/BubuSnk/Agora_uikit_telephy.git
   flutter:
     sdk: flutter
   syncfusion_flutter_calendar: ^22.2.11 # ระบุเวอร์ชันที่ถูกต้องที่คุณต้องการใช้
