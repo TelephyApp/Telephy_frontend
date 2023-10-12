@@ -7,9 +7,8 @@ import 'package:telephy/model/appointment.dart';
 import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
-import 'package:telephy/utils/call_utilities.dart';
 import 'package:telephy/utils/config.dart';
-import 'package:telephy/videocall_module/videocall_screen_final.dart';
+import 'package:telephy/videocall_module/videocall_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
