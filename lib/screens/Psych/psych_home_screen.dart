@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/users.dart';
+import 'package:telephy/pages/message/message_page.dart';
 import 'package:telephy/services/appointment_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
@@ -55,6 +58,10 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
   Future<void> getUpcomingCard(Appointment appointment) async {
     final Users? upcominguser =
         await UserService().getUserByUID(appointment.userUid);
+    final appointmentDate =
+        DateFormat('dd MMM yyyy').format(appointment.startTime.toDate());
+    final appointmentTime =
+        DateFormat('HH:mm').format(appointment.startTime.toDate());
     upcomCard = UpcomingCard(
       name: '${upcominguser!.firstname} ${upcominguser.lastname}',
       detail: upcominguser.medicalCondition != ''
@@ -63,7 +70,8 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       dateTime: DateFormat('dd MMM yyyy, HH:mm').format(
         appointment.startTime.toDate(),
       ),
-      onclick: (() => showUserDetail(upcominguser)),
+      onclick: (() =>
+          showUserDetail(upcominguser, appointmentDate, appointmentTime)),
     );
   }
 
@@ -71,18 +79,20 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
     List<DetailTile> detailList = [];
     for (int i = 0; i < appointmentList.length; i++) {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
+
       DetailTile detailTile = DetailTile(
-        name: "${users!.firstname} ${users.lastname}",
-        detail: DateFormat('dd MMM yyyy, HH:mm')
-            .format(appointmentList[i].startTime.toDate()),
-        onclick: (() => showUserDetail(users)),
-      );
+          name: "${users!.firstname} ${users.lastname}",
+          detail: DateFormat('dd MMM yyyy, HH:mm')
+              .format(appointmentList[i].startTime.toDate()),
+          onclick: (() => {})
+          // showUserDetail(users, appointmentDate, appointmentTime)),
+          );
       detailList.add(detailTile);
     }
     detailTiles = detailList;
   }
 
-  void showUserDetail(Users users) {
+  void showUserDetail(Users users, date, time) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -121,32 +131,69 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.image,
-                    size: 50,
+                  Container(
+                    height: 150,
+                    width: 150,
+                    child: Image.asset('assets/images/user.png'),
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    "${users.firstname} ${users.lastname}",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    "${users.username}",
-                    style: TextStyle(
-                      color: Colors.black54,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '$date',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Text(
+                            '$time',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${users.lastname} ${users.username}",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "@${users.username}",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
               SizedBox(height: 20),
               Column(
-                children: [],
+                children: [
+                  Text(
+                    '${users.gender}',
+                  ),
+                  Text('${users.birthday}'),
+                  Text('${users.age}'),
+                  Text('${users.medicalCondition}'),
+                ],
               ),
               SizedBox(
                 height: 60,
@@ -154,23 +201,46 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                 child: GestureDetector(
                   onTap: () {
                     try {
-                      Navigator.of(context).pop();
+                      Navigator.of(_).pop();
                     } catch (e) {
-                      Navigator.of(context).pop();
+                      Navigator.of(_).pop();
                     }
                   },
                   child: Container(
-                    alignment: Alignment.center,
+                    height: 44.0,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
-                      color: Config.accentColor1,
-                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 1.0,
+                          blurRadius: 3.0,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(50),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Config.accentColor2,
+                          Config.mainColor2,
+                        ],
+                      ),
                     ),
-                    child: Text(
-                      'SAVE',
-                      style: TextStyle(
-                        color: Config.backgroundColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        disabledBackgroundColor: Colors.transparent,
+                      ),
+                      child: Text(
+                        'ส่งข้อความ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
