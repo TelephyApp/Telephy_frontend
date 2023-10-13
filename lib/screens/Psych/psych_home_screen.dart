@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
@@ -104,7 +103,6 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
             horizontal: 30,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +120,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: Icon(
                       Icons.close_rounded,
@@ -141,44 +139,32 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                     child: Image.asset('assets/images/user.png'),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '$date',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            '$time',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '$date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${users.lastname} ${users.username}",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            "@${users.username}",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '$time',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Text(
+                        "${users.lastname} ${users.username}",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        "@${users.username}",
+                        style: TextStyle(
+                          color: Colors.black54,
+                        ),
                       ),
                     ],
                   ),
@@ -186,62 +172,132 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
               ),
               SizedBox(height: 20),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${users.gender}',
-                  ),
-                  Text('${users.birthday}'),
-                  Text('${users.age}'),
-                  Text('${users.medicalCondition}'),
-                ],
-              ),
-              SizedBox(
-                height: 60,
-                width: MediaQuery.of(_).size.width * 0.9,
-                child: GestureDetector(
-                  onTap: () {
-                    try {
-                      Navigator.of(_).pop();
-                    } catch (e) {
-                      Navigator.of(_).pop();
-                    }
-                  },
-                  child: Container(
-                    height: 44.0,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1.0,
-                          blurRadius: 3.0,
-                          offset: Offset(0, 1),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'เพศ: ',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        TextSpan(
+                          text: users.gender,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(50),
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        colors: [
-                          Config.accentColor2,
-                          Config.mainColor2,
-                        ],
-                      ),
                     ),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        disabledBackgroundColor: Colors.transparent,
-                      ),
-                      child: Text(
-                        'ส่งข้อความ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                  ),
+                  Row(
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'วันเกิด: ',
+                              style: TextStyle(
+                                color: Config.darkerToneColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                            TextSpan(
+                              text: users.birthday,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      SizedBox(width: 30),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'อายุ: ',
+                              style: TextStyle(
+                                color: Config.darkerToneColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${users.age}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'โรคประจำตัว: ',
+                          style: TextStyle(
+                            color: Config.darkerToneColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                        TextSpan(
+                          text: users.medicalCondition,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1.0,
+                      blurRadius: 3.0,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(50),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [
+                      Config.accentColor2,
+                      Config.mainColor2,
+                    ],
+                  ),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => MessagePage(context: context));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    disabledBackgroundColor: Colors.transparent,
+                  ),
+                  child: Text(
+                    'ส่งข้อความ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -304,7 +360,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'สวัสดีตอนบ่าย!\n${psychologist?.firstname ?? ""}',
+                                      'ยินดีต้อนรับ!\n${psychologist?.firstname ?? ""}',
                                       style: TextStyle(
                                         color: Config.darkerToneColor,
                                         fontSize: 24,
