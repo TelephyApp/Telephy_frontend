@@ -7,6 +7,7 @@ import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/home_screen.dart';
 import 'package:telephy/screens/User/user_home_screen.dart';
+import 'package:telephy/user_layout.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
 
@@ -26,15 +27,13 @@ class confirmBookingScreen extends StatefulWidget {
 class _confirmBookingScreenState extends State<confirmBookingScreen> {
   void onBackHome() {
     Get.to(
-      () => UserHomeScreen(),
+      () => const UserLayout(),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
 
   @override
-  int? _currentIndex;
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,6 +52,7 @@ class _confirmBookingScreenState extends State<confirmBookingScreen> {
                 ratePerHour: widget.psychologist.ratePerHours,
                 setBorderCardBottomLeft: false,
                 setBorderCardBottomRight: false,
+                backgroundImage: "assets/images/homeuser_bg.png",
               ),
             ),
             Container(
