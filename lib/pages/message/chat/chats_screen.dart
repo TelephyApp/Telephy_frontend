@@ -9,6 +9,7 @@ import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/videocall_module/videocall_screen.dart';
+import 'package:time_remaining/time_remaining.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen(
@@ -28,8 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final CollectionReference appointmentCol =
       FirebaseFirestore.instance.collection('appointments');
   bool isPsy = true;
-  bool enable = true;
-  Duration timeDiff = Duration();
+  bool inTime = true;
 
   void handleBack() {
     Navigator.pop(context);
@@ -96,6 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: FutureBuilder(
                 future: isPys(),
                 builder: (context, snapshot) {
+                  Duration timeDiff = Duration();
                   return FutureBuilder(
                       future: isPsy
                           ? AppointmentService().getLastestAppointments(
@@ -110,23 +111,25 @@ class _ChatScreenState extends State<ChatScreen> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else if (!snapshot.hasData) {
-                          isPsy ? enable = true : enable = false;
+                          inTime = false;
                         } else {
                           Appointment data = snapshot.data!;
                           timeDiff = handleTime(data.startTime.toDate());
                           (timeDiff.inSeconds <= 3600 && timeDiff.inSeconds > 0)
-                              ? enable = true
-                              : enable = false;
+                              ? inTime = true
+                              : inTime = false;
                         }
                         return Column(
                           children: [
-                            Text('minutes $enable ${snapshot.hasData}'),
                             Offstage(
-                              offstage: !(enable && snapshot.hasData),
-                              child: Text(
-                                '${60 - timeDiff.inMinutes} minutes $enable $isPsy',
-                                style: Config.normalFont,
-                              ),
+                              offstage: !(inTime && snapshot.hasData),
+                              child: TimeRemaining(
+                                  style: Config.normalFont,
+                                  formatter: (duration) {
+                                    return "${duration.inMinutes.remainder(60)}m:${duration.inSeconds.remainder(60)}s left";
+                                  },
+                                  duration: Duration(
+                                      seconds: 3600 - timeDiff.inSeconds)),
                             ),
                             //message
                             Expanded(child: _buildMessageList()),
@@ -244,10 +247,10 @@ class _ChatScreenState extends State<ChatScreen> {
         //text field
         Expanded(
           child: TextField(
-            enabled: enable,
+            enabled: isPsy ? true : inTime,
             style: const TextStyle(decorationThickness: 0),
             controller: _messageController,
-            decoration: enable
+            decoration: (isPsy ? true : inTime)
                 ? const InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
