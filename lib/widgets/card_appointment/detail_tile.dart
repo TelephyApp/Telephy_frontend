@@ -75,10 +75,6 @@ class DetailTile extends StatelessWidget {
                 ),
               ],
             ),
-            Icon(
-              Icons.more_vert_rounded,
-              size: 16,
-            ),
           ],
         ),
       ),

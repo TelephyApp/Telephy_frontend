@@ -60,6 +60,7 @@ dependencies:
   rxdart: ^0.27.7
 
   agora_rtc_engine: ^6.2.2
+  time_remaining: ^2.0.0+1
   
 
 dev_dependencies:
