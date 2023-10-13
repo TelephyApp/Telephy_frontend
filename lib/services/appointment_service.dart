@@ -11,7 +11,6 @@ import 'package:telephy/services/user_service.dart';
 class AppointmentService {
   final CollectionReference appointments =
       FirebaseFirestore.instance.collection('appointments');
-  
 
   Future<void> addAppointment(Timeslot timeslot, String? userId) async {
     final data = {
@@ -42,10 +41,31 @@ class AppointmentService {
     }).toList();
   }
 
-  Future<void> deleteAppointmentsWithPassedTime() async {
-    final now = Timestamp.now(); // Get the current timestamp
+  Future getLastestAppointments(String psyId, String userId) async {
     final querySnapshot = await appointments
-        .where('start_time', isLessThan: now)
+        .where('psy_uid', isEqualTo: psyId)
+        .where('user_uid', isEqualTo: userId)
+        .orderBy('start_time', descending: true)
+        .get(); // Query Firestore to filter by 'psy_id'
+
+    if (querySnapshot.docs.isEmpty) {
+      return null;
+    }
+    final data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+    return Appointment(
+      userUid: data['user_uid'],
+      psyUid: data['psy_uid'],
+      startTime: data['start_time'] as Timestamp,
+    );
+  }
+
+  Future<void> deleteAppointmentsWithPassedTime() async {
+    final now = Timestamp.now()
+        .toDate()
+        .subtract(Duration(hours: 1)); // Get the current timestamp
+    final nowTimeStamp = Timestamp.fromDate(now);
+    final querySnapshot = await appointments
+        .where('start_time', isLessThan: nowTimeStamp)
         .get(); // Query Firestore to get appointments with startTime less than the current time
 
     final batch = FirebaseFirestore.instance.batch();
