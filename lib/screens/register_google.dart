@@ -145,8 +145,19 @@ class RegistGoogleState extends State<RegistGoogle> {
                             //       )
                             //     ]),
                             child: TextFormField(
-                              validator: RequiredValidator(
-                                  errorText: "โปรดระบุวันเกิด"),
+                              validator: (val) {
+                                if (val == "") {
+                                  return "โปรดระบุวันเกิด";
+                                } else {
+                                  List<String> dateParts = val!.split('/');
+                                  int year = int.parse(dateParts[2]);
+                                  if(year > 2012) {
+                                    return "ปีเกิดต้องต่ำกว่า 2013";
+                                  }
+                                }
+                                return null;
+                                
+                              },
                               readOnly: true,
                               style: const TextStyle(
                                   fontSize: 14, color: Colors.black),
@@ -191,7 +202,8 @@ class RegistGoogleState extends State<RegistGoogle> {
                                       top: false,
                                       child: CupertinoDatePicker(
                                           backgroundColor: Colors.white,
-                                          initialDateTime: DateTime.now(),
+                                          // initialDateTime: DateTime.now(),
+                                          maximumYear: 2013,
                                           mode: CupertinoDatePickerMode.date,
                                           onDateTimeChanged:
                                               (DateTime selectedTime) {
@@ -314,7 +326,11 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 age: age,
                                 phone: _phoneNumber.text,
                                 birthday: _birthDate.text,
-                                imagePath: "");
+                                imagePath: "",
+                                chatRoomsId: [],
+                                medicalCondition: _medicalConditional.text == ""
+                                    ? _medicalConditional.text
+                                    : "");
 
                             await UserService().storeUserData(user, userData);
                             Get.offNamed('/main-user');
