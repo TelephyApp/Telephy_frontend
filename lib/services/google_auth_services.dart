@@ -21,7 +21,7 @@ class GoogleAuthService {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
-
+  
       if (googleSignInAccount != null) {
         print(googleSignInAccount.email);
         final GoogleSignInAuthentication googleSignInAuthentication =
@@ -50,7 +50,7 @@ class GoogleAuthService {
       } else {
         return null; // Sign-in was canceled
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e); // Handle other platform exceptions appropriately
     }
   }
