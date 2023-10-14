@@ -2,10 +2,10 @@ import 'package:agora_uikit/agora_uikit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:telephy/model/call.dart';
+import 'package:telephy/services/psychologist_service.dart';
 
 class VideoCallScreen extends StatefulWidget {
   const VideoCallScreen({super.key});
-  // final Call call;
 
   @override
   State<VideoCallScreen> createState() => _VideoCallScreenState();
@@ -18,9 +18,17 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       channelName: "test channel",
     ),
   );
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  bool isPsy = true;
+  bool inTime = true;
 
   Future<void> _initializeAgora() async {
     await _client.initialize();
+  }
+  
+  Future<void> isPys() async {
+    isPsy = await PsychologistService()
+        .isPsychologist(_firebaseAuth.currentUser!.uid);
   }
 
   @override
