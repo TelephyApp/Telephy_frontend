@@ -27,11 +27,6 @@ class _PsychLayoutState extends State<PsychLayout> {
     setState(() {
       currentPage = page;
       _pageController.jumpToPage(page);
-      // _pageController.animateToPage(
-      //   page,
-      //   duration: const Duration(milliseconds: 500),
-      //   curve: Curves.easeInOut,
-      // );
     });
   }
 
