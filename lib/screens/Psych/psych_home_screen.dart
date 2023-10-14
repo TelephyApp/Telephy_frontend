@@ -82,10 +82,7 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       DetailTile detailTile = DetailTile(
           name: "${users!.firstname} ${users.lastname}",
           detail: DateFormat('dd MMM yyyy, HH:mm')
-              .format(appointmentList[i].startTime.toDate()),
-          onclick: (() => {})
-          // showUserDetail(users, appointmentDate, appointmentTime)),
-          );
+              .format(appointmentList[i].startTime.toDate()));
       detailList.add(detailTile);
     }
     detailTiles = detailList;
