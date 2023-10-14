@@ -40,7 +40,8 @@ class MessagePage extends StatelessWidget {
             return const Text('loading...');
           }
           return ListView(
-            children: snapshot.data!.get("chat_rooms_id")
+            children: snapshot.data!
+                .get("chat_rooms_id")
                 .map<Widget>((doc) => _buildUserListItem(doc))
                 .toList(),
           );
@@ -55,7 +56,6 @@ class MessagePage extends StatelessWidget {
       } catch (e) {
         print('Error getting chat room data: $e');
       }
-      return null;
     }
 
     return FutureBuilder<DocumentSnapshot?>(
@@ -66,8 +66,11 @@ class MessagePage extends StatelessWidget {
             return const CircularProgressIndicator();
           } else if (chatRoomSnapshot.hasError) {
             return Text('Error: ${chatRoomSnapshot.error}');
-          } else if (!chatRoomSnapshot.hasData) {
-            return const Text('Chat room data not found');
+          } else if (!chatRoomSnapshot.hasData ||
+              !chatRoomSnapshot.data!.exists) {
+            return Center(
+              child: Text('Chat room data not found'),
+            );
           } else {
             // Access the chat room data using chatRoomSnapshot.data.data()
             Map<String, dynamic> chatRoomData =

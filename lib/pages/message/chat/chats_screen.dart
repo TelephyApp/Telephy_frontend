@@ -122,8 +122,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         return Column(
                           children: [
                             Offstage(
-                              offstage: !(inTime && snapshot.hasData),
+                              offstage: !(isPsy && snapshot.hasData && inTime),
                               child: TimeRemaining(
+                                  onTimeOver: () => inTime = false,
                                   style: Config.normalFont,
                                   formatter: (duration) {
                                     return "${duration.inMinutes.remainder(60)}m:${duration.inSeconds.remainder(60)}s left";

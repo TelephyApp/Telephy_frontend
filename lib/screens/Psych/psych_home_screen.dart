@@ -420,13 +420,13 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                       );
                     } else {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: Config.loadingWidget,
                       );
                     }
                   });
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Config.loadingWidget,
               );
             }
           }),
