@@ -120,12 +120,25 @@ class UpcomingCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '$name',
-                              style: TextStyle(
-                                color: Config.darkerToneColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '$name',
+                                    style: TextStyle(
+                                      color: Config.darkerToneColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.more_vert_rounded,
+                                    size: 16,
+                                  ),
+                                ],
                               ),
                             ),
                             Text(

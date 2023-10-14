@@ -61,14 +61,6 @@ class _BookingScreenState extends State<BookingScreen> {
         await TimeslotService().getAllTimeSlotsByPsyId(widget.psychologistId);
   }
 
-  void addAppointmentByTimeslot() async {
-    await AppointmentService()
-        .addAppointment(
-            _selectedDayTimeSlots[_currentIndex!], _auth.currentUser?.uid)
-        .then((value) => ChatService()
-            .createChatRoom(widget.psychologistId, _auth.currentUser!.uid));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -296,9 +288,8 @@ class _BookingScreenState extends State<BookingScreen> {
                                           onPressed: _currentIndex == null
                                               ? null
                                               : () async {
-                                                  addAppointmentByTimeslot();
                                                   Get.to(
-                                                    () => paymentScreen(
+                                                    () => PaymentScreen(
                                                       psychologist:
                                                           psychologist!,
                                                       timeslot:
