@@ -80,14 +80,17 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
 
       DetailTile detailTile = DetailTile(
-          name: "${users!.firstname} ${users.lastname}",
-          detail: DateFormat('dd MMM yyyy, HH:mm')
-              .format(appointmentList[i].startTime.toDate()));
+        name: "${users!.firstname} ${users.lastname}",
+        detail: DateFormat('dd MMM yyyy, HH:mm').format(
+          appointmentList[i].startTime.toDate(),
+        ),
+        onclick: () {},
+      );
       detailList.add(detailTile);
     }
     detailTiles = detailList;
   }
-
+  
   void showUserDetail(Users users, date, time) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -317,116 +320,114 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: fetchAppoint(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('appointments')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Config.baseColor,
-                              Config.baseColor,
-                              Color.fromRGBO(178, 221, 253, 0.2),
-                              Color.fromRGBO(178, 180, 254, 0.2)
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+        future: fetchAppoint(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('appointments')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Config.baseColor,
+                          Config.baseColor,
+                          Color.fromRGBO(178, 221, 253, 0.2),
+                          Color.fromRGBO(178, 180, 254, 0.2)
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 64,
+                        left: 32,
+                        right: 32,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ยินดีต้อนรับ!\n${psychologist?.firstname ?? ""}',
+                                  style: TextStyle(
+                                    color: Config.darkerToneColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.image,
+                                  color: Colors.grey[400],
+                                  size: 64,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: 64,
-                            left: 32,
-                            right: 32,
+                          SizedBox(height: 30),
+                          if (appointments.isNotEmpty)
+                            upcomCard!
+                          else
+                            Text('get some rest'),
+                          SizedBox(
+                            height: 30,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'การนัดหมายทั้งหมด',
+                                  style: TextStyle(
+                                    color: Config.darkerToneColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Icon(Icons.sort),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: detailTiles.length,
+                              itemBuilder: (context, index) {
+                                return Column(
                                   children: [
-                                    Text(
-                                      'ยินดีต้อนรับ!\n${psychologist?.firstname ?? ""}',
-                                      style: TextStyle(
-                                        color: Config.darkerToneColor,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.image,
-                                      color: Colors.grey[400],
-                                      size: 64,
-                                    ),
+                                    detailTiles[index],
+                                    SizedBox(height: 20),
                                   ],
-                                ),
-                              ),
-                              SizedBox(height: 30),
-                              if (appointments.isNotEmpty)
-                                upcomCard!
-                              else
-                                Text('get some rest'),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'การนัดหมายทั้งหมด',
-                                      style: TextStyle(
-                                        color: Config.darkerToneColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Icon(Icons.sort),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount: detailTiles.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        detailTiles[index],
-                                        SizedBox(height: 20),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  });
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

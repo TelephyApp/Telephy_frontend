@@ -15,6 +15,13 @@ class UpcomingCard extends StatelessWidget {
   final String dateTime;
   final Function() onclick;
 
+  String _truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substring(0, maxLength - 3) + '...';
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -127,7 +134,7 @@ class UpcomingCard extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '$name',
+                                    _truncateText(name, 19),
                                     style: TextStyle(
                                       color: Config.darkerToneColor,
                                       fontSize: 20,
