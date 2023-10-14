@@ -93,7 +93,9 @@ class ChatService extends ChangeNotifier {
       }
 
       //create chatrooms
-      if (await chatRoomDocRef.snapshots().isEmpty) {
+      if (await chatRoomDocRef.get().then((value) {
+        return !value.exists;
+      })) {
         await chatRoomDocRef.set({
           'psyId': psyId,
           'userId': userId,
