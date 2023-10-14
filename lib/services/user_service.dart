@@ -19,6 +19,7 @@ class UserService {
       'birthday': createdUser.birthday,
       'medical_condition': createdUser.medicalCondition,
       'image_path': user.photoURL == "" ? "" : "./assets/images/user.png",
+      'chat_rooms_id': [],
     });
   }
 

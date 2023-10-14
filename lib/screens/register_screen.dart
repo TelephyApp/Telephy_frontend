@@ -140,7 +140,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           hintText: "Username",
           type: TextInputType.name,
           tfController: username,
-          validators: RequiredValidator(errorText: 'โปรดระบุชื่อผู้ใช้'),
+          validators: MultiValidator([
+            RequiredValidator(errorText: 'โปรดระบุชื่อผู้ใช้'),
+            // PatternValidator(RegExp(r"[a-zA-Z]"),
+            //     errorText: "โปรดระบุเฉพาะ a-z หรือ A-Z")
+          ]),
         ),
         SizedBox(
           height: marginBtwTF,
@@ -230,8 +234,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //       )
                     //     ]),
                     child: TextFormField(
-                      validator:
-                          RequiredValidator(errorText: "โปรดระบุวันเกิด"),
+                      validator: (val) {
+                        if (val == "") {
+                          return "โปรดระบุวันเกิด";
+                        } else {
+                          List<String> dateParts = val!.split('/');
+                          int year = int.parse(dateParts[2]);
+                          if (year > 2012) {
+                            return "ปีเกิดต้องต่ำกว่า 2013";
+                          }
+                        }
+                        return null;
+                      },
                       readOnly: true,
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                       controller: birthDate,
@@ -481,15 +495,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   .floor();
 
                           var userData = Users(
-                              username: username.text,
-                              firstname: firstName.text,
-                              lastname: lastName.text,
-                              email: email.text,
-                              gender: gender.dropDownValue!.value,
-                              age: age,
-                              phone: phoneNum.text,
-                              birthday: birthDate.text,
-                              imagePath: "");
+                            username: username.text,
+                            firstname: firstName.text,
+                            lastname: lastName.text,
+                            email: email.text,
+                            gender: gender.dropDownValue!.value,
+                            age: age,
+                            phone: phoneNum.text,
+                            birthday: birthDate.text,
+                            imagePath: "",
+                            chatRoomsId: [],
+                            medicalCondition: medicalConditional.text == ""
+                                ? medicalConditional.text
+                                : "",
+                          );
 
                           try {
                             UserCredential userCredential = await FirebaseAuth
