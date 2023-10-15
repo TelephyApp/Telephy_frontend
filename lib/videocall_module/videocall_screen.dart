@@ -58,7 +58,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 child: Column(
                   children: [
                     Offstage(
-                      offstage: isPsy,
+                      offstage: !isPsy,
                       child: TimeRemaining(
                         style: Config.normalFont,
                         formatter: (duration) {
