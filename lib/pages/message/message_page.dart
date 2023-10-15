@@ -38,7 +38,9 @@ class MessagePage extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text('loading...');
+            return SizedBox(
+                width: Config.screenWidth,
+                child: Center(child: const Text('loading...')));
           }
           return ListView(
             children: snapshot.data!
