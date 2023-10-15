@@ -143,6 +143,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                         onclick: () => {
                                           onSelectedPhy(phychologists[index])
                                         },
+                                        imagePath:
+                                            phychologists[index].imagePath!,
                                       ),
                                       SizedBox(
                                         height: 8,

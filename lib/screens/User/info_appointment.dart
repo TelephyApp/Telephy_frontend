@@ -62,207 +62,163 @@ class _InfoAppointmentState extends State<InfoAppointment> {
       body: FutureBuilder(
           future: getPsy(),
           builder: (context, snapshot) {
-            return StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('psychologists')
-                    .doc(widget.psychologistId)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return SafeArea(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 24, right: 24, left: 24),
-                            child: PsychologistCard(
-                              psychologistName:
-                                  "${psychologist?.firstname ?? ""} ${psychologist?.lastname ?? ""}",
-                              workplace: psychologist?.hospital ?? "",
-                              ratePerHour: psychologist?.ratePerHours ?? "",
-                              setBorderCardBottomLeft: false,
-                              setBorderCardBottomRight: false,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 24,
-                              right: 24,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20)),
-                              color: Config.lighterToneColor,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 24,
+            if (snapshot.connectionState == ConnectionState.done) {
+              return StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('psychologists')
+                      .doc(widget.psychologistId)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SafeArea(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 24, right: 24, left: 24),
+                              child: PsychologistCard(
+                                imagePath: psychologist!.imagePath,
+                                psychologistName:
+                                    "${psychologist?.firstname ?? ""} ${psychologist?.lastname ?? ""}",
+                                workplace: psychologist?.hospital ?? "",
+                                ratePerHour: psychologist?.ratePerHours ?? "",
+                                setBorderCardBottomLeft: false,
+                                setBorderCardBottomRight: false,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "ภาษา:",
-                                        style: TextStyle(
-                                          fontSize: 18,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: 24,
+                                right: 24,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20)),
+                                color: Config.lighterToneColor,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 24,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "ภาษา:",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 10),
-                                            decoration: BoxDecoration(
-                                              color: Config.mainColor1,
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5, horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 242, 243, 251),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: Text(
+                                                'ภาษาไทย',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "คำอธิบาย :",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Container(
+                                          height: 100,
+                                          width: 300,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 10),
+                                          decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(20),
-                                            ),
+                                              color: Color.fromARGB(
+                                                  255, 242, 243, 251)),
+                                          child: Text(psychologist!.detail),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    ElevatedButton(
+                                      onPressed: onAppoint,
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        elevation: 3,
+                                      ),
+                                      child: Ink(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Config.accentColor2,
+                                              Config.mainColor2,
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          child: Center(
                                             child: Text(
-                                              'ภาษาไทย',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "ความเชี่ยวชาญ:",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Text('   '),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "สถานที่ทำงาน:",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Text('   \n'),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "การศึกษา:",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Text('   '),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "คำอธิบาย:",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Text('   '),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  ElevatedButton(
-                                    onPressed: onAppoint,
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      elevation: 3,
-                                    ),
-                                    child: Ink(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Config.accentColor2,
-                                            Config.mainColor2,
-                                          ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                        ),
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Center(
-                                          child: Text(
-                                            'นัดหมาย',
-                                            style: TextStyle(
-                                              color: Config.darkerToneColor,
-                                              fontSize: 18,
+                                              'นัดหมาย',
+                                              style: TextStyle(
+                                                color: Config.darkerToneColor,
+                                                fontSize: 18,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: 10),
-                                ],
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                });
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  });
+            } else {
+              return Config.loadingWidget;
+            }
           }),
     );
   }
