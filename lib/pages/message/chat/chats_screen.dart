@@ -265,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     errorBorder: InputBorder.none,
-                    hintText: "นอกเวลาปรึกษา...",
+                    hintText: "คุณสามารถส่งข้อความเฉพาะในเวลานัดหมาย...",
                     hintStyle: TextStyle(color: Colors.black54),
                   ),
           ),

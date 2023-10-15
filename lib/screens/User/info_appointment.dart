@@ -76,6 +76,7 @@ class _InfoAppointmentState extends State<InfoAppointment> {
                             padding: const EdgeInsets.only(
                                 top: 24, right: 24, left: 24),
                             child: PsychologistCard(
+                              imagePath: psychologist!.imagePath,
                               psychologistName:
                                   "${psychologist?.firstname ?? ""} ${psychologist?.lastname ?? ""}",
                               workplace: psychologist?.hospital ?? "",
