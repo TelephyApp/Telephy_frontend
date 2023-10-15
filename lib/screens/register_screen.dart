@@ -505,7 +505,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             birthday: birthDate.text,
                             imagePath: "",
                             chatRoomsId: [],
-                            medicalCondition: medicalConditional.text == ""
+                            medicalCondition: medicalConditional.text != ""
                                 ? medicalConditional.text
                                 : "",
                           );

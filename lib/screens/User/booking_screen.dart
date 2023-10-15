@@ -101,7 +101,9 @@ class _BookingScreenState extends State<BookingScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: PsychologistCard(
-                              psychologistName: psychologist!.firstname,
+                              imagePath: psychologist!.imagePath,
+                              psychologistName:
+                                  "${psychologist!.firstname} ${psychologist!.lastname}",
                               workplace: psychologist!.hospital,
                               ratePerHour: psychologist!.ratePerHours,
                               // imagePath: "assets/images/erum.png",
