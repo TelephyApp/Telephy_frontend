@@ -70,4 +70,9 @@ class Config {
   static const baseColor = Color(0xFFFEFEFE);
   static const darkerToneColor = Color(0xFF0F1B2D);
   static const backgroundColor = Color(0xFFDDDEFA);
+
+  static const loadingWidget = const CircularProgressIndicator(
+    color: mainColor1,
+    backgroundColor: baseColor,
+  );
 }

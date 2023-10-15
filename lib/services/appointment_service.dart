@@ -45,7 +45,7 @@ class AppointmentService {
     final querySnapshot = await appointments
         .where('psy_uid', isEqualTo: psyId)
         .where('user_uid', isEqualTo: userId)
-        .orderBy('start_time', descending: true)
+        .orderBy('start_time', descending: false)
         .get(); // Query Firestore to filter by 'psy_id'
 
     if (querySnapshot.docs.isEmpty) {

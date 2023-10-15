@@ -75,6 +75,7 @@ class _PsychProfileScreenState extends State<PsychProfileScreen> {
       backgroundImage =
           AssetImage(psychologists?.imagePath ?? "assets/images/psy.png");
     }
+    print(backgroundImage);
     return Scaffold(
         body: Center(
       child: FutureBuilder(
