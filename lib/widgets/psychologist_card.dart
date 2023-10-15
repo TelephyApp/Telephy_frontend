@@ -119,7 +119,7 @@ class PsychologistCard extends StatelessWidget {
                 child: Image.asset(
                   isImageIsEmpty ? "assets/images/user.png" : "$imagePath",
                   width: isImageWidth ? imageWidth : 120,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

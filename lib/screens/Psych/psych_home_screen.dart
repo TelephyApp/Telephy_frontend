@@ -80,12 +80,13 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
       var users = await UserService().getUserByUID(appointmentList[i].userUid);
 
       DetailTile detailTile = DetailTile(
-          name: "${users!.firstname} ${users.lastname}",
-          detail: DateFormat('dd MMM yyyy, HH:mm')
-              .format(appointmentList[i].startTime.toDate()),
-          onclick: (() => {})
-          // showUserDetail(users, appointmentDate, appointmentTime)),
-          );
+        name: "${users!.firstname} ${users.lastname}",
+        detail: DateFormat('dd MMM yyyy, HH:mm')
+            .format(appointmentList[i].startTime.toDate()),
+        onclick: (() => {}),
+        imagePath: "assets/images/user.png",
+        // showUserDetail(users, appointmentDate, appointmentTime)),
+      );
       detailList.add(detailTile);
     }
     detailTiles = detailList;

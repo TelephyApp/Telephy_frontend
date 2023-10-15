@@ -7,11 +7,13 @@ class DetailTile extends StatelessWidget {
     required this.name,
     required this.detail,
     required this.onclick,
+    required this.imagePath,
   });
 
   final String name;
   final String detail;
   final Function() onclick;
+  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +47,10 @@ class DetailTile extends StatelessWidget {
                     color: Config.baseColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(
-                    Icons.image,
-                    size: 48,
-                    color: Colors.grey[400],
+                  child: Image.asset(
+                    imagePath,
+                    width: 56,
+                    fit: BoxFit.cover,
                   ),
                   margin: EdgeInsets.only(right: 12),
                 ),

@@ -151,12 +151,11 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 } else {
                                   List<String> dateParts = val!.split('/');
                                   int year = int.parse(dateParts[2]);
-                                  if(year > 2012) {
+                                  if (year > 2012) {
                                     return "ปีเกิดต้องต่ำกว่า 2013";
                                   }
                                 }
                                 return null;
-                                
                               },
                               readOnly: true,
                               style: const TextStyle(
@@ -328,7 +327,7 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 birthday: _birthDate.text,
                                 imagePath: "",
                                 chatRoomsId: [],
-                                medicalCondition: _medicalConditional.text == ""
+                                medicalCondition: _medicalConditional.text != ""
                                     ? _medicalConditional.text
                                     : "");
 
