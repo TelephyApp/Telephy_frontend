@@ -109,10 +109,21 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 100),
-                  const Icon(
-                    Icons.person_add,
-                    size: 100,
-                    color: Colors.white,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Config.baseColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 25.0,
+                        horizontal: 60.0,
+                      ),
+                      child: Image.asset(
+                        "assets/images/tele2.png",
+                        width: 75,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 25),
                   const Text(
@@ -221,7 +232,6 @@ class _LoginPageState extends State<LoginPage> {
                         // show error message
                         // showErrorMessage("Incorrect Email or Password");
                       }
-                      Navigator.pop(context);
                     },
                     imagePath: 'assets/images/google.png'),
               ],
