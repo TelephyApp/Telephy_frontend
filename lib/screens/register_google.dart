@@ -151,12 +151,11 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 } else {
                                   List<String> dateParts = val!.split('/');
                                   int year = int.parse(dateParts[2]);
-                                  if(year > 2012) {
+                                  if (year > 2012) {
                                     return "ปีเกิดต้องต่ำกว่า 2013";
                                   }
                                 }
                                 return null;
-                                
                               },
                               readOnly: true,
                               style: const TextStyle(
@@ -202,8 +201,7 @@ class RegistGoogleState extends State<RegistGoogle> {
                                       top: false,
                                       child: CupertinoDatePicker(
                                           backgroundColor: Colors.white,
-                                          // initialDateTime: DateTime.now(),
-                                          maximumYear: 2013,
+                                          initialDateTime: DateTime.now(),
                                           mode: CupertinoDatePickerMode.date,
                                           onDateTimeChanged:
                                               (DateTime selectedTime) {
@@ -329,8 +327,8 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 imagePath: "",
                                 chatRoomsId: [],
                                 medicalCondition: _medicalConditional.text == ""
-                                    ? _medicalConditional.text
-                                    : "");
+                                    ? ""
+                                    : _medicalConditional.text);
 
                             await UserService().storeUserData(user, userData);
                             Get.offNamed('/main-user');
