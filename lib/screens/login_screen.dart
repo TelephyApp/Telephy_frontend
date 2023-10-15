@@ -199,19 +199,6 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 SquareTile(
                     onTap: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          if (!context.mounted) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            return Text('data');
-                          }
-                        },
-                      );
-
                       // try sign in
                       try {
                         await GoogleAuthService().signInWithGoogle();
