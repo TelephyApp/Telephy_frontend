@@ -1,22 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/model/time_slot.dart';
-import 'package:telephy/screens/User/confirmBooking_screen.dart';
 import 'package:telephy/screens/User/payment_screen.dart';
-import 'package:telephy/services/appointment_service.dart';
-import 'package:telephy/services/chat_service.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/services/timeslot_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/psychologist_card.dart';
-import 'package:telephy/widgets/timeSlotTable.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({required this.psychologistId, super.key});
@@ -26,14 +19,10 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
   int? _currentIndex;
-  bool _isWeekend = false;
-  bool _dateSelected = false;
-  bool _timeSelected = false;
   List<Timeslot> _selectedDayTimeSlots = [];
   List<Timeslot> timeslots = [];
   Psychologist? psychologist;
@@ -205,8 +194,6 @@ class _BookingScreenState extends State<BookingScreen> {
                                                             setState(() {
                                                               _currentIndex =
                                                                   index;
-                                                              _timeSelected =
-                                                                  true;
                                                             });
                                                           },
                                                           child: AspectRatio(
@@ -386,14 +373,6 @@ class _BookingScreenState extends State<BookingScreen> {
           _selectedDayTimeSlots = selectedDayTimeSlots;
           _currentDay = selectedDay;
           _focusDay = focusedDay;
-          _dateSelected = true;
-          if (selectedDay.weekday == 6 || selectedDay.weekday == 7) {
-            _isWeekend = true;
-            _timeSelected = false;
-            _currentIndex = null;
-          } else {
-            _isWeekend = false;
-          }
         });
       },
     );
