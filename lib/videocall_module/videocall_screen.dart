@@ -1,9 +1,6 @@
 import 'package:agora_uikit/agora_uikit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:telephy/model/call.dart';
 import 'package:telephy/pages/message/message_page.dart';
-import 'package:telephy/services/psychologist_service.dart';
 import 'package:time_remaining/time_remaining.dart';
 import 'package:telephy/utils/config.dart';
 
@@ -28,8 +25,6 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       channelName: "test channel",
     ),
   );
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   Future<void> _initializeAgora() async {
     await _client.initialize();
   }
@@ -40,12 +35,11 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (!widget.inTime) {
-    Navigator.pop(context);
-  }
+      Navigator.pop(context);
+    }
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

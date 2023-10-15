@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:telephy/model/psychologist.dart';
 import 'package:telephy/screens/User/info_appointment.dart';
-import 'package:telephy/services/google_auth_services.dart';
 import 'package:telephy/services/psychologist_service.dart';
 import 'package:telephy/utils/config.dart';
 import 'package:telephy/widgets/card_appointment/detail_tile.dart';

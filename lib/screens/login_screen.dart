@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/services/google_auth_services.dart';
 import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
-
 import 'package:telephy/widgets/square_tile.dart';
 import '../utils/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../services/signIn_google.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -57,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       // show error message
       showErrorMessage("Incorrect Email or Password");
+      
     }
   }
 
