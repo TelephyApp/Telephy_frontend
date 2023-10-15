@@ -51,10 +51,10 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       // pop the loading circle
-      // Navigator.pop(context);
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       // pop the loading circle
-      // Navigator.pop(context);
+      Navigator.pop(context);
       // show error message
       showErrorMessage("Incorrect Email or Password");
     }
@@ -201,8 +201,27 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SquareTile(
-                    onTap: () {
-                      GoogleAuthService().signInWithGoogle();
+                    onTap: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      );
+
+                      // try sign in
+                      try {
+                        await GoogleAuthService().signInWithGoogle();
+                        // pop the loading circle
+                      } on FirebaseAuthException catch (e) {
+                        // pop the loading circle
+                        // Navigator.pop(context);
+                        // show error message
+                        // showErrorMessage("Incorrect Email or Password");
+                      }
+                      Navigator.pop(context);
                     },
                     imagePath: 'assets/images/google.png'),
               ],
