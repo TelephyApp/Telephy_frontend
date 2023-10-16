@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/services/timeslot_service.dart';
-import 'package:telephy/utils/config.dart';
 import 'package:telephy/model/time_slot.dart';
 
 class HourlySlot extends StatelessWidget {

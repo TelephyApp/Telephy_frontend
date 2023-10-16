@@ -30,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
       FirebaseFirestore.instance.collection('appointments');
   bool isPsy = true;
   bool inTime = true;
+  Duration timeDiff = Duration();
 
   void handleBack() {
     Navigator.pop(context);
@@ -66,17 +67,16 @@ class _ChatScreenState extends State<ChatScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const VideoCallScreen(),
-                  ),
-                );
+                if (inTime) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VideoCallScreen(
+                          isPsy: isPsy, inTime: inTime, timeDiff: timeDiff),
+                    ),
+                  );
+                }
               },
-              // onPressed: () =>
-              //     CallUtils.dial(
-              //       from: _firebaseAuth.currentUser!,
-              //       to: widget.reciverUserID),
               icon: const Icon(Icons.phone),
               padding: const EdgeInsets.only(right: 40.0),
             ),
@@ -96,7 +96,6 @@ class _ChatScreenState extends State<ChatScreen> {
             child: FutureBuilder(
                 future: isPys(),
                 builder: (context, snapshot) {
-                  Duration timeDiff = Duration();
                   return FutureBuilder(
                       future: isPsy
                           ? AppointmentService().getLastestAppointments(
@@ -122,8 +121,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         return Column(
                           children: [
                             Offstage(
-                              offstage: !(inTime && snapshot.hasData),
+                              offstage: !(isPsy && snapshot.hasData && inTime),
                               child: TimeRemaining(
+                                  onTimeOver: () => inTime = false,
                                   style: Config.normalFont,
                                   formatter: (duration) {
                                     return "${duration.inMinutes.remainder(60)}m:${duration.inSeconds.remainder(60)}s left";
@@ -264,7 +264,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     errorBorder: InputBorder.none,
-                    hintText: "นอกเวลาปรึกษา...",
+                    hintText: "คุณสามารถส่งข้อความเฉพาะในเวลานัดหมาย...",
                     hintStyle: TextStyle(color: Colors.black54),
                   ),
           ),

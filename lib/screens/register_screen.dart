@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:telephy/model/users.dart';
@@ -505,7 +504,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             birthday: birthDate.text,
                             imagePath: "",
                             chatRoomsId: [],
-                            medicalCondition: medicalConditional.text == ""
+                            medicalCondition: medicalConditional.text != ""
                                 ? medicalConditional.text
                                 : "",
                           );

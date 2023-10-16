@@ -38,12 +38,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void addAppointmentByTimeslot() async {
-    var psyId = await PsychologistService()
-        .getPsychologistUidByObject(widget.psychologist);
-    await AppointmentService()
-        .addAppointment(widget.timeslot, FirebaseAuth.instance.currentUser?.uid)
-        .then((value) => ChatService()
-            .createChatRoom(psyId!, FirebaseAuth.instance.currentUser!.uid));
+    // var psyId = await PsychologistService()
+    //     .getPsychologistUidByObject(widget.psychologist);
+    await AppointmentService().addAppointment(
+        widget.timeslot, FirebaseAuth.instance.currentUser?.uid);
   }
 
   @override
