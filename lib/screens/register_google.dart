@@ -199,8 +199,7 @@ class RegistGoogleState extends State<RegistGoogle> {
                                       top: false,
                                       child: CupertinoDatePicker(
                                           backgroundColor: Colors.white,
-                                          // initialDateTime: DateTime.now(),
-                                          maximumYear: 2013,
+                                          initialDateTime: DateTime.now(),
                                           mode: CupertinoDatePickerMode.date,
                                           onDateTimeChanged:
                                               (DateTime selectedTime) {
@@ -325,9 +324,9 @@ class RegistGoogleState extends State<RegistGoogle> {
                                 birthday: _birthDate.text,
                                 imagePath: "",
                                 chatRoomsId: [],
-                                medicalCondition: _medicalConditional.text != ""
-                                    ? _medicalConditional.text
-                                    : "");
+                                medicalCondition: _medicalConditional.text == ""
+                                    ? ""
+                                    : _medicalConditional.text);
 
                             await UserService().storeUserData(user, userData);
                             Get.offNamed('/main-user');

@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _birthDate.text = users!.birthday;
           _phoneNumber.text = users!.phone;
           _gender.text = users!.gender;
-          _medicalConditional.text = users!.medicalCondition!;
+          _medicalConditional.text = users!.medicalCondition ?? "";
         }
         setState(() {});
       } else {
