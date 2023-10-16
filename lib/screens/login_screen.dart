@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:telephy/screens/register_screen.dart';
 import 'package:telephy/services/google_auth_services.dart';
 import 'package:telephy/user_layout.dart';
 import 'package:telephy/widgets/login_button.dart';
-
 import 'package:telephy/widgets/square_tile.dart';
 import '../utils/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../services/signIn_google.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -109,10 +106,21 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 100),
-                  const Icon(
-                    Icons.person_add,
-                    size: 100,
-                    color: Colors.white,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Config.baseColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 25.0,
+                        horizontal: 60.0,
+                      ),
+                      child: Image.asset(
+                        "assets/images/tele2.png",
+                        width: 75,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 25),
                   const Text(
@@ -202,25 +210,17 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 SquareTile(
                     onTap: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                      );
-
                       // try sign in
                       try {
                         await GoogleAuthService().signInWithGoogle();
                         // pop the loading circle
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       } on FirebaseAuthException catch (e) {
                         // pop the loading circle
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         // show error message
                         // showErrorMessage("Incorrect Email or Password");
+                        // Navigator.pop(context);
                       }
                     },
                     imagePath: 'assets/images/google.png'),

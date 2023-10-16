@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:get/get.dart';
 import 'package:telephy/model/appointment.dart';
 import 'package:telephy/model/time_slot.dart';
 import 'package:telephy/screens/User/booking_screen.dart';
@@ -18,12 +19,19 @@ class AppointmentService {
       'psy_uid': timeslot.psyId,
       'start_time': timeslot.startTime,
     };
-    await appointments.add(data);
-    final chatService = ChatService();
-    await chatService.createChatRoom(timeslot.psyId, userId!);
-    // Delete the timeslot
-    final timeslotService = TimeslotService();
-    await timeslotService.deleteTimeslot(timeslot.id);
+    if (await appointments
+        .where('start_time', isEqualTo: timeslot.psyId)
+        .get()
+        .then((value) {
+      return value.size == 0;
+    })) {
+      await appointments.add(data);
+      final chatService = ChatService();
+      await chatService.createChatRoom(timeslot.psyId, userId!);
+      // Delete the timeslot
+      final timeslotService = TimeslotService();
+      await timeslotService.deleteTimeslot(timeslot.id);
+    }
   }
 
   Future<List<Appointment>> getAppointmentsByPsyUid(String psyId) async {
@@ -45,7 +53,7 @@ class AppointmentService {
     final querySnapshot = await appointments
         .where('psy_uid', isEqualTo: psyId)
         .where('user_uid', isEqualTo: userId)
-        .orderBy('start_time', descending: true)
+        .orderBy('start_time', descending: false)
         .get(); // Query Firestore to filter by 'psy_id'
 
     if (querySnapshot.docs.isEmpty) {

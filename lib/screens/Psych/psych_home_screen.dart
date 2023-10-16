@@ -81,16 +81,17 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
 
       DetailTile detailTile = DetailTile(
         name: "${users!.firstname} ${users.lastname}",
-        detail: DateFormat('dd MMM yyyy, HH:mm').format(
-          appointmentList[i].startTime.toDate(),
-        ),
-        onclick: () {},
+        detail: DateFormat('dd MMM yyyy, HH:mm')
+            .format(appointmentList[i].startTime.toDate()),
+        onclick: (() => {}),
+        imagePath: "assets/images/user.png",
+        // showUserDetail(users, appointmentDate, appointmentTime)),
       );
       detailList.add(detailTile);
     }
     detailTiles = detailList;
   }
-  
+
   void showUserDetail(Users users, date, time) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -416,14 +417,14 @@ class _PsychHomeScreenState extends State<PsychHomeScreen> {
                   );
                 } else {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Config.loadingWidget,
                   );
                 }
               },
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Config.loadingWidget,
             );
           }
         },

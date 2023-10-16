@@ -67,10 +67,7 @@ class ChatCard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     timeLastMessage,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontFamily: 'Mitr',
-                    ),
+                    style: Config.normalFont,
                   ),
                   const SizedBox(height: 15),
                   numberUnseenMessage > 0
